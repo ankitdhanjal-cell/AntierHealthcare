@@ -1,25 +1,126 @@
 # Antier Healthcare Suite (Sandbox)
 
-Stack: Next.js · FastAPI · PostgreSQL + pgvector · Celery + Redis · OpenAI · MinIO · Docker Compose.
+Patient-experience and quality-management platform for hospitals. A discharge event sends the patient a WhatsApp link to a short bilingual (English/Arabic) form. AI tags the comment, happy patients are invited to leave a Google review, and everyone else becomes an SLA-tracked case assigned to the right department. Every action is audited.
 
-## Run
-    cp .env.example .env          # add OPENAI_API_KEY (and SMTP_* for real email)
-    docker compose up -d --build  # web :3010, api :8010, minio console :9011
-    # seed runs automatically on first start; rebuild any time with:
-    docker compose exec api python -m app.seed
+**Stack:** Next.js 14 · FastAPI · PostgreSQL · Celery + Redis · OpenAI · Docker Compose.
 
-Local dev: `backend/.venv/bin/uvicorn app.main:app --port 8010` and `cd web && npm run dev`.
+## Quick start
 
-Sign in at http://localhost:3010 (all users share the password `Sandbox@2026`, e.g. `quality.manager@hospital.example`).
+### Docker
+```bash
+cp .env.example .env          # optionally add OPENAI_API_KEY and SMTP_*
+docker compose up -d --build
+```
+| Service | URL / port |
+|---|---|
+| Web | http://localhost:3010 |
+| API (docs at `/docs`) | http://localhost:8010 |
+| PostgreSQL | localhost:5442 |
+| Redis | localhost:6389 |
 
-## Built (Foundation + Module 1)
-Auth/reset, roles and department scoping, Settings (branding, departments, questions, themes, SLA, routing, KPIs, escalation, privacy),
-notification centre + email log/SMTP, audit trail (filter, before/after, CSV), HIS event console + WhatsApp phone preview,
-bilingual patient form (RTL), AI feedback analysis, routing rule, inbox, cases with SLA/escalation (Celery beat), dashboard, global search, reset sandbox data.
+The API container seeds demo data on first start. Rebuild it any time:
+```bash
+docker compose exec api python -m app.seed
+```
 
-## Not built yet
-Incidents, audits, accreditation, documents, risks, reports/exports, Assistant, Enquiries, CSV import, Help centre, evidence uploads (MinIO wired in compose only).
+### Without Docker
+Requires python3, node 20+ and `redis-server`.
+```bash
+./run-local.sh     # embedded Postgres, Redis, API :8010, Celery worker, web :3010
+./stop-local.sh
+```
+Logs and data live in `~/.ahs-local`.
+
+### Manual dev
+```bash
+cd backend && .venv/bin/uvicorn app.main:app --port 8010
+cd backend && .venv/bin/celery -A app.celery_app worker --beat --loglevel=info
+cd web && npm run dev          # http://localhost:3010
+```
+
+### Sign in
+All demo users share the password `Sandbox@2026`.
+
+| Email | Role |
+|---|---|
+| quality.manager@hospital.example | Quality Manager (sees all departments) |
+| patient.relations@hospital.example | Patient Relations Officer (sees all) |
+| dept.head@hospital.example | Department Head (OPD, Emergency only) |
+| infection.control@hospital.example | Infection Control Nurse |
+| front.desk@hospital.example | Front desk |
+| staff@hospital.example | Staff reporter (cases only) |
+| management@hospital.example | Management viewer (read-only) |
+| admin@hospital.example | Admin (full access) |
+
+## Configuration (`.env`)
+| Variable | Purpose |
+|---|---|
+| `OPENAI_API_KEY`, `OPENAI_MODEL` | AI analysis (default `gpt-4o-mini`). Empty key uses the offline keyword analyser. |
+| `JWT_SECRET` | Signs login and reset tokens. **Change it outside the sandbox.** |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` | Real email. Empty host means emails are only logged (see `/api/emails`). |
+| `PUBLIC_WEB_URL` | Base URL used in emailed and WhatsApp links. |
+
+`DATABASE_URL` and `REDIS_URL` default to the local Docker ports and are overridden by `docker-compose.yml`.
+
+## Project layout
+```
+backend/
+  app/
+    main.py            FastAPI app, mounts routers, /api/health
+    config.py          env-driven settings
+    db.py              engine, session, get_db
+    models.py          all SQLAlchemy tables
+    security.py        JWT, bcrypt, require(module, action), dept_scope
+    services.py        settings, email, notifications, open_case, SLA check
+    audit.py           audit.log()
+    defaults.py        default settings, roles, departments
+    seed.py            rebuild DB with demo data (--if-empty to skip)
+    celery_app.py      beat schedule and tasks
+    routers/           auth · admin · feedback · cases · misc · public
+    ai/                adapter.py (provider) · feedback.py (prompt, schema, offline fallback)
+    connectors/        sandbox.py (simulated HIS + WhatsApp)
+  local_db.py          starts embedded Postgres for run-local.sh
+web/
+  app/                 Next.js routes: login, forgot, reset, f/[token] (patient form), (app)/… (signed-in pages)
+  components/          Providers (toast, confirm), Shell (layout, nav, search, notifications), ui (useFetch, atoms)
+  lib/                 api.ts (fetch wrapper), i18n.ts (patient-form strings)
+docker-compose.yml     db, redis, api, worker, web
+```
+
+## How it works
+1. **Discharge** on `/admin/integrations` (simulated HL7 ADT^A03) creates a feedback request with a one-time token.
+2. **WhatsApp** message with `/f/<token>` is sent immediately or after the configured delay (Celery).
+3. **Patient form** is public. Submitting calls `ai.feedback.analyse`, which returns sentiment, themes, urgency, English translation, summary and suggested department. Failures fall back to "Needs review".
+4. **Routing rule** (Settings): rating at or above the threshold with positive sentiment shows a Google review invitation. Anything else opens a case.
+5. **Case** gets a number (`CS-1001…`), an owner (department head, else Patient Relations) and a due time from the SLA setting (high 24h, medium 72h, low 168h).
+6. **SLA check** runs every 60 seconds and escalates overdue cases to the Quality Manager once.
+7. Staff work cases, review AI tags, and watch the dashboard. All changes appear in the audit trail with before/after values.
+
+## Access control
+Each role maps modules (`feedback`, `cases`, `settings`, `users`, `audit`, `integrations`, `dashboard`) to actions (`view`, `create`, `approve`, `admin`). Roles that do not see all departments only get records for their own departments.
+
+## API overview
+All routes are under `/api`. Interactive docs: `http://localhost:8010/docs`.
+
+| Area | Routes |
+|---|---|
+| Auth | `POST /auth/login`, `GET /auth/me`, `GET /auth/branding`, `POST /auth/forgot`, `/auth/reset`, `/auth/change-password`, `PUT /auth/profile` |
+| Public form | `GET/POST /public/feedback/{token}`, `POST /public/feedback/{token}/google-click` |
+| Feedback | `GET /feedback`, `GET /feedback/{id}`, `PUT /feedback/{id}/tags`, `POST /feedback/{id}/open-case`, `POST /feedback/bulk-review`, `GET /feedback/review-requests` |
+| Cases | `GET /cases`, `GET /cases/{id}`, `POST /cases/{id}/assign`, `/status`, `/notes`, `POST /cases/bulk` |
+| Admin | `/settings/{key}`, `/organisation`, `/departments`, `/users`, `/roles` |
+| Other | `/notifications`, `/emails`, `/audit`, `/audit/export`, `/integrations`, `/integrations/his/*`, `/whatsapp/messages`, `/search`, `/dashboard`, `POST /admin/reset-sandbox`, `GET /health` |
 
 ## AI
-`backend/app/ai/adapter.py` is the single provider adapter. Without `OPENAI_API_KEY` a keyword-based offline analyser keeps the app usable
-(Arabic translation is then unavailable). Invalid or failed model output falls back to "Needs review".
+`backend/app/ai/adapter.py` is the single provider adapter. Without `OPENAI_API_KEY`, a bilingual keyword analyser keeps the app usable, but Arabic translation is unavailable. Invalid model output is rejected and falls back to "Needs review". AI results are suggestions only: staff accept or edit them, and the audit trail keeps both.
+
+## Built
+Auth and password reset, roles with department scoping, settings (branding, departments, questions, themes, SLA, routing, KPIs, escalation, privacy), notification centre, email log, audit trail with CSV export, HIS event console with WhatsApp phone preview, bilingual patient form (RTL), AI feedback analysis, routing rule, inbox, cases with SLA and escalation, dashboard, global search, reset sandbox data.
+
+## Not built yet
+Incidents, audits, accreditation, documents, risks, reports and exports, Assistant, enquiries, CSV import, help centre, evidence uploads.
+
+## Notes
+- This is a sandbox. Before real use: set a strong `JWT_SECRET`, restrict CORS in `main.py`, replace the shared demo password, and add login rate limiting.
+- `POST /admin/reset-sandbox` drops and reseeds every table. There are no migrations; schema changes are applied by reseeding.
+- Product requirements are in `Antier_Healthcare_Suite_Product_Build_Spec.pdf`.

@@ -4,7 +4,7 @@ import uuid
 import sys
 from datetime import timedelta
 
-from sqlalchemy import select, text
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from . import defaults as D
@@ -54,11 +54,6 @@ def rebuild(db: Session):
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     db.expire_all()
-    try:  # pgvector is only needed for the Assistant module; optional locally
-        with engine.begin() as c:
-            c.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-    except Exception:
-        pass
     db.add(Tenant(id="t1", name="Demo Hospital", branding={"primary_color": "#0f766e", "sender_name": "Antier Healthcare Suite", "logo_url": ""},
                   profile={"beds": 120, "type": "Private hospital", "deployment_note": "Runs on the hospital's own server or an approved cloud region."}))
     db.add(Site(id="s1", tenant_id="t1", name="Main campus"))

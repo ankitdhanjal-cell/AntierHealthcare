@@ -11,7 +11,6 @@ from ..services import branding, get_setting, whatsapp_send
 
 class HISConnector:
     name = "HIS (HL7 v2 / FHIR)"
-    mode = "Sandbox"
 
     def discharge_event(self, db: Session, patient: Patient, send_now: bool, actor: User | None):
         """Receives an ADT^A03-style discharge and queues a feedback request."""
@@ -30,7 +29,6 @@ class HISConnector:
 
 class WhatsAppConnector:
     name = "WhatsApp Business"
-    mode = "Sandbox"
 
     def send_feedback_request(self, db: Session, req: FeedbackRequest, patient: Patient):
         b = branding(db)

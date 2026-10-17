@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs everything locally, no Docker: Postgres (bundled, with pgvector), Redis, API, Celery worker, web.
+# Runs everything locally, no Docker: Postgres (bundled), Redis, API, Celery worker, web.
 # Requires: python3, node 20+, redis-server.  Usage: ./run-local.sh   (stop with ./stop-local.sh)
 set -e
 cd "$(dirname "$0")"

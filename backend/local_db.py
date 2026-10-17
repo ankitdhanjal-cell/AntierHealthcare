@@ -1,4 +1,4 @@
-"""Starts a local PostgreSQL (with pgvector) that keeps running after this script exits."""
+"""Starts a local PostgreSQL that keeps running after this script exits."""
 import os
 import pgserver
 import psycopg2

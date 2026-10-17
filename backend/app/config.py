@@ -14,10 +14,6 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     smtp_from: str = "Antier Healthcare Suite <no-reply@healthcare-suite.antiers.work>"
     public_web_url: str = "http://localhost:3010"
-    s3_endpoint: str = "http://localhost:9010"
-    s3_bucket: str = "ahs-evidence"
-    s3_access_key: str = "ahsminio"
-    s3_secret_key: str = "ahsminio-secret"
     app_version: str = "1.0.0"
 
 
