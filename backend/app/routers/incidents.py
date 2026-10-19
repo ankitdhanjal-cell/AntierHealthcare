@@ -1,3 +1,4 @@
+import time
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -23,6 +24,8 @@ def visible(stmt, user: User):
     """Approvers and all-department roles see everything; others see their departments and their own reports."""
     if can(user, "incidents", "approve"):
         return stmt
+    if user.role_id in ("staff_reporter", "front_desk"):  # just culture: reporters see their own reports and their status
+        return stmt.where(Incident.reported_by == user.id)
     scope = dept_scope(user)
     return stmt if scope is None else stmt.where(or_(Incident.department_id.in_(scope), Incident.reported_by == user.id))
 
@@ -38,8 +41,15 @@ def can_work(user: User, i: Incident) -> bool:
     return can(user, "incidents", "approve") or i.investigator_id == user.id
 
 
+_NAMES = {"at": 0.0, "value": None}
+
+
 def names(db):
-    return {u.id: u.name for u in db.scalars(select(User))}, {d.id: d.name for d in db.scalars(select(Department))}
+    """People and department names rarely change, so reuse them for a few seconds instead of reading both tables on every request."""
+    if _NAMES["value"] is None or time.monotonic() - _NAMES["at"] > 10:
+        _NAMES["value"] = ({u.id: u.name for u in db.scalars(select(User))}, {d.id: d.name for d in db.scalars(select(Department))})
+        _NAMES["at"] = time.monotonic()
+    return _NAMES["value"]
 
 
 def row(i: Incident, users: dict, depts: dict):

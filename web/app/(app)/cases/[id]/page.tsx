@@ -10,7 +10,7 @@ import { can, useMe } from "@/components/Shell";
 export default function CaseView() {
   const { id } = useParams<{ id: string }>(); const me = useMe(); const toast = useToast(); const router = useRouter();
   const { data: c, loading, error, reload } = useFetch<any>(`/cases/${id}`);
-  const users = useFetch<any[]>(can(me, "users") ? "/users" : null);
+  const users = useFetch<any[]>(can(me, "cases", "approve") ? "/cases/meta/assignees" : null);
   const [note, setNote] = useState(""); const [res, setRes] = useState(""); const [err, setErr] = useState("");
   const [callOutcome, setCallOutcome] = useState("reached"); const [callNote, setCallNote] = useState("");
   if (loading) return <Skeleton rows={6} />;
@@ -43,7 +43,7 @@ export default function CaseView() {
             <div><span className="label">Due (SLA {c.sla_hours}h, {c.urgency})</span><span style={c.overdue ? { color: "#dc2626", fontWeight: 600 } : {}}>{fmt(c.due_at)}</span></div>
             {c.resolution && <div><span className="label">Resolution</span>{c.resolution}</div>}
             {can(me, "cases", "approve") && users.data && <div><label className="label">Reassign</label>
-              <select className="input" value="" onChange={(e) => e.target.value && act(() => api(`/cases/${id}/assign`, { body: { owner_id: e.target.value } }), "Case reassigned")}><option value="">Choose a user…</option>{users.data.filter((u) => u.active).map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}</select></div>}
+              <select className="input" value="" onChange={(e) => e.target.value && act(() => api(`/cases/${id}/assign`, { body: { owner_id: e.target.value } }), "Case reassigned")}><option value="">Choose a user…</option>{users.data.map((u) => <option key={u.id} value={u.id}>{u.name} ({u.role})</option>)}</select></div>}
           </div>
           {canEdit && <div className="card p-4 space-y-2 text-sm">
             <div className="font-medium">Call patient</div>

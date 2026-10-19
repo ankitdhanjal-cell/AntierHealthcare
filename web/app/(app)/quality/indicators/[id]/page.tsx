@@ -4,13 +4,15 @@ import { useParams } from "next/navigation";
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Badge, ErrorBox, PageHead, Skeleton, fmtMonth, useFetch } from "@/components/ui";
 import { can, useMe } from "@/components/Shell";
+import { useState } from "react";
+import { IndicatorForm } from "@/components/IndicatorForm";
 import { showValue, unitLabel } from "@/components/indicatorFormat";
 
 const axis = { fontSize: 11, fill: "var(--muted)" };
 
 export default function IndicatorPage() {
   const { id } = useParams<{ id: string }>(); const me = useMe();
-  const { data: i, loading, error, reload } = useFetch<any>(`/indicators/${id}?months=12`);
+  const { data: i, loading, error, reload } = useFetch<any>(`/indicators/${id}?months=12`); const [editing, setEditing] = useState(false);
   if (loading && !i) return <Skeleton rows={6} />;
   if (error || !i) return <ErrorBox msg={error} retry={reload} />;
   const inShift = new Set<number>(i.shift?.indexes || []);
@@ -21,8 +23,10 @@ export default function IndicatorPage() {
     <>
       <PageHead title={i.name} sub={`${i.auto ? "Calculated from records" : "Entered monthly"} · ${i.frequency} · owner ${i.owner}`}>
         {i.rag !== "neutral" && <Badge k={i.rag}>{i.rag === "green" ? "On target" : i.rag === "amber" ? "Watch" : "Off target"}</Badge>}
+        {can(me, "indicators", "admin") && <button className="btn btn-ghost" onClick={() => setEditing(!editing)}>{editing ? "Close editor" : "Edit definition"}</button>}
         {!i.auto && can(me, "indicators", "create") && <Link className="btn" href="/quality/indicators/entry">Enter monthly values</Link>}
       </PageHead>
+      {editing && <IndicatorForm ind={i} onDone={() => { setEditing(false); reload(); }} onCancel={() => setEditing(false)} />}
       {i.shift && <div className="mb-4 p-3 rounded-lg text-sm" style={{ border: `1px solid ${shiftColor}66`, background: `${shiftColor}14` }}>
         <b>Shift detected.</b> The last {i.shift.length} points are all {i.shift.side} the median ({showValue(i, i.median)} {unitLabel(i)}), which is a {i.shift_label} trend and not normal variation.</div>}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

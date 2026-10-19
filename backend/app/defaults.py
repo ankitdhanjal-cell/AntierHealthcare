@@ -20,9 +20,9 @@ ROUTING = {"min_rating": 4, "required_sentiment": "positive", "feedback_delay_ho
 ESCALATION = {"sla_breach": "quality_manager", "overdue_action": "quality_manager"}
 
 KPIS = [
-    {"key": "satisfaction", "name": "Patient satisfaction", "formula": "avg(rating)", "target": 4.0, "amber": 3.8, "direction": "higher"},
-    {"key": "closure_time", "name": "Average complaint closure time (h)", "formula": "avg(closed_at - created_at)", "target": 72, "amber": 96, "direction": "lower"},
-    {"key": "cases_past_sla", "name": "Cases past SLA", "formula": "count(open and due_at < now)", "target": 3, "amber": 6, "direction": "lower"},
+    {"key": "satisfaction", "name": "Patient satisfaction", "formula": "Average of the overall star ratings", "target": 4.0, "amber": 3.8, "direction": "higher"},
+    {"key": "closure_time", "name": "Average complaint closure time (hours)", "formula": "Average time from case opened to case closed", "target": 72, "amber": 96, "direction": "lower"},
+    {"key": "cases_past_sla", "name": "Cases past SLA", "formula": "Open cases whose due time has passed", "target": 3, "amber": 6, "direction": "lower"},
 ]
 
 MOD = ["feedback", "cases", "settings", "users", "audit", "integrations", "dashboard", "incidents", "accreditation", "audits", "indicators", "reports"]
@@ -37,8 +37,9 @@ ROLES = [
     ("quality_manager", "Quality Manager", True, perms(feedback=[V, C, A], cases=[V, C, A], dashboard=[V], audit=[V], integrations=[V, C], settings=[V], users=[V], incidents=[V, C, A], accreditation=[V, C, A], audits=[V, C, A, X], indicators=[V, C, A, X], reports=[V, C])),
     ("patient_relations", "Patient Relations Officer", True, perms(feedback=[V, C, A], cases=[V, C, A], dashboard=[V], incidents=[V, C], indicators=[V])),
     ("department_head", "Department Head", False, perms(feedback=[V], cases=[V, C], dashboard=[V], incidents=[V, C], accreditation=[V], audits=[V, C], indicators=[V])),
-    ("infection_control", "Infection Control Nurse", False, perms(feedback=[V], cases=[V], dashboard=[V], incidents=[V, C], accreditation=[V, C], audits=[V, C, A], indicators=[V, C])),
-    ("staff_reporter", "Staff reporter", False, perms(cases=[V], incidents=[V, C])),
+    ("nurse_manager", "Ward Nurse Manager", False, perms(feedback=[V], cases=[V, C], dashboard=[V], incidents=[V, C], audits=[V, C], accreditation=[V], indicators=[V])),
+    ("infection_control", "Infection Control Nurse", False, perms(feedback=[V], cases=[V], dashboard=[V], incidents=[V, C], accreditation=[V, C], audits=[V, C, A, X], indicators=[V, C])),
+    ("staff_reporter", "Staff reporter", False, perms(incidents=[V, C])),
     ("front_desk", "Front desk", False, perms(feedback=[V], cases=[V], dashboard=[V], incidents=[C])),
     ("management_viewer", "Management viewer", True, perms(feedback=[V], cases=[V], dashboard=[V], audit=[V], incidents=[V], accreditation=[V], audits=[V], indicators=[V], reports=[V])),
     ("admin", "Admin", True, perms(feedback=[V, C, A], cases=[V, C, A], dashboard=[V], audit=[V, X], integrations=[V, C, X], settings=[V, C, A, X], users=[V, C, A, X], incidents=[V, C, A, X], accreditation=[V, C, A, X], audits=[V, C, A, X], indicators=[V, C, A, X], reports=[V, C, X])),

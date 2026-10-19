@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { api } from "@/lib/api";
-import { Badge, Empty, ErrorBox, PageHead, Skeleton, fmtDate, useFetch } from "@/components/ui";
+import { Badge, Empty, ErrorBox, NO_ACCESS, PageHead, Skeleton, fmtDate, useFetch } from "@/components/ui";
 import { useToast } from "@/components/Providers";
 import { can, useMe } from "@/components/Shell";
 
@@ -14,6 +14,7 @@ function Register() {
   const [only, setOnly] = useState({ overdue: sp.get("overdue") === "true", mine: sp.get("mine") === "true" });
   const qa = useFetch<any[]>(can(me, "accreditation") || can(me, "audits") ? "/actions" : null);
   const capas = useFetch<any[]>(can(me, "incidents") ? "/incidents/capas" : null);
+  if (!(can(me, "accreditation") || can(me, "audits") || can(me, "incidents"))) return <ErrorBox msg={NO_ACCESS} />;
   if (qa.loading || capas.loading) return <><PageHead title="Actions register" /><Skeleton rows={5} /></>;
   const err = qa.error || capas.error;
   if (err) return <ErrorBox msg={err} retry={() => { qa.reload(); capas.reload(); }} />;

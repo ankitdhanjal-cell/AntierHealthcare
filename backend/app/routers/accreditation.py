@@ -16,7 +16,7 @@ from ..defaults import ELEMENT_STATUSES
 from ..models import (AuditRun, AuditTemplate, Capa, Evidence, Incident, QualityAction, StandardChapter, StandardElement, TracerResult,
                       TracerRun, User, now)
 from ..security import require
-from ..services import get_setting, put_setting, readiness
+from ..services import get_setting, put_setting, readiness, readiness_all
 
 router = APIRouter(prefix="/api/accreditation", tags=["accreditation"])
 ALLOWED = {".pdf", ".png", ".jpg", ".jpeg", ".docx", ".xlsx"}
@@ -61,9 +61,10 @@ def summary(db: Session = Depends(get_db), user: User = Depends(require("accredi
         gaps.append(el_row(e, chap[e.chapter_id], users, ev_n.get(e.id, 0), act_n.get(e.id, 0)))
     gaps.sort(key=lambda g: (g["status"] != "Not met", g["code"]))
     met_no_evidence = db.scalar(select(func.count()).select_from(StandardElement).where(StandardElement.status == "Met", ~StandardElement.id.in_(select(Evidence.element_id))))
+    overall, per = readiness_all(db)
     return {"name": cfgv.get("name", ""), "survey_date": cfgv.get("survey_date") or None, "days_left": (sd - date.today()).days if sd else None,
-            "readiness": readiness(db), "met_without_evidence": met_no_evidence,
-            "chapters": [{"id": c.id, "code": c.code, "name": c.name} | readiness(db, c.id) for c in chapters], "gaps": gaps}
+            "readiness": overall, "met_without_evidence": met_no_evidence,
+            "chapters": [{"id": c.id, "code": c.code, "name": c.name} | per.get(c.id, {"counts": {s: 0 for s in ELEMENT_STATUSES}, "met": 0, "applicable": 0, "pct": 0}) for c in chapters], "gaps": gaps}
 
 
 class SurveyBody(BaseModel):

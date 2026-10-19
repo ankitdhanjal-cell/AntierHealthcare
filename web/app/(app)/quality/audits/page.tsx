@@ -16,7 +16,7 @@ function Audits() {
   const me = useMe(); const toast = useToast(); const sp = useSearchParams();
   const tpls = useFetch<any[]>("/audits/templates");
   const meta = useFetch<any>(can(me, "incidents") || can(me, "incidents", "create") ? "/incidents/meta" : null);
-  const [tid, setTid] = useState(""); const [f, setF] = useState<any>({ page: 1, size: 12, status: "", overdue: sp.get("overdue") || "", mine: "" });
+  const [tid, setTid] = useState(""); const [f, setF] = useState<any>({ page: 1, size: 12, status: sp.get("status") || "", overdue: sp.get("overdue") || "", mine: sp.get("mine") || "" });
   const [sched, setSched] = useState(false); const [units, setUnits] = useState<{ department_id: string; unit: string }[]>([]); const [u, setU] = useState({ department_id: "", unit: "" }); const [month, setMonth] = useState(thisMonth());
   const tplId = tid || tpls.data?.[0]?.id || "";
   const comp = useFetch<any>(tplId ? `/audits/compliance?template_id=${tplId}&months=6` : null, [tplId]);

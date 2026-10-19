@@ -108,7 +108,7 @@ def generate_accreditation(db, rnd: random.Random, dep: dict, users: dict):
     # gap actions
     n_act = 0
     for e, ch in elements:
-        if e.status in ("Not met", "Partially met") and (e.status == "Not met" or rnd.random() < 0.4):
+        if e.status in ("Not met", "Partially met") and ch["code"] != "INF" and (e.status == "Not met" or rnd.random() < 0.4):  # the mock survey raises the INF actions
             overdue = n_act == 1
             db.add(QualityAction(text=f"Close the gap for {e.code}: {e.note or e.text}", source_type="gap", element_id=e.id, owner_id=e.owner_id,
                                  due_at=now() + timedelta(days=-6 if overdue else rnd.randint(7, 60)), status=rnd.choice(["Open", "In progress"]),
@@ -165,6 +165,7 @@ def generate_audits(db, rnd: random.Random, dep: dict, users: dict):
         tpls[t["name"].split(" (")[0]] = (row, t)
     db.flush()
     runs = []  # (run, template row, tpl json)
+    audit_rows = []
 
     def add_run(name, dept, unit, period, score, overdue=False, scheduled=False):
         row, tpl = tpls[name]
@@ -175,31 +176,42 @@ def generate_audits(db, rnd: random.Random, dep: dict, users: dict):
         else:
             r.status, r.completed_at = "Completed", min(due - timedelta(days=rnd.randint(1, 20)), now() - timedelta(hours=3))
             n = len(row.items)
-            yes = round(score / 100 * n)
-            r.yes_count, r.no_count, r.score = yes, n - yes, round(100 * yes / n, 1)
+            na = rnd.randint(0, 5) if n >= 20 else rnd.randint(0, 1)  # not every opportunity or question applies, so counts differ from audit to audit
+            seen = n - na
+            yes = max(1, min(seen, round(score / 100 * seen + rnd.uniform(-0.45, 0.45))))
+            if name.startswith("Hand hygiene"):
+                while 100 * yes / seen < 70.5 and yes < seen:
+                    yes += 1
+                while 100 * yes / seen > 94.5 and yes > 1:
+                    yes -= 1
+            r.yes_count, r.no_count, r.score = yes, seen - yes, round(100 * yes / seen, 1)
+            r.comment = ""
         db.add(r)
         db.flush()
         if r.status == "Completed":
-            order = ["yes"] * r.yes_count + ["no"] * r.no_count
-            if rnd.random() < 0.5:
-                rnd.shuffle(order)
+            order = ["yes"] * r.yes_count + ["no"] * r.no_count + ["na"] * (len(row.items) - r.yes_count - r.no_count)
+            rnd.shuffle(order)
             for it, res in zip(row.items, order):
-                db.add(AuditAnswer(run_id=r.id, item_key=it["key"], result=res, comment=rnd.choice(tpl["findings"]) if res == "no" and rnd.random() < 0.6 else ""))
+                db.add(AuditAnswer(run_id=r.id, item_key=it["key"], result=res, comment=rnd.choice(tpl["findings"]) if res == "no" else ""))
+            t = row.name
+            audit_rows.append(AuditLog(at=r.completed_at, user_id=inf.id, user_name=inf.name, module="audits", action="complete", record_type="audit", record_id=r.id,
+                                       summary=f"{t} completed for {r.unit} {r.period}: {r.score}%", after={"score": r.score}))
             runs.append((r, row, tpl))
         return r
 
     # hand hygiene: monthly per ward. Ward 4 trends down, Emergency runs lowest, ICU highest. One audit overdue, three of this month still to do.
     base = {"Ward 2": 86, "Ward 3": 89, "Ward 4": 92, "ICU": 93, "Emergency department": 77, "Maternity ward": 88, "OPD clinics": 84}
+    hh_periods = last_periods(13)  # a year of hand hygiene audits, so the run chart has something to show
     for dept, unit in HH_UNITS:
-        for k, p in enumerate(periods):
-            score = base[unit] + rnd.uniform(-3, 3)
+        for k, p in enumerate(hh_periods):
+            score = base[unit] + rnd.uniform(-2.5, 2.5) - max(0, k - 5) * 1.3  # compliance slips over the second half of the year
             if unit == "Ward 4":
-                score = 92 - k * 4.2 + rnd.uniform(-1.5, 1.5)
+                score = 92 - max(0, k - 7) * 4.0 + rnd.uniform(-1.5, 1.5)
             score = max(70, min(95, score))
-            current = k == len(periods) - 1
+            current = k == len(hh_periods) - 1
             if current and unit not in ("Ward 2", "ICU", "Maternity ward"):
                 add_run("Hand hygiene", dept, unit, p, 0, scheduled=True)
-            elif k == len(periods) - 2 and unit == "ICU":
+            elif k == len(hh_periods) - 2 and unit == "ICU":
                 add_run("Hand hygiene", dept, unit, p, 0, overdue=True)
             else:
                 add_run("Hand hygiene", dept, unit, p, score)
@@ -213,7 +225,7 @@ def generate_audits(db, rnd: random.Random, dep: dict, users: dict):
                 elif p == periods[-1] and (unit, name) not in {("ICU", "Environmental cleaning"), ("Ward 2", "Medication storage")}:
                     add_run(name, dept, unit, p, 0, scheduled=True)
                 else:
-                    add_run(name, dept, unit, p, rnd.choice([100, 100, 94, 88, 88, 82]) if name != "Sharps and waste" else rnd.choice([100, 100, 86, 100, 93]))
+                    add_run(name, dept, unit, p, rnd.choice([100, 96, 93, 89, 87, 83]) if name != "Sharps and waste" else rnd.choice([100, 97, 93, 90, 86]))
     # actions raised from "No" answers on a few recent audits
     n_act = 0
     for r, row, tpl in sorted(runs, key=lambda x: x[0].completed_at, reverse=True):
@@ -229,6 +241,7 @@ def generate_audits(db, rnd: random.Random, dep: dict, users: dict):
         db.flush()
         a.action_id = act.id
         n_act += 1
+    db.add_all(audit_rows)
     return runs
 
 
@@ -290,6 +303,22 @@ def generate_indicators(db, rnd: random.Random, users: dict):
         by_key[key], owner_name[key] = ind, users[owner].name
     db.flush()
     periods = completed_periods(12)
+    # Older months of the patient-feedback indicators were kept in the hospital's spreadsheets before this system, and were imported.
+    # Months that have records in the system always use the records.
+    for key in ("satisfaction", "closure_time", "sla_closure"):
+        ind = by_key[key]
+        for k, p in enumerate(periods[:6]):
+            n = rnd.randint(120, 170)
+            if key == "satisfaction":
+                num, den = round(n * rnd.uniform(3.75, 4.05), 1), n
+            elif key == "closure_time":
+                den = rnd.randint(16, 28)
+                num = round(den * rnd.uniform(44, 72), 1)
+            else:
+                den = rnd.randint(16, 28)
+                num = round(den * rnd.uniform(0.6, 0.82))
+            db.add(IndicatorValue(indicator_id=ind.id, period=p, numerator=num, denominator=den, note="Imported from the previous spreadsheet", entered_by="Data import",
+                                  entered_at=now() - timedelta(days=(12 - k) * 28)))
     for key, ind in by_key.items():
         if ind.auto:
             continue
@@ -301,7 +330,11 @@ def generate_indicators(db, rnd: random.Random, users: dict):
                 note = "Clinic start times re-spaced and triage nurse added."
             else:
                 note = ""
-            db.add(IndicatorValue(indicator_id=ind.id, period=p, numerator=n, denominator=d, note=note, entered_by=owner_name[key], entered_at=now() - timedelta(days=(12 - k) * 28)))
+            when = now() - timedelta(days=(12 - k) * 28)
+            db.add(IndicatorValue(indicator_id=ind.id, period=p, numerator=n, denominator=d, note=note, entered_by=owner_name[key], entered_at=when))
+            if k >= 9:
+                db.add(AuditLog(at=when, user_name=owner_name[key], module="indicators", action="value", record_type="indicator", record_id=ind.id,
+                                summary=f"{ind.name} {p}: {round(n / d * ind.multiplier, 2)} {ind.unit}", after={"numerator": n, "denominator": d}))
 
 
 def attach_audit_evidence(db, runs, elements, users):

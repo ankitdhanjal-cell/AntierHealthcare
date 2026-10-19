@@ -21,6 +21,7 @@ export default function Accreditation() {
   return (
     <>
       <PageHead title="Accreditation readiness" sub={`${data.name} · sample standards library`} />
+      {!me.sees_all && <p className="text-xs mb-3" style={{ color: "var(--muted)" }}>Readiness covers the whole hospital, not only your department.</p>}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="card p-4"><div className="text-xs" style={{ color: "var(--muted)" }}>Overall readiness</div>
           <div className="text-3xl font-semibold mt-1" style={{ color: rag(r.pct) }}>{r.pct}%</div>

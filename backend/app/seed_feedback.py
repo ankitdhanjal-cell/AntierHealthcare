@@ -19,12 +19,6 @@ TZ = ZoneInfo("Asia/Muscat")
 TEXTS = json.loads((Path(__file__).parent / "seed_data" / "feedback_texts.json").read_text(encoding="utf-8"))
 Q_KEYS = [q["key"] for q in D.QUESTIONS]
 
-FIRST = ["Mohammed", "Ahmed", "Fatima", "Aisha", "Khalid", "Salma", "Yusuf", "Mariam", "Hamad", "Noor", "Rashid", "Huda",
-         "Arjun", "Priya", "Rahul", "Ananya", "Imran", "Sana", "Vikram", "Deepa", "James", "Emily", "Oliver", "Sophie", "Daniel", "Hannah",
-         "Said", "Zahra", "Badar", "Amna", "Suresh", "Lakshmi", "Faisal", "Shamsa", "Thomas", "Clara", "Matthew", "Isabel"]
-LAST = ["Al-Habsi", "Al-Kindi", "Al-Farsi", "Al-Mamari", "Al-Zadjali", "Al-Hinai", "Khan", "Sharma", "Nair", "Patel", "Iqbal",
-        "Thomas", "Walker", "Brown", "Hughes", "Al-Amri", "Al-Busaidi", "Rao", "Menon", "Clarke", "Al-Shukaili", "Al-Maskari",
-        "Pillai", "Siddiqui", "Fernandes", "Reid", "Bennett", "Al-Rashdi"]
 # attending doctors per department (fictional)
 DOCTORS = {"OPD": ["Dr. Salim Al-Rawahi", "Dr. Anjali Verma", "Dr. Peter Collins"], "Emergency": ["Dr. Hamdan Al-Lawati", "Dr. Ravi Menon", "Dr. Kate Sullivan"],
            "Inpatient wards": ["Dr. Zainab Al-Balushi", "Dr. Mathew George", "Dr. Alan Frost"], "ICU": ["Dr. Majid Al-Hosni", "Dr. Sunita Rao"],
@@ -55,7 +49,7 @@ ACTIONS = {
 CALL_OUTCOMES = [("reached", "Patient reached"), ("apologised", "Apologised to patient"), ("resolved", "Resolved on the call"),
                  ("follow_up", "Follow-up needed"), ("no_answer", "No answer")]
 CALL_WEIGHTS = [30, 30, 25, 8, 7]  # most call-backs reach the patient; a few leave the loop open
-ARABIC_STAFF = {"ريم": "Nurse Reem", "د. سالم": "Dr. Salim", "منى": "Mona (physiotherapy)", "خالد": "Khalid (security)", "الدكتورة هدى": "Dr. Huda", "سعيد": "Saeed (accounts)",
+ARABIC_STAFF = {"الدكتورة سلمى": "Dr. Salma", "مبارك": "Mubarak (security)", "نورة": "Nurse Noura", "الدكتور عادل": "Dr. Adil", "ريم": "Nurse Reem", "د. سالم": "Dr. Salim", "منى": "Mona (physiotherapy)", "خالد": "Khalid (security)", "الدكتورة هدى": "Dr. Huda", "سعيد": "Saeed (accounts)",
                 "الممرضة أمل": "Nurse Amal", "الدكتور ناصر": "Dr. Nasser", "فاطمة": "Fatima (reception)"}
 WARD_BY_DEPT = {"Inpatient wards": ["Ward 2", "Ward 3", "Ward 4"], "ICU": ["ICU"], "Maternity": ["Maternity ward"], "Paediatrics": ["Paediatric ward"]}
 CHANNELS = [("Ward 2 visitors' lounge", "ward", "Inpatient wards"), ("Ward 3 corridor", "ward", "Inpatient wards"), ("Ward 4 nurses' station", "ward", "Inpatient wards"),
@@ -75,6 +69,21 @@ def _local_dt(rnd: random.Random, age_days: int, used: set, max_dt: datetime):
     dt = max_dt - timedelta(seconds=len(used))
     used.add(dt)
     return dt.astimezone(ZoneInfo("UTC"))
+
+
+STAFF_NAMES = {"Priya Menon", "Layla Al-Harthy", "Omar Al-Balushi", "Nadia Fernandes", "Khalid Al-Siyabi", "Fatma Al-Lawati", "Hessa Al-Mamari", "Maryam Al-Kharusi", "Vikram Pillai"}
+AR_FIRST = ["Mohammed", "Ahmed", "Fatima", "Aisha", "Khalid", "Salma", "Yusuf", "Mariam", "Hamad", "Noor", "Rashid", "Huda", "Said", "Zahra", "Badar", "Amna", "Faisal", "Shamsa"]
+AR_LAST = ["Al-Habsi", "Al-Kindi", "Al-Farsi", "Al-Mamari", "Al-Zadjali", "Al-Hinai", "Al-Amri", "Al-Busaidi", "Al-Shukaili", "Al-Maskari", "Al-Rashdi"]
+EN_FIRST = ["Arjun", "Priya", "Rahul", "Ananya", "Imran", "Sana", "Vikram", "Deepa", "James", "Emily", "Oliver", "Sophie", "Daniel", "Hannah", "Suresh", "Lakshmi", "Thomas", "Clara", "Matthew", "Isabel"]
+EN_LAST = ["Khan", "Sharma", "Nair", "Patel", "Iqbal", "Thomas", "Walker", "Brown", "Hughes", "Rao", "Menon", "Clarke", "Pillai", "Siddiqui", "Fernandes", "Reid", "Bennett"]
+
+
+def _patient_name(rnd, arabic: bool) -> str:
+    """Arabic-speaking patients get Arabic names and the rest English or South Asian ones; never a staff member's name."""
+    while True:
+        n = f"{rnd.choice(AR_FIRST)} {rnd.choice(AR_LAST)}" if arabic else f"{rnd.choice(EN_FIRST)} {rnd.choice(EN_LAST)}"
+        if n not in STAFF_NAMES:
+            return n
 
 
 def generate(db, rnd: random.Random, dep: dict, users: dict):
@@ -98,7 +107,7 @@ def generate(db, rnd: random.Random, dep: dict, users: dict):
         discharged = now() - timedelta(days=rnd.randint(1, 180))
         wards = WARD_BY_DEPT.get(dname)
         los = rnd.randint(3, 14) if dname == "ICU" else rnd.randint(2, 9) if wards else 0
-        p = Patient(mrn=f"MRN{100000 + i}", name=f"{rnd.choice(FIRST)} {rnd.choice(LAST)}", phone=f"+968 9{rnd.randint(1000000, 9999999)}",
+        p = Patient(mrn=f"MRN{100000 + i}", name=_patient_name(rnd, arabic), phone=f"+968 9{rnd.randint(1000000, 9999999)}",
                     language="ar" if arabic else "en", department_id=dep[dname].id, attending=rnd.choice(DOCTORS[dname]), discharged_at=discharged,
                     admitted_at=discharged - timedelta(days=los) if wards else None, ward=f"{rnd.choice(wards)}, bed {rnd.randint(1, 24)}" if wards else "")
         patients.append(p)
@@ -228,8 +237,11 @@ def generate(db, rnd: random.Random, dep: dict, users: dict):
     db.flush()
 
     # ---------- cases: one per negative response. Recent ones stay open; 6 older ones are unresolved and past SLA; the rest are closed.
-    pro, dept_head = users["patient_relations"], users["department_head"]
-    head_depts = set(dept_head.department_ids or [])
+    pro = users["patient_relations"]
+    head_for = {}  # department id -> its head or nurse manager
+    for role in ("department_head", "nurse_manager"):
+        for did in users[role].department_ids or []:
+            head_for.setdefault(did, users[role])
     case_candidates.sort(key=lambda x: x[0].created_at)
     sla = D.SLA
     stale_ids = set()
@@ -240,11 +252,11 @@ def generate(db, rnd: random.Random, dep: dict, users: dict):
     for n, (fb, owner_dept, theme) in enumerate(case_candidates, 1):
         due = fb.created_at + timedelta(hours=sla[fb.urgency])
         still_open = due > now() or fb.id in stale_ids
-        owner = dept_head if dep[owner_dept].id in head_depts else pro
+        owner = head_for.get(fb.department_id, pro)
         overdue = still_open and due < now()
-        status = (rnd.choice(["New", "Assigned", "In investigation"]) if due > now() else rnd.choice(["Assigned", "In investigation"])) if still_open else rnd.choice(["Resolved", "Closed", "Closed"])
-        c = Case(number=f"CS-{1000 + n}", feedback_id=fb.id, patient_id=fb.patient_id, department_id=dep[owner_dept].id, title=fb.ai["summary"][:300],
-                 urgency=fb.urgency, status=status, owner_id=None if status == "New" else owner.id, due_at=due, created_at=fb.created_at, breach_notified=overdue)
+        status = (rnd.choice(["Assigned", "In investigation"])) if still_open else rnd.choice(["Resolved", "Closed", "Closed"])
+        c = Case(number=f"CS-{1000 + n}", feedback_id=fb.id, patient_id=fb.patient_id, department_id=fb.department_id, title=fb.ai["summary"][:300],
+                 urgency=fb.urgency, status=status, owner_id=owner.id, due_at=due, created_at=fb.created_at, breach_notified=overdue)
         patient_first = db.get(Patient, fb.patient_id).name.split()[0]
         if not still_open:
             month = 5 - (now() - fb.created_at).days // 30

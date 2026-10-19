@@ -1,6 +1,6 @@
 import re
 from collections import Counter
-from datetime import date
+from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
@@ -97,11 +97,7 @@ def _valid(period: str):
 @router.get("/pareto")
 def pareto(source: str = "themes", months: int = Query(6, ge=1, le=24), db: Session = Depends(get_db), user: User = Depends(require("indicators"))):
     """The vital few: complaint themes or incident categories, largest first, with the cumulative share."""
-    since = date.today().replace(day=1)
-    y, m = since.year, since.month - (months - 1)
-    while m < 1:
-        y, m = y - 1, m + 12
-    since_s = f"{y}-{m:02d}-01"
+    since_s = (datetime.now(hospital_tz(db)) - timedelta(days=30 * months)).date().isoformat()
     start, _ = day_bounds(db, since_s, None)
     if source == "themes":
         c = Counter(t for f in db.scalars(select(FeedbackResponse).where(FeedbackResponse.created_at >= start, FeedbackResponse.sentiment != "positive")) for t in f.themes)

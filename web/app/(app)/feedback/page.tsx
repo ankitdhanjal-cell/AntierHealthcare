@@ -7,12 +7,14 @@ import { ExportBar } from "@/components/ExportBar";
 import { Badge, Empty, ErrorBox, FilterChips, PageHead, Pager, Skeleton, fmt, useFetch } from "@/components/ui";
 import { useToast } from "@/components/Providers";
 
-const FILTERS = ["q", "department_id", "rating", "sentiment", "theme", "language", "not_positive", "date_from", "date_to"];
-const LABELS: Record<string, string> = { q: "Search", department_id: "Department", rating: "Rating", sentiment: "Sentiment", theme: "Theme", language: "Language", not_positive: "Sentiment", date_from: "From", date_to: "To" };
+const FILTERS = ["q", "department_id", "rating", "sentiment", "theme", "language", "not_positive", "has_comment", "date_from", "date_to"];
+const LABELS: Record<string, string> = { q: "Search", department_id: "Department", rating: "Rating", sentiment: "Sentiment", theme: "Theme", language: "Language", not_positive: "Sentiment", has_comment: "Comment", date_from: "From", date_to: "To" };
 
 function Inbox() {
   const sp = useSearchParams();
-  const initial = () => ({ page: 1, size: 15, sort: "created_at", order: "desc", ...Object.fromEntries(FILTERS.filter((k) => sp.get(k)).map((k) => [k, sp.get(k)])) });
+  // Opened directly, the inbox shows responses with a comment first (most ratings come with no text). Arriving from a dashboard number keeps that number's own filter.
+  const fromLink = FILTERS.some((k) => sp.get(k));
+  const initial = () => ({ page: 1, size: 15, sort: "created_at", order: "desc", ...(fromLink ? {} : { has_comment: "true" }), ...Object.fromEntries(FILTERS.filter((k) => sp.get(k)).map((k) => [k, sp.get(k)])) });
   const [f, setF] = useState<any>(initial);
   const [sel, setSel] = useState<string[]>([]);
   const toast = useToast();
@@ -21,7 +23,7 @@ function Inbox() {
   const { data, loading, error, reload } = useFetch<any>("/feedback" + qs(f), [JSON.stringify(f)]);
   const set = (k: string, v: any) => setF({ ...f, [k]: v, page: 1 });
   const sort = (k: string) => setF({ ...f, sort: k, order: f.sort === k && f.order === "desc" ? "asc" : "desc" });
-  const active = FILTERS.filter((k) => f[k]).map((k): [string, string] => [LABELS[k], k === "not_positive" ? "neutral or negative" : String(f[k])]);
+  const active = FILTERS.filter((k) => f[k]).map((k): [string, string] => [LABELS[k], k === "not_positive" ? "neutral or negative" : k === "has_comment" ? "only with a comment" : String(f[k])]);
   const Th = ({ k, children }: any) => <th className="th cursor-pointer select-none" onClick={() => sort(k)}>{children}{f.sort === k ? (f.order === "desc" ? " ↓" : " ↑") : ""}</th>;
   return (
     <>
@@ -31,6 +33,7 @@ function Inbox() {
         {sel.length > 0 && <button className="btn btn-ghost" onClick={async () => { await api("/feedback/bulk-review", { body: { ids: sel } }); toast(`${sel.length} marked reviewed`); setSel([]); reload(); }}>Mark {sel.length} reviewed</button>}
       </PageHead>
       <FilterChips items={active} onClear={() => { setF({ page: 1, size: 15, sort: "created_at", order: "desc" }); }} />
+      <label className="flex items-center gap-2 text-[13px] mb-3"><input type="checkbox" checked={!!f.has_comment} onChange={(e) => set("has_comment", e.target.checked ? "true" : "")} /> Show only responses with a written comment <span style={{ color: "var(--muted)" }}>(untick to include ratings with no comment)</span></label>
       <div className="card p-3 mb-4 grid grid-cols-2 md:grid-cols-6 gap-2">
         <input className="input" placeholder="Search text…" value={f.q || ""} onChange={(e) => set("q", e.target.value)} aria-label="Search" />
         <select className="input" value={f.department_id || ""} onChange={(e) => set("department_id", e.target.value)} aria-label="Department"><option value="">All departments</option>{depts.data?.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}</select>

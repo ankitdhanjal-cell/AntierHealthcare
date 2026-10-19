@@ -1,9 +1,17 @@
 export function getToken() {
   try { return localStorage.getItem("ahs_token"); } catch { return null; }
 }
+/** Last response for each GET path. Pages show it straight away and refresh it in the background, so revisits feel instant. */
+export const responseCache = new Map<string, any>();
+
 export function setToken(t: string | null) {
   try { t ? localStorage.setItem("ahs_token", t) : localStorage.removeItem("ahs_token"); } catch {}
+  if (!t) { responseCache.clear(); try { sessionStorage.removeItem("ahs_me"); } catch {} }
 }
+
+/** The signed-in user, remembered for this tab so pages can start loading their data without waiting for /auth/me. */
+export function rememberMe(me: any) { try { sessionStorage.setItem("ahs_me", JSON.stringify(me)); } catch {} }
+export function recalledMe(): any | null { try { const v = sessionStorage.getItem("ahs_me"); return v ? JSON.parse(v) : null; } catch { return null; } }
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) { super(message); }

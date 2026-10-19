@@ -6,18 +6,24 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
 from .. import audit
 from ..db import get_db
 from ..models import AuditAnswer, AuditRun, AuditTemplate, Department, QualityAction, User, now
-from ..security import can, require
+from ..security import can, dept_scope, require
 from ..services import hospital_tz
 from .accreditation import evidence_root
 
 router = APIRouter(prefix="/api/audits", tags=["audits"])
 PHOTO_TYPES = {".jpg", ".jpeg", ".png", ".webp"}
+
+
+def scoped_runs(stmt, user: User):
+    """Roles that do not see every department only get audits for their departments, or ones assigned to them."""
+    scope = dept_scope(user)
+    return stmt if scope is None else stmt.where(or_(AuditRun.department_id.in_(scope), AuditRun.auditor_id == user.id))
 
 
 def month_end(period: str, db: Session) -> datetime:
@@ -135,7 +141,7 @@ def schedule(b: Schedule, db: Session = Depends(get_db), user: User = Depends(re
 @router.get("/runs")
 def runs(page: int = 1, size: int = Query(20, le=200), template_id: str | None = None, department_id: str | None = None, status: str | None = None,
          period: str | None = None, overdue: bool | None = None, mine: bool | None = None, db: Session = Depends(get_db), user: User = Depends(require("audits"))):
-    stmt = select(AuditRun)
+    stmt = scoped_runs(select(AuditRun), user)
     for col, v in ((AuditRun.template_id, template_id), (AuditRun.department_id, department_id), (AuditRun.status, status), (AuditRun.period, period)):
         if v:
             stmt = stmt.where(col == v)
@@ -149,8 +155,8 @@ def runs(page: int = 1, size: int = Query(20, le=200), template_id: str | None =
     return {"total": total, "items": [run_row(r, users, depts, tpls) for r in db.scalars(stmt)]}
 
 
-def get_run(db, rid) -> AuditRun:
-    r = db.get(AuditRun, rid)
+def get_run(db, rid, user: User | None = None) -> AuditRun:
+    r = db.get(AuditRun, rid) if user is None else db.scalar(scoped_runs(select(AuditRun).where(AuditRun.id == rid), user))
     if not r:
         raise HTTPException(404, "Audit not found")
     return r
@@ -162,7 +168,7 @@ def can_work(user: User, r: AuditRun) -> bool:
 
 @router.get("/runs/{rid}")
 def run_detail(rid: str, db: Session = Depends(get_db), user: User = Depends(require("audits"))):
-    r = get_run(db, rid)
+    r = get_run(db, rid, user)
     users, depts, tpls = names(db)
     t = tpls[r.template_id]
     ans = {a.item_key: a for a in db.scalars(select(AuditAnswer).where(AuditAnswer.run_id == rid))}
@@ -188,7 +194,7 @@ class Answers(BaseModel):
 
 @router.put("/runs/{rid}/answers")
 def save_answers(rid: str, b: Answers, db: Session = Depends(get_db), user: User = Depends(require("audits", "create"))):
-    r = get_run(db, rid)
+    r = get_run(db, rid, user)
     if not can_work(user, r):
         raise HTTPException(403, "Only the assigned auditor or the Quality team can record this audit.")
     if r.status == "Completed":
@@ -208,7 +214,7 @@ def save_answers(rid: str, b: Answers, db: Session = Depends(get_db), user: User
 
 @router.post("/runs/{rid}/photo/{key}")
 async def upload_photo(rid: str, key: str, file: UploadFile = File(...), db: Session = Depends(get_db), user: User = Depends(require("audits", "create"))):
-    r = get_run(db, rid)
+    r = get_run(db, rid, user)
     if not can_work(user, r):
         raise HTTPException(403, "Only the assigned auditor or the Quality team can record this audit.")
     a = db.scalar(select(AuditAnswer).where(AuditAnswer.run_id == rid, AuditAnswer.item_key == key))
@@ -244,7 +250,7 @@ class Complete(BaseModel):
 
 @router.post("/runs/{rid}/complete")
 def complete(rid: str, b: Complete, db: Session = Depends(get_db), user: User = Depends(require("audits", "create"))):
-    r = get_run(db, rid)
+    r = get_run(db, rid, user)
     if not can_work(user, r):
         raise HTTPException(403, "Only the assigned auditor or the Quality team can complete this audit.")
     if r.status == "Completed":
@@ -273,7 +279,7 @@ class ActionBody(BaseModel):
 @router.post("/runs/{rid}/answers/{key}/action")
 def raise_action(rid: str, key: str, b: ActionBody, db: Session = Depends(get_db), user: User = Depends(require("audits", "create"))):
     """A 'No' answer can raise a corrective action in one click."""
-    r = get_run(db, rid)
+    r = get_run(db, rid, user)
     t = db.get(AuditTemplate, r.template_id)
     a = db.scalar(select(AuditAnswer).where(AuditAnswer.run_id == rid, AuditAnswer.item_key == key))
     if not a or a.result != "no":
@@ -307,7 +313,7 @@ def compliance(template_id: str, months: int = Query(6, ge=1, le=24), db: Sessio
         if m == 0:
             y, m = y - 1, 12
     periods.reverse()
-    rows = db.scalars(select(AuditRun).where(AuditRun.template_id == template_id, AuditRun.status == "Completed", AuditRun.period.in_(periods))).all()
+    rows = db.scalars(scoped_runs(select(AuditRun).where(AuditRun.template_id == template_id, AuditRun.status == "Completed", AuditRun.period.in_(periods)), user)).all()
 
     def pct(rs):
         yes, no = sum(r.yes_count for r in rs), sum(r.no_count for r in rs)

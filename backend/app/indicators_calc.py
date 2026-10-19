@@ -53,6 +53,10 @@ def series(db: Session, ind: Indicator, periods: list[str]) -> list[dict]:
     if ind.auto:
         raw = _auto_rows(db, ind.auto, periods)
         notes = {}
+        # months with no records in the system fall back to imported history, if any
+        for v in db.scalars(select(IndicatorValue).where(IndicatorValue.indicator_id == ind.id, IndicatorValue.period.in_(periods))):
+            if v.period not in raw:
+                raw[v.period], notes[v.period] = (v.numerator, v.denominator), v.note
     else:
         vals = {v.period: v for v in db.scalars(select(IndicatorValue).where(IndicatorValue.indicator_id == ind.id, IndicatorValue.period.in_(periods)))}
         raw = {p: (v.numerator, v.denominator) for p, v in vals.items()}

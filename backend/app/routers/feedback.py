@@ -41,7 +41,7 @@ def scoped(q, user: User):
 def inbox(page: int = 1, size: int = Query(20, le=100), sort: str = "created_at", order: str = "desc",
           department_id: str | None = None, rating: int | None = None, sentiment: str | None = None,
           theme: str | None = None, language: str | None = None, reviewed: bool | None = None,
-          not_positive: bool | None = None, date_from: str | None = None, date_to: str | None = None,
+          not_positive: bool | None = None, has_comment: bool | None = None, date_from: str | None = None, date_to: str | None = None,
           q: str | None = None, db: Session = Depends(get_db), user: User = Depends(require("feedback"))):
     stmt = scoped(select(FeedbackResponse), user)
     if department_id:
@@ -52,6 +52,8 @@ def inbox(page: int = 1, size: int = Query(20, le=100), sort: str = "created_at"
         stmt = stmt.where(FeedbackResponse.sentiment == sentiment)
     if language:
         stmt = stmt.where(FeedbackResponse.language == language)
+    if has_comment:
+        stmt = stmt.where(func.length(func.trim(FeedbackResponse.text)) > 0)
     if not_positive:
         stmt = stmt.where(FeedbackResponse.sentiment != "positive")
     start, end = day_bounds(db, date_from, date_to)

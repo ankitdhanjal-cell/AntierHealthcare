@@ -56,7 +56,7 @@ def can(user: User, module: str, action: str = "view") -> bool:
 def require(module: str, action: str = "view"):
     def dep(user: User = Depends(current_user)) -> User:
         if not can(user, module, action):
-            raise HTTPException(403, f"Your role does not allow '{action}' on {module}.")
+            raise HTTPException(403, "You do not have permission to do this.")
         return user
     return dep
 

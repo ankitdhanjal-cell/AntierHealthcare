@@ -40,7 +40,7 @@ def list_cases(page: int = 1, size: int = Query(20, le=100), sort: str = "create
                status: str | None = None, urgency: str | None = None, department_id: str | None = None,
                owner_id: str | None = None, overdue: bool | None = None, open: bool | None = None, closed: bool | None = None, loop: str | None = None,
                date_from: str | None = None, date_to: str | None = None, closed_from: str | None = None, closed_to: str | None = None,
-               q: str | None = None,
+               due_from: str | None = None, due_to: str | None = None, no_call: bool | None = None, q: str | None = None,
                db: Session = Depends(get_db), user: User = Depends(require("cases"))):
     stmt = select(Case)
     scope = dept_scope(user)
@@ -68,6 +68,13 @@ def list_cases(page: int = 1, size: int = Query(20, le=100), sort: str = "create
         stmt = stmt.where(Case.created_at >= start)
     if end:
         stmt = stmt.where(Case.created_at < end)
+    d_start, d_end = day_bounds(db, due_from, due_to)
+    if d_start:
+        stmt = stmt.where(Case.due_at >= d_start)
+    if d_end:
+        stmt = stmt.where(Case.due_at < d_end)
+    if no_call:  # service recovery: nobody has called the patient yet
+        stmt = stmt.where(Case.id.notin_(select(CaseCall.case_id)))
     c_start, c_end = day_bounds(db, closed_from, closed_to)
     if c_start:
         stmt = stmt.where(Case.closed_at >= c_start)
@@ -113,6 +120,16 @@ class Assign(BaseModel):
     owner_id: str
 
 
+@router.get("/meta/assignees")
+def assignees(db: Session = Depends(get_db), user: User = Depends(require("cases", "approve"))):
+    """People who can act on a case: active users whose role may update cases."""
+    out = []
+    for u in db.scalars(select(User).where(User.active.is_(True)).order_by(User.name)):
+        if can(u, "cases", "create"):
+            out.append({"id": u.id, "name": u.name, "role": u.role.name})
+    return out
+
+
 def _assign(db, c, owner: User, actor: User):
     before = {"owner_id": c.owner_id, "status": c.status}
     c.owner_id = owner.id
@@ -127,8 +144,8 @@ def _assign(db, c, owner: User, actor: User):
 def assign(cid: str, b: Assign, db: Session = Depends(get_db), user: User = Depends(require("cases", "approve"))):
     c = get_case(db, cid, user)
     owner = db.get(User, b.owner_id)
-    if not owner:
-        raise HTTPException(404, "User not found")
+    if not owner or not can(owner, "cases", "create"):
+        raise HTTPException(422, "Choose someone whose role can work on cases.")
     _assign(db, c, owner, user)
     db.commit()
     return {"ok": True}
@@ -248,6 +265,8 @@ def bulk(b: BulkBody, db: Session = Depends(get_db), user: User = Depends(requir
     if b.close and not b.resolution.strip():
         raise HTTPException(422, "A resolution note is required to close cases.")
     owner = db.get(User, b.owner_id) if b.owner_id else None
+    if owner and not can(owner, "cases", "create"):
+        raise HTTPException(422, "Choose someone whose role can work on cases.")
     for c in cases:
         if owner:
             _assign(db, c, owner, user)

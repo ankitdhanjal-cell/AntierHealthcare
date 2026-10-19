@@ -1,261 +1,1321 @@
 {
   "complaints_en": [
-    ["Waiting time", "I arrived for my 9:30 appointment in OPD and was only called in at 11:50. Nobody told us there was a delay.", "Two-hour OPD wait past a 9:30 appointment with no explanation"],
-    ["Waiting time", "Two hours in the Emergency waiting area with my son's fever and not one update from the triage desk.", "Child with fever waited two hours in Emergency with no updates"],
-    ["Waiting time", "The pharmacy queue after discharge took almost 90 minutes. My mother was exhausted and still in her wheelchair.", "90-minute pharmacy queue after discharge for elderly patient"],
-    ["Waiting time", "Waited three hours for an X-ray on a Tuesday afternoon. The radiology desk kept saying 'ten more minutes'.", "Three-hour radiology wait on Tuesday afternoon"],
-    ["Waiting time", "Doctor was running late and the clinic gave no estimate. I had to leave for work and rebook.", "Clinic delay with no estimate forced patient to rebook"],
-    ["Waiting time", "It took 45 minutes just to get registered at the front desk because only one counter was open.", "Single open registration counter caused 45-minute delay"],
-    ["Waiting time", "Blood test results that were promised in two hours took until the next morning.", "Lab results promised in two hours arrived next morning"],
-    ["Waiting time", "Waited on a trolley in the corridor for a bed for nearly six hours after admission.", "Six-hour corridor wait for an inpatient bed"],
-    ["Waiting time", "The walk-in clinic on Friday evening was chaos. No token system, people were just pushing in.", "No queue system at Friday evening walk-in clinic"],
-    ["Waiting time", "Antenatal scan appointment was at 8 but I was seen at 10:15. Hard when you are heavily pregnant and fasting.", "Antenatal scan started over two hours late"],
-    ["Waiting time", "Very slow. Everything takes hours here.", "General complaint about slow service"],
-    ["Waiting time", "My discharge papers took four hours after the doctor said I could go home. The family had been waiting since lunch.", "Four-hour delay for discharge papers after doctor's clearance"],
-    ["Waiting time", "Eye clinic ran forty minutes behind and then the dilating drops needed another half hour. We were there almost the whole morning.", "Eye clinic ran behind plus dilation wait took most of the morning"],
-    ["Waiting time", "I called the ward bell three times at night before anyone came. It was 25 minutes in the end.", "25-minute response to ward call bell at night"],
-    ["Waiting time", "Wait for the ECG in cardiology was over an hour even though the doctor ordered it as urgent.", "Urgent ECG in cardiology delayed over an hour"],
-    ["Waiting time", "Physiotherapy started 35 minutes late on all three of my visits.", "Physiotherapy sessions repeatedly started 35 minutes late"],
-    ["Waiting time", "Queue for the CT scan was not managed. Outpatients and Emergency patients were all mixed up and nobody knew whose turn it was.", "Unmanaged CT queue mixed outpatients and Emergency cases"],
-    ["Waiting time", "The dental clinic double booked my slot, so I sat for an hour while another patient finished.", "Dental clinic double booked appointment slot"],
-    ["Waiting time", "Ambulance bay to doctor took 50 minutes for my father with chest pain. I thought that was far too long.", "50 minutes from ambulance bay to doctor for chest pain"],
-    ["Waiting time", "Just wanted to say the wait was a bit long on Sunday morning. Staff were polite though.", "Longer than expected Sunday morning wait"],
-    ["Waiting time", "Paediatric clinic: seven families were waiting past their time, no one came out to explain, and the kids were getting restless.", "Paediatric clinic delay with no communication to families"],
-    ["Waiting time", "The MRI slot was moved twice without a phone call. I took leave from work for nothing the first time.", "MRI appointment rescheduled twice without notice"],
-    ["Waiting time", "Valet and registration and triage and nurse intake, all before seeing anyone useful. A full hour and a half.", "90 minutes of intake steps before seeing a clinician"],
-    ["Waiting time", "We waited for the porter to take my wife to the labour ward for almost twenty minutes while she was in pain.", "Porter delay of 20 minutes for woman in labour"],
-    ["Waiting time", "Pre-op instructions said arrive at 6am. I was not taken in until 1pm and had not eaten or drunk since the night before.", "Seven-hour wait after early pre-op arrival while fasting"],
-    ["Waiting time", "Slow service at the cashier before I could leave the hospital.", "Slow cashier service at exit"],
-    ["Billing", "The final bill included a private room charge for two nights but I was in a shared ward the whole time. It took three days and four phone calls to get it removed.", "Private room charged though patient stayed in shared ward"],
-    ["Billing", "I was billed twice for the same MRI scan. The second invoice arrived by email a week later with a late fee.", "Duplicate MRI invoice with late fee"],
-    ["Billing", "Nobody could explain the 'consumables' line of OMR 214. The cashier said ask the ward, the ward said ask billing.", "Unexplained OMR 214 consumables charge passed between departments"],
-    ["Billing", "Estimate at admission was OMR 600 and the final bill was OMR 1,150. No one warned us when the costs went up.", "Final bill nearly double the admission estimate with no warning"],
-    ["Billing", "Charged for a doctor consultation that never happened. The doctor I was booked with was on leave and I saw a different one.", "Charged for consultation with the wrong doctor"],
-    ["Billing", "The bill was only in English with abbreviations I could not follow. My father reads Arabic and could not check it.", "Itemised bill not understandable for Arabic-reading family"],
-    ["Billing", "Paid the deposit at the front desk but it was not deducted from the final amount until I showed the receipt.", "Deposit not deducted until receipt was produced"],
-    ["Billing", "Pharmacy charged me for a full box of tablets and gave me a strip of ten.", "Charged for full box but received part strip"],
-    ["Billing", "I was asked to pay at the counter before they would release my mother's discharge summary.", "Discharge summary held until payment"],
-    ["Billing", "Lab fee was different from the price on the board at the lab entrance. They said the board was old.", "Lab price differed from posted price list"],
-    ["Billing", "Why did I pay for a bed on the day I was discharged at 7am? One night means one night.", "Charged for an extra day when discharged at 7am"],
-    ["Billing", "The billing department is on the third floor and the lift was broken. I am 74 and had to climb two flights to dispute a charge.", "Billing office inaccessible with broken lift for elderly patient"],
-    ["Billing", "Received a bill for a procedure that my doctor told me was a follow-up visit and free of charge.", "Billed for follow-up visit promised as free"],
-    ["Billing", "Cannot get a proper receipt for my tax claim. They keep sending the same unstamped printout.", "Unstamped receipt cannot be used for tax claim"],
-    ["Billing", "Newborn was added to the bill for a nursery stay we never requested.", "Unrequested nursery charge on newborn's bill"],
-    ["Billing", "Billing staff were helpful in the end, but the first invoice was wrong and I should not have had to chase it.", "First invoice incorrect and had to be chased"],
-    ["Billing", "Anaesthesia fee listed twice, once in surgery and once in theatre charges.", "Anaesthesia fee duplicated across two sections"],
-    ["Billing", "I asked for a cost estimate before the knee scan and was told it cannot be given. Then the charge was higher than the other hospital quoted me.", "No upfront cost estimate and price above competitor quote"],
-    ["Billing", "My co-payment was calculated at 20 percent but my policy says 10. It took two visits to correct.", "Co-payment calculated at wrong percentage"],
-    ["Billing", "Paid by card and the amount was taken twice. Refund promised in 5 days, still not received after three weeks.", "Double card charge with refund outstanding after three weeks"],
-    ["Billing", "The cashier was rude about my question on the bill, and just told me to read it.", "Cashier dismissive when asked to explain bill"],
-    ["Billing", "Phone calls to billing go unanswered. I tried for two days.", "Billing phone line unanswered for two days"],
-    ["Billing", "Companion meals were added to the bill without being offered or agreed.", "Companion meals billed without agreement"],
-    ["Billing", "Statement of account does not match the receipts I kept. About OMR 40 missing from what I paid.", "Statement of account omits OMR 40 of payments"],
-    ["Billing", "Too expensive for what we got.", "General comment on cost versus value"],
-    ["Billing", "Charges for oxygen are shown per hour but we only used it for part of the first night.", "Oxygen billed per hour for partial use"],
-    ["Billing", "Packages are advertised for maternity at a fixed price but extras were added after delivery that were never explained.", "Maternity package extras added after delivery without explanation"],
-    ["Doctor communication", "The consultant spoke very quickly in medical terms and left the room before we could ask what the diagnosis meant.", "Consultant used jargon and left before questions"],
-    ["Doctor communication", "Nobody told my family the surgery had finished. We sat in the waiting area for three more hours.", "Family not informed that surgery had ended"],
-    ["Doctor communication", "Different doctors gave me different advice about my blood pressure tablets on consecutive days.", "Conflicting advice from different doctors on medication"],
-    ["Doctor communication", "My doctor looked at the screen the whole time and barely at me.", "Doctor focused on screen rather than patient"],
-    ["Doctor communication", "I was prescribed an antibiotic and no one mentioned the side effects. I found out after I was already feeling unwell.", "Side effects of new antibiotic not explained"],
-    ["Doctor communication", "Dr. appeared annoyed when I asked for a second opinion.", "Doctor reacted badly to request for second opinion"],
-    ["Doctor communication", "Test results were given by a nurse over the phone with no explanation of what to do next.", "Test results phoned through with no next steps"],
-    ["Doctor communication", "They did not explain the plan to my elderly father in Arabic, only to me, and he felt left out of his own treatment.", "Treatment plan not explained to patient in his language"],
-    ["Doctor communication", "A short consultation, ten minutes in total, for a problem that has been going on for months.", "Ten-minute consultation for a long-standing problem"],
-    ["Doctor communication", "No follow-up appointment was explained. I only found out I needed one when the clinic called to say I missed it.", "Follow-up appointment never communicated"],
-    ["Doctor communication", "The resident told us one thing in the morning and the consultant said the opposite on the evening round.", "Resident and consultant gave opposite information on the same day"],
-    ["Doctor communication", "Doctor did not wash hands before examining me, and when I asked he seemed offended.", "Doctor did not wash hands before examination"],
-    ["Nursing care", "Call bell was out of reach after surgery and I could not press it. I waited until someone happened to walk past.", "Call bell left out of reach after surgery"],
-    ["Nursing care", "The night nurse on Ward 3 was lovely at first but my drip ran dry twice and no one noticed for a long while.", "IV drip left to run dry twice on Ward 3 at night"],
-    ["Nursing care", "Medication round was late by two hours on day two and my pain was not managed.", "Medication round two hours late with uncontrolled pain"],
-    ["Nursing care", "Nobody helped my father to the bathroom, he is on a walking frame. In the end my brother did it.", "Elderly patient not assisted to bathroom"],
-    ["Nursing care", "Different nurse every shift and each one asked me the same allergy questions again. It made me worry that nothing was written down.", "Repeated allergy questions raise concern about handover"],
-    ["Nursing care", "The nurse changed my dressing without gloves. I mentioned it and she said she had just washed her hands.", "Dressing changed without gloves"],
-    ["Nursing care", "Not enough nurses on the ward at weekends, it felt like one person for twenty patients.", "Weekend ward staffing felt inadequate"],
-    ["Nursing care", "I was left in a wet bed for a long time before anyone came to change it.", "Patient left in wet bed before linen change"],
-    ["Nursing care", "Nurses were chatting at the station while my baby was crying in the ward.", "Nurses at station while infant crying nearby"],
-    ["Nursing care", "I was not told how to look after my wound at home. The leaflet was only in English.", "Wound care advice and leaflet only in English"],
-    ["Cleanliness", "The room and bathroom were not clean when I was admitted. There was hair in the shower drain and a used cup on the table.", "Admitted to unclean room with hair in drain"],
-    ["Cleanliness", "The toilet near the OPD waiting area on the ground floor was out of soap and paper at 4pm, and smelled.", "Ground floor OPD toilet out of soap and paper"],
-    ["Cleanliness", "Floors in Emergency were sticky and nobody cleaned them while we were there for five hours.", "Sticky Emergency floors not cleaned during five-hour stay"],
-    ["Cleanliness", "Bins overflowing in the corridor outside Ward 2, right next to the visitors' seating.", "Overflowing bins next to Ward 2 visitor seating"],
-    ["Cleanliness", "Bed sheets had stains. Asked for a change and it took until the afternoon.", "Stained sheets replaced only after several hours"],
-    ["Cleanliness", "The lift buttons and handrails looked like they had not been wiped in days.", "Lift buttons and handrails visibly dirty"],
-    ["Cleanliness", "Dust on the window sill and on top of the monitor in my room.", "Dusty window sill and monitor in patient room"],
-    ["Cleanliness", "The shared bathroom on Ward 4 had a blocked sink and water on the floor all afternoon. Someone could easily slip.", "Blocked sink and wet floor in Ward 4 bathroom"],
-    ["Cleanliness", "Prayer room carpet is dirty and the ablution area smells damp.", "Prayer room carpet dirty and ablution area damp"],
-    ["Cleanliness", "Cafeteria tables were not wiped between customers.", "Cafeteria tables left uncleaned"],
-    ["Food", "Meals arrived cold and late. Lunch came at almost 3pm and by then the rice was hard.", "Cold, late inpatient lunch"],
-    ["Food", "I am diabetic and was served sweet tea and a sugary dessert even though it was on my chart.", "Diabetic patient served sugary items despite chart note"],
-    ["Food", "The vegetarian option was the same boiled vegetables for three days in a row.", "Vegetarian meal repeated for three days"],
-    ["Food", "Not enough variety in the soft diet menu for my father after his jaw surgery.", "Limited soft diet options after jaw surgery"],
-    ["Food", "Breakfast arrived while I was in the scan department so I missed it, and nobody saved it.", "Breakfast missed during scan and not replaced"],
-    ["Food", "The hospital food had no taste, almost like it had no salt at all, even for the children's meals.", "Bland meals including children's menu"],
-    ["Food", "Halal certification was unclear on the menu, asked the staff and they did not know.", "Staff unable to confirm halal status of meals"],
-    ["Food", "A nut was in the meal even though I wrote my allergy on the form. Thankfully I noticed in time.", "Meal contained nuts despite recorded allergy"],
-    ["Facilities", "Parking was a nightmare. We circled for 25 minutes and ended up paying a taxi to drop us at the gate because my mother cannot walk far.", "No parking near entrance for patient with limited mobility"],
-    ["Facilities", "The air conditioning in room 412 did not work for the first night. It was 31 degrees outside.", "Room 412 air conditioning failed on first night"],
-    ["Facilities", "I lost my wedding ring after my admission. I told the nurse in the morning and nobody followed up.", "Lost wedding ring and no follow-up from staff"],
-    ["Facilities", "WiFi in the inpatient ward does not work and family could not reach us from abroad.", "No working WiFi in inpatient ward"],
-    ["Facilities", "Wheelchairs at the main entrance were all taken and I had to wait for one with my father waiting in the car.", "No wheelchairs available at main entrance"],
-    ["Facilities", "The signs to Radiology are confusing. I walked around the building twice.", "Confusing signage to Radiology"],
-    ["Facilities", "The TV in the room did not turn on and the remote was missing. A small thing but a long day stuck in bed.", "Room TV and remote not working"],
-    ["Facilities", "Waiting room chairs are broken and there were not enough seats, many people stood for an hour.", "Broken and insufficient waiting room seating"],
-    ["Facilities", "Left my mobile charger in the day surgery unit and was told they have no lost property box.", "No lost property process in day surgery unit"],
-    ["Facilities", "Lift number 2 is always out of order, wheelchair users are queuing for the other one.", "One lift out of order causing wheelchair queues"],
-    ["Staff attitude", "The front desk staff were dismissive when I asked a question about my father's appointment and told me to read the sign.", "Front desk dismissive when asked about appointment"],
-    ["Staff attitude", "A security guard shouted at my sister for sitting on the wrong chair.", "Security guard shouted at visitor over seating"],
-    ["Staff attitude", "Receptionist was on the phone and did not look up for several minutes while I stood there with a sick child.", "Receptionist ignored family with sick child"],
-    ["Staff attitude", "Staff spoke to each other in front of me as if I was not there. Felt really disrespectful.", "Staff ignored patient while talking among themselves"],
-    ["Staff attitude", "The lab technician rolled his eyes when I asked if the needle was clean.", "Lab technician reacted rudely to hygiene question"],
-    ["Staff attitude", "When I complained about the wait, the clerk said it was not her problem.", "Clerk said complaint about wait was not her problem"],
-    ["Staff attitude", "Visiting hours were enforced rudely, my sister travelled from Salalah and was refused five minutes extra.", "Rigid visiting hours enforced rudely for out-of-town visitor"],
-    ["Staff attitude", "Some staff members were impatient with my mother because she is hard of hearing.", "Staff impatient with hard-of-hearing patient"],
-    ["Staff attitude", "I felt treated differently because I did not speak English or Arabic well. Could not get the same help as other patients.", "Patient felt treated differently due to language"],
-    ["Staff attitude", "A porter was shouting in the corridor at night and woke the whole ward.", "Porter shouting in ward corridor at night"],
-    ["Discharge process", "I was told I could go home at 11am and the final paperwork was only ready at 4pm. My family had taken a day off.", "Discharge promised for 11am completed at 4pm"],
-    ["Discharge process", "Discharge instructions were handed over in a rush. I was not told which tablets to stop and which to continue.", "Rushed discharge without medication stop-start guidance"],
-    ["Discharge process", "No one explained the follow-up. Only two weeks later did I realise I had missed my review.", "Follow-up review not explained at discharge"],
-    ["Discharge process", "The discharge summary had my name spelled wrong and the wrong date of birth.", "Discharge summary had wrong name spelling and date of birth"],
-    ["Discharge process", "Waited for the wheelchair and escort to the car for forty minutes after being discharged.", "40-minute wait for wheelchair escort at discharge"],
-    ["Discharge process", "Medication from the pharmacy was missing one item. I only found out at home.", "Discharge prescription missing one medicine"],
-    ["Discharge process", "The sick leave certificate was not included and I had to come back the next day for it.", "Sick leave certificate omitted at discharge"],
-    ["Discharge process", "Discharge was cancelled and rebooked three times because the doctor had not signed. It was exhausting for my wife.", "Discharge cancelled and rebooked three times awaiting signature"],
-    ["Discharge process", "I received no instructions on diet or activity after my hernia surgery.", "No diet or activity advice after hernia surgery"],
-    ["Discharge process", "They asked us to vacate the room immediately at 10am but my husband's ride was not until the afternoon and there was nowhere to wait.", "Asked to vacate room with nowhere to wait for transport"],
-    ["Insurance", "My insurance pre-approval was rejected at the desk even though my insurer confirmed it by phone. We lost an afternoon sorting it.", "Insurance pre-approval rejected despite insurer confirmation"],
-    ["Insurance", "The hospital told me my policy did not cover the scan, after I had already had it done.", "Told scan was not covered only after it was performed"],
-    ["Insurance", "Insurance desk staff were helpful but the claims system was down for two days and they could not process my paperwork.", "Claims system outage delayed insurance paperwork two days"],
-    ["Insurance", "Claim sent to the wrong insurer, and I only found out when the insurer wrote to me.", "Claim submitted to the wrong insurer"],
-    ["Insurance", "Co-pay explained at the desk was different from what my policy letter says.", "Co-pay quoted at desk differed from policy letter"],
-    ["Insurance", "Approval for my child's physiotherapy took more than a week and he missed sessions in between.", "Child's physiotherapy approval took over a week"],
-    ["Insurance", "No one could tell me which medicines were excluded by my insurance until I got to the pharmacy window.", "Insurance exclusions unclear until pharmacy counter"],
-    ["Insurance", "Claim rejected for a missing stamp that the hospital should have added. I was told to fix it myself.", "Claim rejected for hospital's missing stamp"],
-    ["Insurance", "Waiting for insurance approval is a nightmare. I had to wait four hours in Emergency just for the code.", "Four-hour wait for insurance approval code in Emergency"],
-    ["Insurance", "Letter of guarantee was valid for a week but admission was delayed and it expired. We had to start over.", "Expired letter of guarantee after admission delay"]
+    [
+      "Waiting time",
+      "I arrived for my 9:30 appointment in OPD and was only called in at 11:50. Nobody told us there was a delay.",
+      "Two-hour OPD wait past a 9:30 appointment with no explanation"
+    ],
+    [
+      "Waiting time",
+      "Two hours in the Emergency waiting area with my son's fever and not one update from the triage desk.",
+      "Child with fever waited two hours in Emergency with no updates"
+    ],
+    [
+      "Waiting time",
+      "The pharmacy queue after discharge took almost 90 minutes. My mother was exhausted and still in her wheelchair.",
+      "90-minute pharmacy queue after discharge for elderly patient"
+    ],
+    [
+      "Waiting time",
+      "Waited three hours for an X-ray on a Tuesday afternoon. The radiology desk kept saying 'ten more minutes'.",
+      "Three-hour radiology wait on Tuesday afternoon"
+    ],
+    [
+      "Waiting time",
+      "Doctor was running late and the clinic gave no estimate. I had to leave for work and rebook.",
+      "Clinic delay with no estimate forced patient to rebook"
+    ],
+    [
+      "Waiting time",
+      "It took 45 minutes just to get registered at the front desk because only one counter was open.",
+      "Single open registration counter caused 45-minute delay"
+    ],
+    [
+      "Waiting time",
+      "Blood test results that were promised in two hours took until the next morning.",
+      "Lab results promised in two hours arrived next morning"
+    ],
+    [
+      "Waiting time",
+      "Waited on a trolley in the corridor for a bed for nearly six hours after admission.",
+      "Six-hour corridor wait for an inpatient bed"
+    ],
+    [
+      "Waiting time",
+      "The walk-in clinic on Friday evening was chaos. No token system, people were just pushing in.",
+      "No queue system at Friday evening walk-in clinic"
+    ],
+    [
+      "Waiting time",
+      "Antenatal scan appointment was at 8 but I was seen at 10:15. Hard when you are heavily pregnant and fasting.",
+      "Antenatal scan started over two hours late"
+    ],
+    [
+      "Waiting time",
+      "The blood pressure check before my clinic visit had no nurse at the station for 40 minutes, so everyone just waited in the corridor.",
+      "Unstaffed pre-clinic blood pressure station left patients waiting in the corridor"
+    ],
+    [
+      "Waiting time",
+      "My discharge papers took four hours after the doctor said I could go home. The family had been waiting since lunch.",
+      "Four-hour delay for discharge papers after doctor's clearance"
+    ],
+    [
+      "Waiting time",
+      "Eye clinic ran forty minutes behind and then the dilating drops needed another half hour. We were there almost the whole morning.",
+      "Eye clinic ran behind plus dilation wait took most of the morning"
+    ],
+    [
+      "Waiting time",
+      "I called the ward bell three times at night before anyone came. It was 25 minutes in the end.",
+      "25-minute response to ward call bell at night"
+    ],
+    [
+      "Waiting time",
+      "Wait for the ECG in cardiology was over an hour even though the doctor ordered it as urgent.",
+      "Urgent ECG in cardiology delayed over an hour"
+    ],
+    [
+      "Waiting time",
+      "Physiotherapy started 35 minutes late on all three of my visits.",
+      "Physiotherapy sessions repeatedly started 35 minutes late"
+    ],
+    [
+      "Waiting time",
+      "Queue for the CT scan was not managed. Outpatients and Emergency patients were all mixed up and nobody knew whose turn it was.",
+      "Unmanaged CT queue mixed outpatients and Emergency cases"
+    ],
+    [
+      "Waiting time",
+      "The dental clinic double booked my slot, so I sat for an hour while another patient finished.",
+      "Dental clinic double booked appointment slot"
+    ],
+    [
+      "Waiting time",
+      "Ambulance bay to doctor took 50 minutes for my father with chest pain. I thought that was far too long.",
+      "50 minutes from ambulance bay to doctor for chest pain"
+    ],
+    [
+      "Waiting time",
+      "Just wanted to say the wait was a bit long on Sunday morning. Staff were polite though.",
+      "Longer than expected Sunday morning wait"
+    ],
+    [
+      "Waiting time",
+      "Paediatric clinic: seven families were waiting past their time, no one came out to explain, and the kids were getting restless.",
+      "Paediatric clinic delay with no communication to families"
+    ],
+    [
+      "Waiting time",
+      "The MRI slot was moved twice without a phone call. I took leave from work for nothing the first time.",
+      "MRI appointment rescheduled twice without notice"
+    ],
+    [
+      "Waiting time",
+      "Valet and registration and triage and nurse intake, all before seeing anyone useful. A full hour and a half.",
+      "90 minutes of intake steps before seeing a clinician"
+    ],
+    [
+      "Waiting time",
+      "We waited for the porter to take my wife to the labour ward for almost twenty minutes while she was in pain.",
+      "Porter delay of 20 minutes for woman in labour"
+    ],
+    [
+      "Waiting time",
+      "Pre-op instructions said arrive at 6am. I was not taken in until 1pm and had not eaten or drunk since the night before.",
+      "Seven-hour wait after early pre-op arrival while fasting"
+    ],
+    [
+      "Waiting time",
+      "Slow service at the cashier before I could leave the hospital.",
+      "Slow cashier service at exit"
+    ],
+    [
+      "Billing",
+      "The final bill included a private room charge for two nights but I was in a shared ward the whole time. It took three days and four phone calls to get it removed.",
+      "Private room charged though patient stayed in shared ward"
+    ],
+    [
+      "Billing",
+      "I was billed twice for the same MRI scan. The second invoice arrived by email a week later with a late fee.",
+      "Duplicate MRI invoice with late fee"
+    ],
+    [
+      "Billing",
+      "Nobody could explain the 'consumables' line of OMR 214. The cashier said ask the ward, the ward said ask billing.",
+      "Unexplained OMR 214 consumables charge passed between departments"
+    ],
+    [
+      "Billing",
+      "Estimate at admission was OMR 600 and the final bill was OMR 1,150. No one warned us when the costs went up.",
+      "Final bill nearly double the admission estimate with no warning"
+    ],
+    [
+      "Billing",
+      "Charged for a doctor consultation that never happened. The doctor I was booked with was on leave and I saw a different one.",
+      "Charged for consultation with the wrong doctor"
+    ],
+    [
+      "Billing",
+      "The bill was only in English with abbreviations I could not follow. My father reads Arabic and could not check it.",
+      "Itemised bill not understandable for Arabic-reading family"
+    ],
+    [
+      "Billing",
+      "Paid the deposit at the front desk but it was not deducted from the final amount until I showed the receipt.",
+      "Deposit not deducted until receipt was produced"
+    ],
+    [
+      "Billing",
+      "Pharmacy charged me for a full box of tablets and gave me a strip of ten.",
+      "Charged for full box but received part strip"
+    ],
+    [
+      "Billing",
+      "I was asked to pay at the counter before they would release my mother's discharge summary.",
+      "Discharge summary held until payment"
+    ],
+    [
+      "Billing",
+      "Lab fee was different from the price on the board at the lab entrance. They said the board was old.",
+      "Lab price differed from posted price list"
+    ],
+    [
+      "Billing",
+      "Why did I pay for a bed on the day I was discharged at 7am? One night means one night.",
+      "Charged for an extra day when discharged at 7am"
+    ],
+    [
+      "Billing",
+      "The billing department is on the third floor and the lift was broken. I am 74 and had to climb two flights to dispute a charge.",
+      "Billing office inaccessible with broken lift for elderly patient"
+    ],
+    [
+      "Billing",
+      "Received a bill for a procedure that my doctor told me was a follow-up visit and free of charge.",
+      "Billed for follow-up visit promised as free"
+    ],
+    [
+      "Billing",
+      "Cannot get a proper receipt for my tax claim. They keep sending the same unstamped printout.",
+      "Unstamped receipt cannot be used for tax claim"
+    ],
+    [
+      "Billing",
+      "Newborn was added to the bill for a nursery stay we never requested.",
+      "Unrequested nursery charge on newborn's bill"
+    ],
+    [
+      "Billing",
+      "Billing staff were helpful in the end, but the first invoice was wrong and I should not have had to chase it.",
+      "First invoice incorrect and had to be chased"
+    ],
+    [
+      "Billing",
+      "Anaesthesia fee listed twice, once in surgery and once in theatre charges.",
+      "Anaesthesia fee duplicated across two sections"
+    ],
+    [
+      "Billing",
+      "I asked for a cost estimate before the knee scan and was told it cannot be given. Then the charge was higher than the other hospital quoted me.",
+      "No upfront cost estimate and price above competitor quote"
+    ],
+    [
+      "Billing",
+      "My co-payment was calculated at 20 percent but my policy says 10. It took two visits to correct.",
+      "Co-payment calculated at wrong percentage"
+    ],
+    [
+      "Billing",
+      "Paid by card and the amount was taken twice. Refund promised in 5 days, still not received after three weeks.",
+      "Double card charge with refund outstanding after three weeks"
+    ],
+    [
+      "Billing",
+      "The cashier was rude about my question on the bill, and just told me to read it.",
+      "Cashier dismissive when asked to explain bill"
+    ],
+    [
+      "Billing",
+      "Phone calls to billing go unanswered. I tried for two days.",
+      "Billing phone line unanswered for two days"
+    ],
+    [
+      "Billing",
+      "Companion meals were added to the bill without being offered or agreed.",
+      "Companion meals billed without agreement"
+    ],
+    [
+      "Billing",
+      "Statement of account does not match the receipts I kept. About OMR 40 missing from what I paid.",
+      "Statement of account omits OMR 40 of payments"
+    ],
+    [
+      "Billing",
+      "Too expensive for what we got.",
+      "General comment on cost versus value"
+    ],
+    [
+      "Billing",
+      "Charges for oxygen are shown per hour but we only used it for part of the first night.",
+      "Oxygen billed per hour for partial use"
+    ],
+    [
+      "Billing",
+      "Packages are advertised for maternity at a fixed price but extras were added after delivery that were never explained.",
+      "Maternity package extras added after delivery without explanation"
+    ],
+    [
+      "Doctor communication",
+      "The consultant spoke very quickly in medical terms and left the room before we could ask what the diagnosis meant.",
+      "Consultant used jargon and left before questions"
+    ],
+    [
+      "Doctor communication",
+      "Nobody told my family the surgery had finished. We sat in the waiting area for three more hours.",
+      "Family not informed that surgery had ended"
+    ],
+    [
+      "Doctor communication",
+      "Different doctors gave me different advice about my blood pressure tablets on consecutive days.",
+      "Conflicting advice from different doctors on medication"
+    ],
+    [
+      "Doctor communication",
+      "My doctor looked at the screen the whole time and barely at me.",
+      "Doctor focused on screen rather than patient"
+    ],
+    [
+      "Doctor communication",
+      "I was prescribed an antibiotic and no one mentioned the side effects. I found out after I was already feeling unwell.",
+      "Side effects of new antibiotic not explained"
+    ],
+    [
+      "Doctor communication",
+      "Dr. appeared annoyed when I asked for a second opinion.",
+      "Doctor reacted badly to request for second opinion"
+    ],
+    [
+      "Doctor communication",
+      "Test results were given by a nurse over the phone with no explanation of what to do next.",
+      "Test results phoned through with no next steps"
+    ],
+    [
+      "Doctor communication",
+      "They did not explain the plan to my elderly father in Arabic, only to me, and he felt left out of his own treatment.",
+      "Treatment plan not explained to patient in his language"
+    ],
+    [
+      "Doctor communication",
+      "A short consultation, ten minutes in total, for a problem that has been going on for months.",
+      "Ten-minute consultation for a long-standing problem"
+    ],
+    [
+      "Doctor communication",
+      "No follow-up appointment was explained. I only found out I needed one when the clinic called to say I missed it.",
+      "Follow-up appointment never communicated"
+    ],
+    [
+      "Doctor communication",
+      "The resident told us one thing in the morning and the consultant said the opposite on the evening round.",
+      "Resident and consultant gave opposite information on the same day"
+    ],
+    [
+      "Doctor communication",
+      "Doctor did not wash hands before examining me, and when I asked he seemed offended.",
+      "Doctor did not wash hands before examination"
+    ],
+    [
+      "Nursing care",
+      "Call bell was out of reach after surgery and I could not press it. I waited until someone happened to walk past.",
+      "Call bell left out of reach after surgery"
+    ],
+    [
+      "Nursing care",
+      "The night nurse on Ward 3 was lovely at first but my drip ran dry twice and no one noticed for a long while.",
+      "IV drip left to run dry twice on Ward 3 at night"
+    ],
+    [
+      "Nursing care",
+      "Medication round was late by two hours on day two and my pain was not managed.",
+      "Medication round two hours late with uncontrolled pain"
+    ],
+    [
+      "Nursing care",
+      "Nobody helped my father to the bathroom, he is on a walking frame. In the end my brother did it.",
+      "Elderly patient not assisted to bathroom"
+    ],
+    [
+      "Nursing care",
+      "Different nurse every shift and each one asked me the same allergy questions again. It made me worry that nothing was written down.",
+      "Repeated allergy questions raise concern about handover"
+    ],
+    [
+      "Nursing care",
+      "The nurse changed my dressing without gloves. I mentioned it and she said she had just washed her hands.",
+      "Dressing changed without gloves"
+    ],
+    [
+      "Nursing care",
+      "Not enough nurses on the ward at weekends, it felt like one person for twenty patients.",
+      "Weekend ward staffing felt inadequate"
+    ],
+    [
+      "Nursing care",
+      "I was left in a wet bed for a long time before anyone came to change it.",
+      "Patient left in wet bed before linen change"
+    ],
+    [
+      "Nursing care",
+      "Nurses were chatting at the station while my baby was crying in the ward.",
+      "Nurses at station while infant crying nearby"
+    ],
+    [
+      "Nursing care",
+      "I was not told how to look after my wound at home. The leaflet was only in English.",
+      "Wound care advice and leaflet only in English"
+    ],
+    [
+      "Cleanliness",
+      "The room and bathroom were not clean when I was admitted. There was hair in the shower drain and a used cup on the table.",
+      "Admitted to unclean room with hair in drain"
+    ],
+    [
+      "Cleanliness",
+      "The toilet near the OPD waiting area on the ground floor was out of soap and paper at 4pm, and smelled.",
+      "Ground floor OPD toilet out of soap and paper"
+    ],
+    [
+      "Cleanliness",
+      "Floors in Emergency were sticky and nobody cleaned them while we were there for five hours.",
+      "Sticky Emergency floors not cleaned during five-hour stay"
+    ],
+    [
+      "Cleanliness",
+      "Bins overflowing in the corridor outside Ward 2, right next to the visitors' seating.",
+      "Overflowing bins next to Ward 2 visitor seating"
+    ],
+    [
+      "Cleanliness",
+      "Bed sheets had stains. Asked for a change and it took until the afternoon.",
+      "Stained sheets replaced only after several hours"
+    ],
+    [
+      "Cleanliness",
+      "The lift buttons and handrails looked like they had not been wiped in days.",
+      "Lift buttons and handrails visibly dirty"
+    ],
+    [
+      "Cleanliness",
+      "Dust on the window sill and on top of the monitor in my room.",
+      "Dusty window sill and monitor in patient room"
+    ],
+    [
+      "Cleanliness",
+      "The shared bathroom on Ward 4 had a blocked sink and water on the floor all afternoon. Someone could easily slip.",
+      "Blocked sink and wet floor in Ward 4 bathroom"
+    ],
+    [
+      "Cleanliness",
+      "Prayer room carpet is dirty and the ablution area smells damp.",
+      "Prayer room carpet dirty and ablution area damp"
+    ],
+    [
+      "Cleanliness",
+      "Cafeteria tables were not wiped between customers.",
+      "Cafeteria tables left uncleaned"
+    ],
+    [
+      "Food",
+      "Meals arrived cold and late. Lunch came at almost 3pm and by then the rice was hard.",
+      "Cold, late inpatient lunch"
+    ],
+    [
+      "Food",
+      "I am diabetic and was served sweet tea and a sugary dessert even though it was on my chart.",
+      "Diabetic patient served sugary items despite chart note"
+    ],
+    [
+      "Food",
+      "The vegetarian option was the same boiled vegetables for three days in a row.",
+      "Vegetarian meal repeated for three days"
+    ],
+    [
+      "Food",
+      "Not enough variety in the soft diet menu for my father after his jaw surgery.",
+      "Limited soft diet options after jaw surgery"
+    ],
+    [
+      "Food",
+      "Breakfast arrived while I was in the scan department so I missed it, and nobody saved it.",
+      "Breakfast missed during scan and not replaced"
+    ],
+    [
+      "Food",
+      "The hospital food had no taste, almost like it had no salt at all, even for the children's meals.",
+      "Bland meals including children's menu"
+    ],
+    [
+      "Food",
+      "Halal certification was unclear on the menu, asked the staff and they did not know.",
+      "Staff unable to confirm halal status of meals"
+    ],
+    [
+      "Food",
+      "A nut was in the meal even though I wrote my allergy on the form. Thankfully I noticed in time.",
+      "Meal contained nuts despite recorded allergy"
+    ],
+    [
+      "Facilities",
+      "Parking was a nightmare. We circled for 25 minutes and ended up paying a taxi to drop us at the gate because my mother cannot walk far.",
+      "No parking near entrance for patient with limited mobility"
+    ],
+    [
+      "Facilities",
+      "The air conditioning in room 412 did not work for the first night. It was 31 degrees outside.",
+      "Room 412 air conditioning failed on first night"
+    ],
+    [
+      "Facilities",
+      "I lost my wedding ring after my admission. I told the nurse in the morning and nobody followed up.",
+      "Lost wedding ring and no follow-up from staff"
+    ],
+    [
+      "Facilities",
+      "WiFi in the inpatient ward does not work and family could not reach us from abroad.",
+      "No working WiFi in inpatient ward"
+    ],
+    [
+      "Facilities",
+      "Wheelchairs at the main entrance were all taken and I had to wait for one with my father waiting in the car.",
+      "No wheelchairs available at main entrance"
+    ],
+    [
+      "Facilities",
+      "The signs to Radiology are confusing. I walked around the building twice.",
+      "Confusing signage to Radiology"
+    ],
+    [
+      "Facilities",
+      "The TV in the room did not turn on and the remote was missing. A small thing but a long day stuck in bed.",
+      "Room TV and remote not working"
+    ],
+    [
+      "Facilities",
+      "Waiting room chairs are broken and there were not enough seats, many people stood for an hour.",
+      "Broken and insufficient waiting room seating"
+    ],
+    [
+      "Facilities",
+      "Left my mobile charger in the day surgery unit and was told they have no lost property box.",
+      "No lost property process in day surgery unit"
+    ],
+    [
+      "Facilities",
+      "Lift number 2 is always out of order, wheelchair users are queuing for the other one.",
+      "One lift out of order causing wheelchair queues"
+    ],
+    [
+      "Staff attitude",
+      "The front desk staff were dismissive when I asked a question about my father's appointment and told me to read the sign.",
+      "Front desk dismissive when asked about appointment"
+    ],
+    [
+      "Staff attitude",
+      "A security guard shouted at my sister for sitting on the wrong chair.",
+      "Security guard shouted at visitor over seating"
+    ],
+    [
+      "Staff attitude",
+      "Receptionist was on the phone and did not look up for several minutes while I stood there with a sick child.",
+      "Receptionist ignored family with sick child"
+    ],
+    [
+      "Staff attitude",
+      "Staff spoke to each other in front of me as if I was not there. Felt really disrespectful.",
+      "Staff ignored patient while talking among themselves"
+    ],
+    [
+      "Staff attitude",
+      "The lab technician rolled his eyes when I asked if the needle was clean.",
+      "Lab technician reacted rudely to hygiene question"
+    ],
+    [
+      "Staff attitude",
+      "When I complained about the wait, the clerk said it was not her problem.",
+      "Clerk said complaint about wait was not her problem"
+    ],
+    [
+      "Staff attitude",
+      "Visiting hours were enforced rudely, my sister travelled from Salalah and was refused five minutes extra.",
+      "Rigid visiting hours enforced rudely for out-of-town visitor"
+    ],
+    [
+      "Staff attitude",
+      "Some staff members were impatient with my mother because she is hard of hearing.",
+      "Staff impatient with hard-of-hearing patient"
+    ],
+    [
+      "Staff attitude",
+      "I felt treated differently because I did not speak English or Arabic well. Could not get the same help as other patients.",
+      "Patient felt treated differently due to language"
+    ],
+    [
+      "Staff attitude",
+      "A porter was shouting in the corridor at night and woke the whole ward.",
+      "Porter shouting in ward corridor at night"
+    ],
+    [
+      "Discharge process",
+      "I was told I could go home at 11am and the final paperwork was only ready at 4pm. My family had taken a day off.",
+      "Discharge promised for 11am completed at 4pm"
+    ],
+    [
+      "Discharge process",
+      "Discharge instructions were handed over in a rush. I was not told which tablets to stop and which to continue.",
+      "Rushed discharge without medication stop-start guidance"
+    ],
+    [
+      "Discharge process",
+      "No one explained the follow-up. Only two weeks later did I realise I had missed my review.",
+      "Follow-up review not explained at discharge"
+    ],
+    [
+      "Discharge process",
+      "The discharge summary had my name spelled wrong and the wrong date of birth.",
+      "Discharge summary had wrong name spelling and date of birth"
+    ],
+    [
+      "Discharge process",
+      "Waited for the wheelchair and escort to the car for forty minutes after being discharged.",
+      "40-minute wait for wheelchair escort at discharge"
+    ],
+    [
+      "Discharge process",
+      "Medication from the pharmacy was missing one item. I only found out at home.",
+      "Discharge prescription missing one medicine"
+    ],
+    [
+      "Discharge process",
+      "The sick leave certificate was not included and I had to come back the next day for it.",
+      "Sick leave certificate omitted at discharge"
+    ],
+    [
+      "Discharge process",
+      "Discharge was cancelled and rebooked three times because the doctor had not signed. It was exhausting for my wife.",
+      "Discharge cancelled and rebooked three times awaiting signature"
+    ],
+    [
+      "Discharge process",
+      "I received no instructions on diet or activity after my hernia surgery.",
+      "No diet or activity advice after hernia surgery"
+    ],
+    [
+      "Discharge process",
+      "They asked us to vacate the room immediately at 10am but my husband's ride was not until the afternoon and there was nowhere to wait.",
+      "Asked to vacate room with nowhere to wait for transport"
+    ],
+    [
+      "Insurance",
+      "My insurance pre-approval was rejected at the desk even though my insurer confirmed it by phone. We lost an afternoon sorting it.",
+      "Insurance pre-approval rejected despite insurer confirmation"
+    ],
+    [
+      "Insurance",
+      "The hospital told me my policy did not cover the scan, after I had already had it done.",
+      "Told scan was not covered only after it was performed"
+    ],
+    [
+      "Insurance",
+      "Insurance desk staff were helpful but the claims system was down for two days and they could not process my paperwork.",
+      "Claims system outage delayed insurance paperwork two days"
+    ],
+    [
+      "Insurance",
+      "Claim sent to the wrong insurer, and I only found out when the insurer wrote to me.",
+      "Claim submitted to the wrong insurer"
+    ],
+    [
+      "Insurance",
+      "Co-pay explained at the desk was different from what my policy letter says.",
+      "Co-pay quoted at desk differed from policy letter"
+    ],
+    [
+      "Insurance",
+      "Approval for my child's physiotherapy took more than a week and he missed sessions in between.",
+      "Child's physiotherapy approval took over a week"
+    ],
+    [
+      "Insurance",
+      "No one could tell me which medicines were excluded by my insurance until I got to the pharmacy window.",
+      "Insurance exclusions unclear until pharmacy counter"
+    ],
+    [
+      "Insurance",
+      "Claim rejected for a missing stamp that the hospital should have added. I was told to fix it myself.",
+      "Claim rejected for hospital's missing stamp"
+    ],
+    [
+      "Insurance",
+      "Waiting for insurance approval is a nightmare. I had to wait four hours in Emergency just for the code.",
+      "Four-hour wait for insurance approval code in Emergency"
+    ],
+    [
+      "Insurance",
+      "Letter of guarantee was valid for a week but admission was delayed and it expired. We had to start over.",
+      "Expired letter of guarantee after admission delay"
+    ]
   ],
   "complaints_ar": [
-    ["Waiting time", "جيت الساعة ٩ الصبح لموعد العيادة وما دخلت للدكتور إلا الساعة ١١ ونص، وما أحد قال لنا شي عن التأخير.", "I came at 9 in the morning for my clinic appointment and did not see the doctor until 11:30, and nobody told us anything about the delay.", "Two and a half hour clinic delay with no explanation"],
-    ["Waiting time", "انتظرنا في الطوارئ ثلاث ساعات وابني عنده حرارة عالية، وما أحد جاء يتطمن عليه.", "We waited three hours in Emergency with my son's high fever and nobody came to check on him.", "Child with high fever left three hours in Emergency"],
-    ["Waiting time", "الصيدلية بعد الخروج أخذت أكثر من ساعة، والوالدة تعبانة وتبي ترجع البيت.", "The pharmacy after discharge took more than an hour and my mother was tired and wanted to go home.", "One-hour pharmacy wait after discharge for tired mother"],
-    ["Waiting time", "موعد الأشعة تأجل مرتين وما اتصل فينا أحد، رحت وما لقيت أحد يعرف شي.", "The radiology appointment was postponed twice and nobody called us. I went and found nobody who knew anything.", "Radiology appointment postponed twice without a call"],
-    ["Waiting time", "طوابير طويلة عند التسجيل وكاونتر واحد بس مفتوح. الوضع مو منظم أبداً.", "Long registration queues with only one counter open. The situation is not organised at all.", "Single counter open and long registration queue"],
-    ["Waiting time", "انتظار طويل جداً وفاتورة غير واضحة، تجربة سيئة.", "Very long wait and an unclear bill, a poor experience.", "Long wait combined with unclear bill"],
-    ["Waiting time", "نتيجة التحليل قالوا بعد ساعتين وطلعت تاني يوم الصبح.", "They said the test result would take two hours and it came out the next morning.", "Lab result promised in two hours arrived next day"],
-    ["Waiting time", "عيادة الأطفال متأخرة ساعة كاملة والأطفال تعبانين وما فيه كراسي كافية.", "The children's clinic was a full hour late, the children were tired and there were not enough chairs.", "Paediatric clinic one hour late with insufficient seating"],
-    ["Billing", "الفاتورة كانت غير واضحة وفيها رسوم لم يشرحها لي أحد.", "The bill was unclear and had charges nobody explained to me.", "Unclear bill with unexplained charges"],
-    ["Billing", "انحسبت علي غرفة خاصة وأنا كنت في جناح مشترك، وأخذت أيام عشان يصححونها.", "I was charged for a private room although I was in a shared ward, and it took days for them to fix it.", "Private room charged for shared ward stay"],
-    ["Billing", "دفعت العربون وما انخصم من الفاتورة النهائية إلا لما وريتهم الإيصال.", "I paid the deposit and it was not deducted from the final bill until I showed them the receipt.", "Deposit deducted only after patient showed receipt"],
-    ["Billing", "التقدير اللي عطوني عند الدخول ٥٠٠ ريال والفاتورة النهائية طلعت أكثر من ٩٠٠.", "The estimate they gave me on admission was 500 riyals and the final bill came to more than 900.", "Final bill far above admission estimate"],
-    ["Billing", "سحبوا المبلغ من البطاقة مرتين ووعدوني بالإرجاع في خمس أيام وإلى الحين ما رجع.", "They charged my card twice and promised a refund within five days, and it has still not come back.", "Double card charge with refund outstanding"],
-    ["Billing", "الفاتورة بالإنجليزي كلها اختصارات ووالدي ما يقدر يراجعها.", "The bill is all in English with abbreviations and my father cannot check it.", "English-only abbreviated bill for Arabic-reading father"],
-    ["Billing", "طلعت لي فاتورة على متابعة قال لي الدكتور إنها مجانية.", "I got a bill for a follow-up visit that the doctor told me was free.", "Billed for follow-up the doctor said was free"],
-    ["Doctor communication", "الدكتور ما شرح لنا الخطة العلاجية، كلمني بسرعة وطلع من الغرفة.", "The doctor did not explain the treatment plan to us. He spoke quickly and left the room.", "Doctor did not explain treatment plan"],
-    ["Doctor communication", "ما أحد خبر أهل المريض إن العملية خلصت، ظلينا ننتظر ساعات.", "Nobody told the patient's family the operation was over, and we waited for hours.", "Family not told surgery had finished"],
-    ["Doctor communication", "كل دكتور قال لي كلام مختلف عن الدواء، وما عرفت أي واحد أمشي عليه.", "Every doctor told me something different about the medicine and I did not know which to follow.", "Contradictory medication advice from several doctors"],
-    ["Doctor communication", "الاستشارة ما أخذت إلا خمس دقايق لمشكلة صار لها شهور.", "The consultation took only five minutes for a problem that has lasted months.", "Five-minute consultation for a months-old problem"],
-    ["Nursing care", "جرس الاستدعاء ما كان قريب مني بعد العملية وما قدرت أناديهم.", "The call bell was not near me after the operation and I could not call them.", "Call bell out of reach after operation"],
-    ["Nursing care", "الدواء تأخر ساعتين وكنت أتألم وما أحد يرد على الجرس.", "The medicine was two hours late, I was in pain and nobody answered the bell.", "Medication two hours late and call bell unanswered"],
-    ["Nursing care", "أبوي يستعمل المشاية وما أحد ساعده يروح الحمام، أخوي هو اللي ساعده.", "My father uses a walker and nobody helped him to the bathroom; my brother is the one who helped him.", "No help for walker-dependent father at bathroom"],
-    ["Cleanliness", "الغرفة والحمام ما كانوا نظيفين وقت دخولي، وفيه شعر في مصرف الدش.", "The room and bathroom were not clean when I was admitted and there was hair in the shower drain.", "Unclean room and bathroom on admission"],
-    ["Cleanliness", "دورات المياه عند العيادات بدون صابون من العصر وريحتها مو حلوة.", "The toilets near the clinics had no soap since the afternoon and they did not smell good.", "Clinic toilets without soap and with bad smell"],
-    ["Cleanliness", "المصعد والدرابزين وسخانين وتحس إنهم ما انمسحوا من أيام.", "The lift and handrails are dirty, it feels like they have not been wiped for days.", "Dirty lift and handrails"],
-    ["Food", "الوجبة وصلت باردة ومتأخرة، الغداء جاء الساعة ثلاثة تقريباً.", "The meal arrived cold and late, lunch came at about three o'clock.", "Cold and late lunch"],
-    ["Food", "أنا مريض سكر وجابوا لي شاي بسكر وحلى مع أن الملف مكتوب فيه.", "I am diabetic and they brought me sweet tea and dessert even though it is written in the file.", "Diabetic patient served sugary food"],
-    ["Facilities", "الموقف مزدحم وما لقينا مكان قريب من المدخل ووالدتي ما تقدر تمشي مسافة طويلة.", "The parking is crowded and we did not find a place near the entrance, and my mother cannot walk far.", "No parking near entrance for mother with limited mobility"],
-    ["Facilities", "المكيف في غرفتي خربان من أول ليلة والجو حار.", "The air conditioner in my room has been broken since the first night and the weather is hot.", "Room air conditioner broken since first night"],
-    ["Facilities", "ضاع لي خاتم بعد الدخول وقلت للممرضة ولا أحد تابع الموضوع.", "I lost a ring after admission and told the nurse and nobody followed up.", "Lost ring with no staff follow-up"],
-    ["Staff attitude", "موظفة الاستقبال ما ردت علي وكانت تتكلم بالتلفون وأنا واقف مع طفل مريض.", "The receptionist did not answer me; she was on the phone while I stood with a sick child.", "Receptionist ignored father with sick child"],
-    ["Staff attitude", "الحارس رفع صوته على أختي لأنها جلست في كرسي غلط.", "The guard raised his voice at my sister because she sat on the wrong chair.", "Guard raised voice at visitor over seat"],
-    ["Discharge process", "قالوا لي أطلع الساعة ١١ والأوراق جاهزة الساعة ٤ العصر.", "They told me I could leave at 11 and the papers were ready at 4 in the afternoon.", "Discharge papers ready five hours after promised"],
-    ["Discharge process", "ما شرحوا لي أي أدوية أوقفها وأي أدوية أكمل، كان الخروج مستعجل.", "They did not explain which medicines to stop and which to continue; the discharge was rushed.", "Rushed discharge without medication guidance"],
-    ["Insurance", "التأمين رفض الموافقة المسبقة مع إن شركة التأمين أكدتها بالتلفون، وضاع علينا نص يوم.", "Insurance rejected the prior approval even though the insurance company confirmed it by phone, and we lost half a day.", "Insurance pre-approval rejected despite phone confirmation"],
-    ["Insurance", "قالوا لي بعد الفحص إن التأمين ما يغطيه، وكان لازم يخبروني قبل.", "They told me after the scan that insurance does not cover it, and they should have told me before.", "Coverage exclusion disclosed only after scan"]
+    [
+      "Waiting time",
+      "موعد عيادة العيون كان الصبح وطلعت الساعة وحدة الظهر، وفاتني دوامي بالكامل.",
+      "My eye clinic appointment was in the morning and I left at one in the afternoon, and I missed my whole work day.",
+      "Eye clinic visit took until one in the afternoon"
+    ],
+    [
+      "Waiting time",
+      "الطبيب الاستشاري ألغى موعد الصباح بدون ما يتصلون فينا وجينا من مكان بعيد.",
+      "The consultant cancelled the morning appointment and nobody called us, and we had travelled from far away.",
+      "Consultant cancelled clinic with no call to patients travelling far"
+    ],
+    [
+      "Waiting time",
+      "الباص الداخلي اللي ينقل المرضى بين المباني تأخر نص ساعة وفاتني موعد العلاج الطبيعي.",
+      "The internal shuttle between buildings ran half an hour late and I missed my physiotherapy slot.",
+      "Internal shuttle delay made patient miss physiotherapy slot"
+    ],
+    [
+      "Waiting time",
+      "عيادة الجلدية تفتح الساعة ثمانية بس الدكتور ما وصل إلا تسعة ونص.",
+      "The dermatology clinic opens at eight but the doctor only arrived at half past nine.",
+      "Dermatology clinic started ninety minutes after opening time"
+    ],
+    [
+      "Waiting time",
+      "استنيت ثلث ساعة عند الصراف لين فتح الموظف النظام.",
+      "I waited a third of an hour at the cashier until the employee opened the system.",
+      "Cashier wait while the system was opened"
+    ],
+    [
+      "Waiting time",
+      "انتظار طويل جداً وفاتورة غير واضحة، تجربة سيئة.",
+      "Very long wait and an unclear bill, a poor experience.",
+      "Long wait combined with unclear bill"
+    ],
+    [
+      "Waiting time",
+      "حجزت موعد تطعيم لبنتي الساعة ٤ العصر وما انتادى اسمها إلا قبل المغرب، والطفلة جوعانة وتبكي.",
+      "I booked a vaccination slot for my daughter at 4 in the afternoon and her name was only called near sunset, with the girl hungry and crying.",
+      "Vaccination slot delayed until sunset with hungry child"
+    ],
+    [
+      "Waiting time",
+      "عيادة الأطفال متأخرة ساعة كاملة والأطفال تعبانين وما فيه كراسي كافية.",
+      "The children's clinic was a full hour late, the children were tired and there were not enough chairs.",
+      "Paediatric clinic one hour late with insufficient seating"
+    ],
+    [
+      "Billing",
+      "فاتورة التصوير وصلتني بالبريد باسم شخص ثاني وفيها رقم هاتفي.",
+      "The imaging bill came by post in another person's name with my phone number on it.",
+      "Imaging bill issued in another person's name"
+    ],
+    [
+      "Billing",
+      "طلعت في الفاتورة أشعة ما سويتها، والموظف قال لي راجع القسم وما حد في القسم يعرف.",
+      "The bill showed an X-ray I never had, and the clerk told me to go to the department where nobody knew anything.",
+      "Bill listed an X-ray the patient never had"
+    ],
+    [
+      "Billing",
+      "خصموا مني رسوم تسجيل مرة ثانية مع إني مراجع دائم من أول السنة.",
+      "They charged me a registration fee again although I have been a regular patient since the start of the year.",
+      "Registration fee charged again to a regular patient"
+    ],
+    [
+      "Billing",
+      "قال لي الموظف إن الأدوية مشمولة بالتأمين، وبعدين دفعت نصفها من جيبي.",
+      "The employee told me the medicines were covered by insurance, and then I paid half of them myself.",
+      "Told medicines were covered but paid half personally"
+    ],
+    [
+      "Billing",
+      "استلمت رسالة تطلب الدفع على زيارة لغيتها أنا قبل أسبوع، واتصلت مرتين وما أحد رد.",
+      "I received a message asking for payment on a visit I cancelled a week earlier, and I called twice with no reply.",
+      "Payment request for a cancelled visit and unanswered calls"
+    ],
+    [
+      "Billing",
+      "سعر الزيارة المنزلية اللي دفعته كان أعلى من اللي قالوه لي في التلفون.",
+      "The price I paid for the home visit was higher than what they told me on the phone.",
+      "Home visit charged above the phone quote"
+    ],
+    [
+      "Billing",
+      "ما قدرت أدفع بالتقسيط مع إنه مكتوب في الإعلان إن الخدمة متاحة.",
+      "I could not pay in instalments although the advertisement says the service is available.",
+      "Instalment payment advertised but refused at the desk"
+    ],
+    [
+      "Doctor communication",
+      "الدكتور كتب لي أدوية جديدة وما قال لي متى آخذها مع الأكل ومتى بدونه.",
+      "The doctor prescribed new medicines and did not tell me when to take them with food and when without.",
+      "New medicines prescribed without instructions on timing"
+    ],
+    [
+      "Doctor communication",
+      "نتيجة الأشعة ما شرحها لنا أحد، أعطونا ورقة بس وقالوا اسألوا طبيبكم وما عندنا موعد.",
+      "Nobody explained the scan result; they handed us a paper and told us to ask our doctor, and we have no appointment.",
+      "Scan result handed over with no explanation or follow-up"
+    ],
+    [
+      "Doctor communication",
+      "الدكتورة ما سمعت كلامي لما قلت لها إني أتحسس من البنسلين، واضطريت أعيد ثلاث مرات.",
+      "The doctor did not listen when I told her I am allergic to penicillin and I had to repeat it three times.",
+      "Penicillin allergy statement not heard, repeated three times"
+    ],
+    [
+      "Doctor communication",
+      "سألت الدكتور عن العملية وقال لي لا تقلق، بدون ما يشرح المخاطر وأنا أبي أعرف.",
+      "I asked the doctor about the operation and he said do not worry, without explaining the risks, and I wanted to know.",
+      "Surgeon did not explain the risks of the operation"
+    ],
+    [
+      "Nursing care",
+      "جرس الطوارئ في الحمام ما يشتغل وأنا مريض وحدي في الغرفة.",
+      "The emergency bell in the bathroom does not work and I am a patient alone in the room.",
+      "Bathroom emergency bell not working for patient alone"
+    ],
+    [
+      "Nursing care",
+      "الممرضة نسيت تقيس الضغط بعد الدواء الجديد ومرت ساعات.",
+      "The nurse forgot to check my blood pressure after the new medicine and hours went by.",
+      "Blood pressure not checked after a new medicine"
+    ],
+    [
+      "Nursing care",
+      "غرفتي كانت قريبة من محطة التمريض ومع ذلك ما أحد مر يتطمن علي بالليل.",
+      "My room was near the nursing station and still nobody came by to check on me at night.",
+      "No night checks although the room was next to the nursing station"
+    ],
+    [
+      "Cleanliness",
+      "الستارة بين السريرين عليها بقع وريحتها مو حلوة وطلبت تغييرها ثلاث مرات.",
+      "The curtain between the beds had stains and an unpleasant smell and I asked for it to be changed three times.",
+      "Stained curtain not changed after three requests"
+    ],
+    [
+      "Cleanliness",
+      "غرفة الانتظار في الأشعة جوها ثقيل وما أحد فتح النوافذ ولا نظف الكراسي.",
+      "The radiology waiting room is stuffy and nobody opened the windows or cleaned the chairs.",
+      "Stuffy radiology waiting room with unclean chairs"
+    ],
+    [
+      "Cleanliness",
+      "صندوق النفايات جنب كرسي الانتظار في الطوارئ ممتلئ وما أحد يفرغه.",
+      "The waste bin beside the Emergency waiting chairs is full and nobody empties it.",
+      "Full waste bin beside Emergency waiting chairs"
+    ],
+    [
+      "Food",
+      "طلبت وجبة بدون ملح بسبب الضغط وجاتني نفس وجبة الكل.",
+      "I asked for a no-salt meal because of my blood pressure and got the same meal as everyone else.",
+      "Low-salt meal request ignored"
+    ],
+    [
+      "Food",
+      "العصير اللي يوزعونه في الجناح دافي والكاسات ما تنغسل زين.",
+      "The juice served on the ward is warm and the cups are not washed properly.",
+      "Warm juice and poorly washed cups on the ward"
+    ],
+    [
+      "Facilities",
+      "المصعد المخصص للمرضى تعطل صباحاً ونزلونا بالدرج بالكرسي المتحرك.",
+      "The lift reserved for patients broke down in the morning and they took us down the stairs in a wheelchair.",
+      "Patient lift broke down, wheelchair taken down the stairs"
+    ],
+    [
+      "Facilities",
+      "شاشة التلفزيون في الغرفة مكسورة ولا يوجد مكان أشحن فيه جوالي.",
+      "The television screen in the room is broken and there is nowhere to charge my phone.",
+      "Broken television and no phone charging point"
+    ],
+    [
+      "Facilities",
+      "كرسي المرافق في الغرفة مكسور وقعدت الليل كله على كرسي الممر.",
+      "The companion chair in the room is broken and I spent the whole night on a corridor chair.",
+      "Broken companion chair in the room"
+    ],
+    [
+      "Staff attitude",
+      "سألت عن مكان قسم الأشعة وردّ علي الموظف بدون ما يرفع عينه من الجوال.",
+      "I asked where the radiology department is and the employee answered without lifting his eyes from his phone.",
+      "Employee answered directions question while on his phone"
+    ],
+    [
+      "Staff attitude",
+      "الموظفة في الصيدلية تكلمني بنبرة عالية لأني سألت عن بديل للدواء.",
+      "The pharmacy employee spoke to me in a raised tone because I asked about an alternative medicine.",
+      "Pharmacy employee raised her tone over a substitute request"
+    ],
+    [
+      "Discharge process",
+      "أخذوا مني سرير الجناح قبل ما أستلم الأدوية ووقفت في الممر مع الكيس.",
+      "They took my ward bed before I received my medicines and I stood in the corridor with my bag.",
+      "Bed taken before medicines were handed over at discharge"
+    ],
+    [
+      "Discharge process",
+      "تقرير الخروج ما فيه اسم الدكتور المعالج ولا موعد المراجعة.",
+      "The discharge report has neither the treating doctor's name nor the review appointment.",
+      "Discharge report missing doctor name and review date"
+    ],
+    [
+      "Insurance",
+      "شركة التأمين طلبت تقرير طبي إضافي بعد العملية والمستشفى تأخر أسبوعين في إرساله.",
+      "The insurer asked for an extra medical report after the operation and the hospital took two weeks to send it.",
+      "Hospital took two weeks to send an insurer's extra report"
+    ],
+    [
+      "Insurance",
+      "ما قالوا لي إن شركة التأمين تحتاج رسالة من الطبيب إلا يوم العملية.",
+      "They only told me on the day of the operation that the insurer needed a letter from the doctor.",
+      "Insurer's doctor letter requested only on the day of surgery"
+    ]
   ],
   "compliments_en": [
-    ["Reem", "Nurse Reem on Ward 3 took such good care of my father. She remembered his name, his medication times and even that he likes his tea weak.", "Nurse Reem on Ward 3 praised for personal care of father"],
-    ["Dr. Said", "Dr. Said spent a full half hour explaining my scan results with a drawing. First time a doctor has made it all make sense.", "Dr. Said explained scan results patiently with a drawing"],
-    ["", "From the moment we arrived in Maternity everyone was warm and calm. A big thank you to the whole team.", "Warm, calm Maternity team"],
-    ["Fatma", "Fatma at the front desk found us a wheelchair and walked with my mother to the lift. Small things like this matter.", "Front desk Fatma helped mother with wheelchair and lift"],
-    ["", "Quick, efficient and very clean. Registration to blood draw took fifteen minutes.", "Fast and efficient lab visit"],
-    ["Dr. Priya", "Dr. Priya in Paediatrics was brilliant with my daughter who is scared of doctors. She turned the exam into a game.", "Dr. Priya turned a frightened child's exam into a game"],
-    ["", "Thank you to the night staff in ICU for keeping us updated by phone every few hours while my brother was critical.", "ICU night team kept family updated by phone"],
-    ["Hamad", "Hamad the porter was so kind and patient pushing my mother's chair, and even held the car door open for her.", "Porter Hamad patient and kind with elderly patient"],
-    ["", "The discharge was smooth, everything explained step by step and the medicines were ready before we left the ward.", "Smooth discharge with medicines ready"],
-    ["Sister Anita", "Sister Anita on the surgical ward explained everything about the wound care and checked on me every morning. Superb.", "Sister Anita gave clear wound care advice and daily checks"],
-    ["", "I came to Emergency scared at 2am and was seen within ten minutes. Thank you for being there.", "Seen within ten minutes in Emergency at 2am"],
-    ["Dr. Khalid", "Dr. Khalid listened for as long as I needed and did not rush me. Rare these days.", "Dr. Khalid listened without rushing"],
-    ["", "Food was hot and tasty and the dietitian came to see me personally about my menu.", "Hot, tasty meals with personal dietitian visit"],
-    ["Noor", "The physiotherapist Noor pushed me gently every session. I am walking without a stick now.", "Physiotherapist Noor helped patient walk without a stick"],
-    ["", "Spotless room and the cleaning staff said good morning every day, which cheered me up.", "Spotless room and friendly cleaners"],
-    ["Mariam", "Mariam from billing sat with me and went through every line of the bill. It was a huge relief.", "Billing staff Mariam explained every bill line"],
-    ["", "The WhatsApp reminder for my appointment and the clear directions to the clinic made the whole visit easy.", "Appointment reminder and directions made visit easy"],
-    ["Dr. Rashid", "Dr. Rashid called me himself two days after my surgery to check how I was feeling. I did not expect that.", "Dr. Rashid phoned the patient after surgery"],
-    ["", "Everything about my knee surgery went well, from pre-op to physio. Very professional.", "Knee surgery journey professional throughout"],
-    ["Nurse Joseph", "Nurse Joseph worked the night shift on Ward 2 and was gentle, funny and so patient with my questions.", "Night nurse Joseph patient and gentle on Ward 2"],
-    ["", "Great experience at the dental clinic, no pain and they explained each step.", "Painless dental visit with each step explained"],
-    ["Aisha", "Aisha at the radiology desk noticed I was nervous and made me a cup of water and a seat in the quiet room.", "Radiology desk Aisha calmed a nervous patient"],
-    ["", "We were very anxious about the C-section but the team made us feel safe. Thank you from our whole family.", "C-section team reassured anxious family"],
-    ["Dr. Elena", "Dr. Elena caught something my other doctors missed. I really believe she saved me months of trouble.", "Dr. Elena identified a missed diagnosis"],
-    ["", "Spacious waiting area, drinks available, and our name was called on time. Good service.", "Comfortable waiting area and on-time call"],
-    ["Yusuf", "Yusuf from security walked an elderly couple to the right department when they were lost. Good people.", "Security Yusuf escorted lost elderly couple"],
-    ["", "Quick pharmacy, the pharmacist double-checked my allergies and explained the doses clearly.", "Pharmacist checked allergies and explained doses"],
-    ["Sister Lina", "Sister Lina arranged for my mother's prayer mat and a quiet corner when she was admitted. That was thoughtful.", "Sister Lina arranged prayer mat and quiet space"],
-    ["", "The child life volunteer brought colouring books and my son forgot he was having a blood test.", "Volunteer distracted child during blood test"],
-    ["Dr. Imran", "Dr. Imran in Cardiology gave us his direct clinic number and answered our follow-up question the same day.", "Dr. Imran answered follow-up the same day"],
-    ["", "Seamless insurance approval. The desk handled everything while I rested.", "Insurance approval handled smoothly for resting patient"],
-    ["Sara", "Sara the lab technician found the vein on the first try for my grandmother. She is 86 and was very grateful.", "Lab technician Sara drew blood first try from 86-year-old"],
-    ["", "Thank you to the whole Oncology day unit. The warmth there is what gets people through.", "Warm Oncology day unit"],
-    ["Dr. Ahmed", "Dr. Ahmed in Emergency stayed past the end of his shift to see my husband through to the ward.", "Dr. Ahmed stayed past shift to see patient to ward"],
-    ["", "Bed linen changed daily and the room had a nice view. Comfortable stay.", "Comfortable stay with daily linen change"],
-    ["Grace", "Grace at the cashier counter was patient with my questions about the payment plan. Really helpful.", "Cashier Grace patient with payment plan questions"],
-    ["", "I was very impressed with how organised the vaccination clinic was. In and out in 10 minutes with the kids.", "Organised vaccination clinic, ten-minute visit"],
-    ["Nurse Salma", "Nurse Salma held my hand through the whole procedure and talked to me. I will not forget it.", "Nurse Salma comforted patient through procedure"],
-    ["", "Smooth outpatient admission for my endoscopy. Staff explained prep and recovery clearly.", "Clear endoscopy preparation and recovery instructions"],
-    ["Dr. Layla", "Dr. Layla in Dermatology noticed a mole and had it checked right away. Thank you for being thorough.", "Dr. Layla thorough in spotting a mole"],
-    ["", "Visiting hours were flexible when my wife was very ill and the nurses never made us feel in the way.", "Flexible visiting hours and welcoming nurses"],
-    ["Tariq", "Tariq in housekeeping found my glasses under the bed and brought them to me before I left. Honest and kind.", "Housekeeping Tariq returned lost glasses"],
-    ["", "My second time here and again the service was great. Will recommend to my colleagues.", "Repeat patient who will recommend to colleagues"],
-    ["Dr. Meera", "Dr. Meera explained the delivery options in detail and respected my choices. I felt in control.", "Dr. Meera respected patient's delivery choices"],
-    ["", "Wi-Fi and a charging point at every bed. It helped us keep in touch with family overseas.", "Wi-Fi and charging points at every bed"],
-    ["Hanan", "Hanan the nurse in the clinic translated for my grandmother who only speaks a village dialect. Wonderful.", "Nurse Hanan translated a dialect for grandmother"],
-    ["", "Quiet ward, comfortable bed, and a lovely view of the garden. I slept better than at home.", "Quiet ward with good sleep"],
-    ["Dr. Faisal", "Dr. Faisal rang me with my results himself on a Friday evening. That was above and beyond.", "Dr. Faisal phoned results on Friday evening"],
-    ["", "Super quick for a Saturday morning, I was in and out in 30 minutes.", "Quick Saturday morning visit"],
-    ["Rahul", "Rahul in the pharmacy explained how to take each medicine with a written chart for my father.", "Pharmacist Rahul wrote a medicine chart for father"],
-    ["", "The ambulance team arrived quickly and were calm and kind to my mother.", "Fast, calm ambulance crew"],
-    ["Nurse Amal", "Nurse Amal noticed my baby was jaundiced earlier than I did. I am grateful she was so attentive.", "Nurse Amal spotted newborn jaundice early"],
-    ["", "Clear signs, helpful volunteers at the main entrance. First time I did not get lost in a hospital.", "Clear signs and helpful entrance volunteers"],
-    ["Dr. Omar", "Dr. Omar made time to explain to my children what was happening with their grandfather. They felt included.", "Dr. Omar explained grandfather's condition to children"],
-    ["", "I was nervous about my first MRI but the technologist talked me through it the whole way.", "MRI technologist talked patient through scan"],
-    ["Zainab", "Zainab on the helpdesk phone answered my questions three times without losing patience. Thank you.", "Helpdesk Zainab patient across repeated calls"],
-    ["", "Food was good, the staff were attentive, and we really appreciated the quiet room for family.", "Good food, attentive staff and family room"],
-    ["Dr. Sunil", "Dr. Sunil's follow-up reminders and clear plan for my diabetes have changed how I manage it.", "Dr. Sunil's diabetes plan and reminders changed management"],
-    ["Nurse Kavya", "Nurse Kavya stayed with us after her shift ended until my father was settled. Beautiful kindness.", "Nurse Kavya stayed beyond shift to settle father"],
-    ["", "Everything on time. Sat down and was called in within five minutes. Thank you.", "On-time appointment, called within five minutes"],
-    ["Abdullah", "Abdullah the driver went out of his way to find us when we could not locate the pickup point.", "Driver Abdullah found family at the pickup point"],
-    ["", "Admission at midnight was quick and the staff were so welcoming to my elderly mother.", "Quick, welcoming midnight admission"]
+    [
+      "Reem",
+      "Nurse Reem on Ward 3 took such good care of my father. She remembered his name, his medication times and even that he likes his tea weak.",
+      "Nurse Reem on Ward 3 praised for personal care of father"
+    ],
+    [
+      "Dr. Said",
+      "Dr. Said spent a full half hour explaining my scan results with a drawing. First time a doctor has made it all make sense.",
+      "Dr. Said explained scan results patiently with a drawing"
+    ],
+    [
+      "",
+      "From the moment we arrived in Maternity everyone was warm and calm. A big thank you to the whole team.",
+      "Warm, calm Maternity team"
+    ],
+    [
+      "Fatma",
+      "Fatma at the front desk found us a wheelchair and walked with my mother to the lift. Small things like this matter.",
+      "Front desk Fatma helped mother with wheelchair and lift"
+    ],
+    [
+      "",
+      "Quick, efficient and very clean. Registration to blood draw took fifteen minutes.",
+      "Fast and efficient lab visit"
+    ],
+    [
+      "Dr. Priya",
+      "Dr. Priya in Paediatrics was brilliant with my daughter who is scared of doctors. She turned the exam into a game.",
+      "Dr. Priya turned a frightened child's exam into a game"
+    ],
+    [
+      "",
+      "Thank you to the night staff in ICU for keeping us updated by phone every few hours while my brother was critical.",
+      "ICU night team kept family updated by phone"
+    ],
+    [
+      "Hamad",
+      "Hamad the porter was so kind and patient pushing my mother's chair, and even held the car door open for her.",
+      "Porter Hamad patient and kind with elderly patient"
+    ],
+    [
+      "",
+      "The discharge was smooth, everything explained step by step and the medicines were ready before we left the ward.",
+      "Smooth discharge with medicines ready"
+    ],
+    [
+      "Sister Anita",
+      "Sister Anita on the surgical ward explained everything about the wound care and checked on me every morning. Superb.",
+      "Sister Anita gave clear wound care advice and daily checks"
+    ],
+    [
+      "",
+      "I came to Emergency scared at 2am and was seen within ten minutes. Thank you for being there.",
+      "Seen within ten minutes in Emergency at 2am"
+    ],
+    [
+      "Dr. Khalid",
+      "Dr. Khalid listened for as long as I needed and did not rush me. Rare these days.",
+      "Dr. Khalid listened without rushing"
+    ],
+    [
+      "",
+      "Food was hot and tasty and the dietitian came to see me personally about my menu.",
+      "Hot, tasty meals with personal dietitian visit"
+    ],
+    [
+      "Noor",
+      "The physiotherapist Noor pushed me gently every session. I am walking without a stick now.",
+      "Physiotherapist Noor helped patient walk without a stick"
+    ],
+    [
+      "",
+      "Spotless room and the cleaning staff said good morning every day, which cheered me up.",
+      "Spotless room and friendly cleaners"
+    ],
+    [
+      "Mariam",
+      "Mariam from billing sat with me and went through every line of the bill. It was a huge relief.",
+      "Billing staff Mariam explained every bill line"
+    ],
+    [
+      "",
+      "The WhatsApp reminder for my appointment and the clear directions to the clinic made the whole visit easy.",
+      "Appointment reminder and directions made visit easy"
+    ],
+    [
+      "Dr. Rashid",
+      "Dr. Rashid called me himself two days after my surgery to check how I was feeling. I did not expect that.",
+      "Dr. Rashid phoned the patient after surgery"
+    ],
+    [
+      "",
+      "Everything about my knee surgery went well, from pre-op to physio. Very professional.",
+      "Knee surgery journey professional throughout"
+    ],
+    [
+      "Nurse Joseph",
+      "Nurse Joseph worked the night shift on Ward 2 and was gentle, funny and so patient with my questions.",
+      "Night nurse Joseph patient and gentle on Ward 2"
+    ],
+    [
+      "",
+      "Great experience at the dental clinic, no pain and they explained each step.",
+      "Painless dental visit with each step explained"
+    ],
+    [
+      "Aisha",
+      "Aisha at the radiology desk noticed I was nervous and made me a cup of water and a seat in the quiet room.",
+      "Radiology desk Aisha calmed a nervous patient"
+    ],
+    [
+      "",
+      "We were very anxious about the C-section but the team made us feel safe. Thank you from our whole family.",
+      "C-section team reassured anxious family"
+    ],
+    [
+      "Dr. Elena",
+      "Dr. Elena caught something my other doctors missed. I really believe she saved me months of trouble.",
+      "Dr. Elena identified a missed diagnosis"
+    ],
+    [
+      "",
+      "Spacious waiting area, drinks available, and our name was called on time. Good service.",
+      "Comfortable waiting area and on-time call"
+    ],
+    [
+      "Yusuf",
+      "Yusuf from security walked an elderly couple to the right department when they were lost. Good people.",
+      "Security Yusuf escorted lost elderly couple"
+    ],
+    [
+      "",
+      "Quick pharmacy, the pharmacist double-checked my allergies and explained the doses clearly.",
+      "Pharmacist checked allergies and explained doses"
+    ],
+    [
+      "Sister Lina",
+      "Sister Lina arranged for my mother's prayer mat and a quiet corner when she was admitted. That was thoughtful.",
+      "Sister Lina arranged prayer mat and quiet space"
+    ],
+    [
+      "",
+      "The child life volunteer brought colouring books and my son forgot he was having a blood test.",
+      "Volunteer distracted child during blood test"
+    ],
+    [
+      "Dr. Imran",
+      "Dr. Imran in Cardiology gave us his direct clinic number and answered our follow-up question the same day.",
+      "Dr. Imran answered follow-up the same day"
+    ],
+    [
+      "",
+      "Seamless insurance approval. The desk handled everything while I rested.",
+      "Insurance approval handled smoothly for resting patient"
+    ],
+    [
+      "Sara",
+      "Sara the lab technician found the vein on the first try for my grandmother. She is 86 and was very grateful.",
+      "Lab technician Sara drew blood first try from 86-year-old"
+    ],
+    [
+      "",
+      "Thank you to the whole Oncology day unit. The warmth there is what gets people through.",
+      "Warm Oncology day unit"
+    ],
+    [
+      "Dr. Ahmed",
+      "Dr. Ahmed in Emergency stayed past the end of his shift to see my husband through to the ward.",
+      "Dr. Ahmed stayed past shift to see patient to ward"
+    ],
+    [
+      "",
+      "Bed linen changed daily and the room had a nice view. Comfortable stay.",
+      "Comfortable stay with daily linen change"
+    ],
+    [
+      "Grace",
+      "Grace at the cashier counter was patient with my questions about the payment plan. Really helpful.",
+      "Cashier Grace patient with payment plan questions"
+    ],
+    [
+      "",
+      "I was very impressed with how organised the vaccination clinic was. In and out in 10 minutes with the kids.",
+      "Organised vaccination clinic, ten-minute visit"
+    ],
+    [
+      "Nurse Salma",
+      "Nurse Salma held my hand through the whole procedure and talked to me. I will not forget it.",
+      "Nurse Salma comforted patient through procedure"
+    ],
+    [
+      "",
+      "Smooth outpatient admission for my endoscopy. Staff explained prep and recovery clearly.",
+      "Clear endoscopy preparation and recovery instructions"
+    ],
+    [
+      "Dr. Layla",
+      "Dr. Layla in Dermatology noticed a mole and had it checked right away. Thank you for being thorough.",
+      "Dr. Layla thorough in spotting a mole"
+    ],
+    [
+      "",
+      "Visiting hours were flexible when my wife was very ill and the nurses never made us feel in the way.",
+      "Flexible visiting hours and welcoming nurses"
+    ],
+    [
+      "Tariq",
+      "Tariq in housekeeping found my glasses under the bed and brought them to me before I left. Honest and kind.",
+      "Housekeeping Tariq returned lost glasses"
+    ],
+    [
+      "",
+      "My second time here and again the service was great. Will recommend to my colleagues.",
+      "Repeat patient who will recommend to colleagues"
+    ],
+    [
+      "Dr. Meera",
+      "Dr. Meera explained the delivery options in detail and respected my choices. I felt in control.",
+      "Dr. Meera respected patient's delivery choices"
+    ],
+    [
+      "",
+      "Wi-Fi and a charging point at every bed. It helped us keep in touch with family overseas.",
+      "Wi-Fi and charging points at every bed"
+    ],
+    [
+      "Hanan",
+      "Hanan the nurse in the clinic translated for my grandmother who only speaks a village dialect. Wonderful.",
+      "Nurse Hanan translated a dialect for grandmother"
+    ],
+    [
+      "",
+      "Quiet ward, comfortable bed, and a lovely view of the garden. I slept better than at home.",
+      "Quiet ward with good sleep"
+    ],
+    [
+      "Dr. Faisal",
+      "Dr. Faisal rang me with my results himself on a Friday evening. That was above and beyond.",
+      "Dr. Faisal phoned results on Friday evening"
+    ],
+    [
+      "",
+      "Super quick for a Saturday morning, I was in and out in 30 minutes.",
+      "Quick Saturday morning visit"
+    ],
+    [
+      "Rahul",
+      "Rahul in the pharmacy explained how to take each medicine with a written chart for my father.",
+      "Pharmacist Rahul wrote a medicine chart for father"
+    ],
+    [
+      "",
+      "The ambulance team arrived quickly and were calm and kind to my mother.",
+      "Fast, calm ambulance crew"
+    ],
+    [
+      "Nurse Amal",
+      "Nurse Amal noticed my baby was jaundiced earlier than I did. I am grateful she was so attentive.",
+      "Nurse Amal spotted newborn jaundice early"
+    ],
+    [
+      "",
+      "Clear signs, helpful volunteers at the main entrance. First time I did not get lost in a hospital.",
+      "Clear signs and helpful entrance volunteers"
+    ],
+    [
+      "Dr. Omar",
+      "Dr. Omar made time to explain to my children what was happening with their grandfather. They felt included.",
+      "Dr. Omar explained grandfather's condition to children"
+    ],
+    [
+      "",
+      "I was nervous about my first MRI but the technologist talked me through it the whole way.",
+      "MRI technologist talked patient through scan"
+    ],
+    [
+      "Zainab",
+      "Zainab on the helpdesk phone answered my questions three times without losing patience. Thank you.",
+      "Helpdesk Zainab patient across repeated calls"
+    ],
+    [
+      "",
+      "Food was good, the staff were attentive, and we really appreciated the quiet room for family.",
+      "Good food, attentive staff and family room"
+    ],
+    [
+      "Dr. Sunil",
+      "Dr. Sunil's follow-up reminders and clear plan for my diabetes have changed how I manage it.",
+      "Dr. Sunil's diabetes plan and reminders changed management"
+    ],
+    [
+      "Nurse Kavya",
+      "Nurse Kavya stayed with us after her shift ended until my father was settled. Beautiful kindness.",
+      "Nurse Kavya stayed beyond shift to settle father"
+    ],
+    [
+      "",
+      "Everything on time. Sat down and was called in within five minutes. Thank you.",
+      "On-time appointment, called within five minutes"
+    ],
+    [
+      "Abdullah",
+      "Abdullah the driver went out of his way to find us when we could not locate the pickup point.",
+      "Driver Abdullah found family at the pickup point"
+    ],
+    [
+      "",
+      "Admission at midnight was quick and the staff were so welcoming to my elderly mother.",
+      "Quick, welcoming midnight admission"
+    ]
   ],
   "compliments_ar": [
-    ["ريم", "الممرضة ريم في الجناح الثالث اهتمت بوالدي كثير، وحتى حفظت مواعيد دوائه. الله يعطيها العافية.", "Nurse Reem in Ward 3 looked after my father very much and even memorised his medication times. May God give her good health.", "Nurse Reem cared for father and memorised medication times"],
-    ["د. سالم", "الدكتور سالم شرح لنا حالة والدتي بالتفصيل وجاوب على كل أسئلتنا بدون استعجال. جزاه الله خير.", "Dr. Salim explained my mother's condition in detail and answered all our questions without hurry. May God reward him.", "Dr. Salim explained mother's condition without hurry"],
-    ["", "شكراً لفريق الولادة، الكل كان لطيف وهادي وحسسوني بالأمان.", "Thank you to the maternity team, everyone was kind and calm and made me feel safe.", "Kind, calm maternity team"],
-    ["", "المستشفى نظيف والخدمة سريعة وما انتظرت كثير. شكراً لكم.", "The hospital is clean, the service is quick and I did not wait long. Thank you.", "Clean hospital and short wait"],
-    ["منى", "الأخصائية منى في العلاج الطبيعي كانت صبورة معي وكل أسبوع أحس بتحسن. بارك الله فيها.", "The physiotherapist Mona was patient with me and every week I feel improvement. God bless her.", "Physiotherapist Mona patient with steady improvement"],
-    ["", "قسم الطوارئ تعاملوا مع ابني بسرعة واهتمام وكانوا يطمنوني طول الوقت.", "The Emergency department dealt with my son quickly and with care and kept reassuring me all the time.", "Quick, caring Emergency treatment for son"],
-    ["خالد", "الحارس خالد وصّل والدي لقسم الأشعة لما تاه، تصرف راقي.", "The guard Khalid took my father to the radiology department when he got lost, a classy gesture.", "Guard Khalid escorted lost father to radiology"],
-    ["", "كانت عملية الخروج سهلة وكل شي مشروح والأدوية كانت جاهزة.", "The discharge process was easy, everything was explained and the medicines were ready.", "Easy discharge with medicines ready"],
-    ["الدكتورة هدى", "الدكتورة هدى كانت حنونة مع بنتي الصغيرة وخلتها تضحك أثناء الفحص.", "Dr. Huda was gentle with my little daughter and made her laugh during the examination.", "Dr. Huda made little daughter laugh during exam"],
-    ["", "الأكل كان ساخن ولذيذ والموظفين يمرون يسألون إذا نحتاج شي.", "The food was hot and delicious and the staff came by to ask if we needed anything.", "Hot food and attentive staff rounds"],
-    ["سعيد", "الموظف سعيد في الحسابات شرح لي الفاتورة بنداً بنداً بصبر. شكراً له.", "The employee Saeed in accounts explained the bill to me item by item with patience. Thanks to him.", "Accounts staff Saeed explained bill item by item"],
-    ["", "تجربة ممتازة في العيادة، المواعيد مضبوطة والدكتور محترف.", "Excellent experience at the clinic, the appointments are on time and the doctor is professional.", "On-time clinic and professional doctor"],
-    ["الممرضة أمل", "الممرضة أمل ظلت جنبي ليلة العملية كلها وما خلتني أحس بالخوف.", "Nurse Amal stayed beside me the whole night before the operation and did not let me feel afraid.", "Nurse Amal stayed through the night before surgery"],
-    ["", "شكراً لكل فريق العناية المركزة على اهتمامهم بأخوي واتصالاتهم المستمرة.", "Thank you to the entire intensive care team for caring for my brother and for their constant calls.", "ICU team cared for brother and called regularly"],
-    ["", "المصعد والممرات نظيفة واللوحات واضحة، سهّلت علينا الوصول.", "The lift and corridors are clean and the signs are clear, which made it easy for us to find our way.", "Clean corridors and clear signage"],
-    ["الدكتور ناصر", "الدكتور ناصر في القلب أعطاني رقم العيادة وجاوب على سؤالي في نفس اليوم.", "Dr. Nasser in Cardiology gave me the clinic number and answered my question the same day.", "Dr. Nasser answered question the same day"],
-    ["", "الصيدلية سريعة والصيدلي تأكد من الحساسية وشرح الجرعات بوضوح.", "The pharmacy is quick and the pharmacist checked allergies and explained the doses clearly.", "Quick pharmacy visit with allergy check and clear dosing"],
-    ["", "شكراً لكل من اهتم بوالدتي في الجناح، كنتم أهل لها.", "Thank you to everyone who cared for my mother on the ward; you were like family to her.", "Staff treated mother like family on the ward"],
-    ["فاطمة", "فاطمة في الاستقبال ساعدتنا نلقى كرسي متحرك ومشت مع الوالدة للمصعد. تستاهل الشكر.", "Fatima at reception helped us find a wheelchair and walked with my mother to the lift. She deserves thanks.", "Receptionist Fatima helped mother with wheelchair"],
-    ["", "عملية التسجيل أخذت دقايق بس والموظفين لطيفين جداً.", "The registration took only minutes and the staff are very kind.", "Quick registration and kind staff"]
+    [
+      "نورة",
+      "الممرضة نورة في جناح الأطفال جلست مع ابني ساعة كاملة تلاعبه قبل الفحص لين هدأ.",
+      "Nurse Noura in the children's ward sat with my son for a full hour playing with him before the examination until he calmed down.",
+      "Nurse Noura calmed an anxious boy with an hour of play"
+    ],
+    [
+      "د. سالم",
+      "الدكتور سالم شرح لنا حالة والدتي بالتفصيل وجاوب على كل أسئلتنا بدون استعجال. جزاه الله خير.",
+      "Dr. Salim explained my mother's condition in detail and answered all our questions without hurry. May God reward him.",
+      "Dr. Salim explained mother's condition without hurry"
+    ],
+    [
+      "",
+      "فريق الأشعة نظم الدور وما انتظرنا أكثر من عشر دقايق، وشرحوا لنا كل خطوة.",
+      "The radiology team organised the queue and we did not wait more than ten minutes, and they explained every step.",
+      "Radiology team kept the wait short and explained each step"
+    ],
+    [
+      "",
+      "المستشفى نظيف والخدمة سريعة وما انتظرت كثير. شكراً لكم.",
+      "The hospital is clean, the service is quick and I did not wait long. Thank you.",
+      "Clean hospital and short wait"
+    ],
+    [
+      "منى",
+      "الأخصائية منى في العلاج الطبيعي كانت صبورة معي وكل أسبوع أحس بتحسن. بارك الله فيها.",
+      "The physiotherapist Mona was patient with me and every week I feel improvement. God bless her.",
+      "Physiotherapist Mona patient with steady improvement"
+    ],
+    [
+      "",
+      "قسم الطوارئ تعاملوا مع ابني بسرعة واهتمام وكانوا يطمنوني طول الوقت.",
+      "The Emergency department dealt with my son quickly and with care and kept reassuring me all the time.",
+      "Quick, caring Emergency treatment for son"
+    ],
+    [
+      "خالد",
+      "الحارس خالد وصّل والدي لقسم الأشعة لما تاه، تصرف راقي.",
+      "The guard Khalid took my father to the radiology department when he got lost, a classy gesture.",
+      "Guard Khalid escorted lost father to radiology"
+    ],
+    [
+      "",
+      "تحويل والدي من الطوارئ للجناح تم بسرعة، والممرضات كانوا يطمنونا طول الطريق.",
+      "My father's transfer from Emergency to the ward was quick, and the nurses reassured us all the way.",
+      "Quick, reassuring transfer from Emergency to the ward"
+    ],
+    [
+      "الدكتورة هدى",
+      "الدكتورة هدى كانت حنونة مع بنتي الصغيرة وخلتها تضحك أثناء الفحص.",
+      "Dr. Huda was gentle with my little daughter and made her laugh during the examination.",
+      "Dr. Huda made little daughter laugh during exam"
+    ],
+    [
+      "",
+      "قسم التغذية جهز لوالدي وجبة بيتية يحبها بعد ما شرحنا لهم حالته.",
+      "The nutrition department prepared a home-style meal my father likes after we explained his condition.",
+      "Dietitians prepared a home-style meal for an elderly patient"
+    ],
+    [
+      "",
+      "موظفة الاستقبال حجزت لنا موعد المتابعة قبل ما نمشي وكتبته لنا في ورقة.",
+      "The receptionist booked our follow-up appointment before we left and wrote it down for us.",
+      "Follow-up booked and written down before leaving"
+    ],
+    [
+      "",
+      "تجربة ممتازة في العيادة، المواعيد مضبوطة والدكتور محترف.",
+      "Excellent experience at the clinic, the appointments are on time and the doctor is professional.",
+      "On-time clinic and professional doctor"
+    ],
+    [
+      "الممرضة أمل",
+      "الممرضة أمل ظلت جنبي ليلة العملية كلها وما خلتني أحس بالخوف.",
+      "Nurse Amal stayed beside me the whole night before the operation and did not let me feel afraid.",
+      "Nurse Amal stayed through the night before surgery"
+    ],
+    [
+      "",
+      "شكراً لكل فريق العناية المركزة على اهتمامهم بأخوي واتصالاتهم المستمرة.",
+      "Thank you to the entire intensive care team for caring for my brother and for their constant calls.",
+      "ICU team cared for brother and called regularly"
+    ],
+    [
+      "",
+      "المصعد والممرات نظيفة واللوحات واضحة، سهّلت علينا الوصول.",
+      "The lift and corridors are clean and the signs are clear, which made it easy for us to find our way.",
+      "Clean corridors and clear signage"
+    ],
+    [
+      "الدكتورة سلمى",
+      "الدكتورة سلمى كتبت لنا خطة الأدوية بالعربي بخط واضح وشرحتها لأمي.",
+      "Dr. Salma wrote the medicine plan in Arabic in clear handwriting and explained it to my mother.",
+      "Dr. Salma wrote an Arabic medicine plan and explained it"
+    ],
+    [
+      "",
+      "موظفة المختبر انتبهت إني صايم وقدمت دوري، الله يجزيها خير.",
+      "The laboratory employee noticed I was fasting and moved my turn forward, may God reward her.",
+      "Lab staff moved a fasting patient forward"
+    ],
+    [
+      "",
+      "شكراً لكل من اهتم بوالدتي في الجناح، كنتم أهل لها.",
+      "Thank you to everyone who cared for my mother on the ward; you were like family to her.",
+      "Staff treated mother like family on the ward"
+    ],
+    [
+      "مبارك",
+      "الحارس مبارك فتح لنا البوابة الجانبية للطوارئ بسرعة وساعدنا ننزل المريض من السيارة.",
+      "Guard Mubarak opened the Emergency side gate quickly and helped us bring the patient out of the car.",
+      "Guard Mubarak opened the Emergency side gate and helped with the patient"
+    ],
+    [
+      "",
+      "المرافق عندنا قدر ينام في الغرفة والممرضات جابوا له غطاء.",
+      "Our companion was able to sleep in the room and the nurses brought him a blanket.",
+      "Nurses let a companion stay overnight and brought a blanket"
+    ]
   ]
 }

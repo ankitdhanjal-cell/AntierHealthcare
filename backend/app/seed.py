@@ -20,7 +20,10 @@ USERS = [
     ("Omar Al-Balushi", "patient.relations@hospital.example", "patient_relations", []),
     ("Dr. Salim Al-Rawahi", "dept.head@hospital.example", "department_head", ["OPD", "Emergency"]),
     ("Nadia Fernandes", "infection.control@hospital.example", "infection_control", ["Inpatient wards", "ICU"]),
+    ("Hessa Al-Mamari", "nurse.manager@hospital.example", "nurse_manager", ["Inpatient wards", "ICU"]),
     ("Priya Menon", "staff@hospital.example", "staff_reporter", ["Inpatient wards"]),
+    ("Maryam Al-Kharusi", "staff.maternity@hospital.example", "staff_reporter", ["Maternity", "Paediatrics"]),
+    ("Vikram Pillai", "staff.diagnostics@hospital.example", "staff_reporter", ["Radiology", "Laboratory", "Operating Theatre"]),
     ("Khalid Al-Siyabi", "front.desk@hospital.example", "front_desk", ["Front office"]),
     ("Fatma Al-Lawati", "management@hospital.example", "management_viewer", []),
     ("Admin User", "admin@hospital.example", "admin", []),
@@ -51,7 +54,7 @@ def rebuild(db: Session):
     for name, email, role, depts in USERS:
         u = User(id=uuid.uuid5(uuid.NAMESPACE_DNS, email).hex, name=name, email=email, role_id=role, department_ids=[dep[x].id for x in depts], password_hash=pw)
         db.add(u)
-        users[role] = u
+        users[role if role not in users else email.split('@')[0]] = u  # first user of a role keeps the role key
     db.flush()
 
     generate(db, rnd, dep, users)

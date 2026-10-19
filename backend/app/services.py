@@ -79,9 +79,10 @@ def users_with_role(db: Session, role_id: str):
 
 
 def owner_for_department(db: Session, dept_id: str | None) -> User | None:
-    for u in users_with_role(db, "department_head"):
-        if dept_id in (u.department_ids or []):
-            return u
+    for role in ("department_head", "nurse_manager"):
+        for u in users_with_role(db, role):
+            if dept_id in (u.department_ids or []):
+                return u
     pro = users_with_role(db, "patient_relations")
     return pro[0] if pro else None
 
@@ -198,6 +199,23 @@ def whatsapp_send(db: Session, patient, body: str, language: str, link: str = ""
 
 
 # ---------------- accreditation readiness
+def _readiness_from(counts: dict) -> dict:
+    counts = {s: counts.get(s, 0) for s in ELEMENT_STATUSES}
+    applicable = sum(v for k, v in counts.items() if k != "Not applicable")
+    return {"counts": counts, "met": counts["Met"], "applicable": applicable, "pct": round(100 * counts["Met"] / applicable, 1) if applicable else 0}
+
+
+def readiness_all(db: Session) -> tuple[dict, dict]:
+    """Overall readiness and readiness for every chapter from one query (the page used to run one per chapter)."""
+    per: dict = {}
+    for chapter_id, status, n in db.execute(select(StandardElement.chapter_id, StandardElement.status, func.count()).group_by(StandardElement.chapter_id, StandardElement.status)):
+        per.setdefault(chapter_id, {})[status] = n
+    total: dict = {}
+    for c in per.values():
+        for k, v in c.items():
+            total[k] = total.get(k, 0) + v
+    return _readiness_from(total), {cid: _readiness_from(c) for cid, c in per.items()}
+
 def readiness(db: Session, chapter_id: str | None = None) -> dict:
     """Elements met out of applicable elements, overall or for one chapter."""
     stmt = select(StandardElement.status, func.count()).group_by(StandardElement.status)

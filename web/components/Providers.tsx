@@ -31,7 +31,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         {children}
         <div className="fixed bottom-4 end-4 z-50 flex flex-col gap-2" aria-live="polite">
           {toasts.map((t) => (
-            <div key={t.id} className={`px-4 py-2.5 rounded-lg text-sm text-white shadow-lg ${t.kind === "ok" ? "bg-emerald-700" : "bg-red-700"}`}>{t.msg}</div>
+            <div key={t.id} className="px-4 py-2.5 rounded text-[13px] text-white shadow-lg max-w-sm" style={{ background: t.kind === "ok" ? "#1b3a36" : "#8f2018", borderInlineStart: `3px solid ${t.kind === "ok" ? "#3fbfb6" : "#f0857c"}` }}>{t.msg}</div>
           ))}
         </div>
         {confirm && (

@@ -1,6 +1,7 @@
 import csv
 import io
-from datetime import timedelta
+import re
+from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import StreamingResponse
@@ -10,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from ..connectors.sandbox import CARDS, his, sms, whatsapp
 from ..db import get_db
-from ..models import (AuditLog, Case, EmailLog, FeedbackResponse, Message, Notification, Patient, User, now)
+from ..models import (AuditLog, Case, Department, EmailLog, FeedbackResponse, Message, Notification, Patient, User, now)
 from ..security import dept_scope, require
 from ..services import day_bounds, get_setting, hospital_tz
 
@@ -53,15 +54,43 @@ def audit_query(module, user_id, record_id, q):
     return stmt
 
 
+ID = re.compile(r"^[0-9a-f]{32}$")
+ISO = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}")
+
+
+def readable(v, names: dict, tz):
+    """Audit snapshots show people and departments by name and times in hospital time, not raw ids and UTC."""
+    if isinstance(v, dict):
+        return {k.removesuffix("_id").replace("_", " ") if k.endswith("_id") else k.replace("_", " "): readable(x, names, tz) for k, x in v.items()}
+    if isinstance(v, list):
+        return [readable(x, names, tz) for x in v]
+    if isinstance(v, str) and ID.match(v):
+        return names.get(v, v)
+    if isinstance(v, str) and ISO.match(v):
+        try:
+            return datetime.fromisoformat(v).astimezone(tz).strftime("%d %b %Y %H:%M")
+        except ValueError:
+            return v
+    return v
+
+
+@router.get("/audit/modules")
+def audit_modules(db: Session = Depends(get_db), u: User = Depends(require("audit"))):
+    """Every module that has entries, so the filter always matches the log."""
+    return sorted(db.scalars(select(AuditLog.module).distinct()).all())
+
+
 @router.get("/audit")
 def audit_list(page: int = 1, size: int = Query(25, le=200), module: str | None = None, user_id: str | None = None,
                record_id: str | None = None, q: str | None = None, db: Session = Depends(get_db), u: User = Depends(require("audit"))):
     stmt = audit_query(module, user_id, record_id, q)
     total = db.scalar(select(func.count()).select_from(stmt.subquery()))
     rows = db.scalars(stmt.offset((page - 1) * size).limit(size)).all()
+    names = {x.id: x.name for x in db.scalars(select(User))} | {d.id: d.name for d in db.scalars(select(Department))}
+    tz = hospital_tz(db)
     return {"total": total, "items": [{"id": a.id, "at": a.at, "user": a.user_name, "module": a.module, "action": a.action,
                                         "record_type": a.record_type, "record_id": a.record_id, "summary": a.summary,
-                                        "before": a.before, "after": a.after} for a in rows]}
+                                        "before": readable(a.before, names, tz), "after": readable(a.after, names, tz)} for a in rows]}
 
 
 @router.get("/audit/export")

@@ -5,10 +5,13 @@ import { Badge, ErrorBox, PageHead, Skeleton, useFetch } from "@/components/ui";
 import { useConfirm, useToast } from "@/components/Providers";
 import { can, useMe } from "@/components/Shell";
 
+const MODULES = ["feedback", "cases", "dashboard", "incidents", "accreditation", "audits", "indicators", "reports", "audit", "integrations", "settings", "users"];
+const MOD_LABEL: Record<string, string> = { audit: "audit trail", audits: "clinical audits", dashboard: "overview" };
+
 export default function Users() {
   const me = useMe(); const toast = useToast(); const confirm = useConfirm();
   const users = useFetch<any[]>("/users"); const roles = useFetch<any[]>("/roles"); const depts = useFetch<any[]>("/departments");
-  const [tab, setTab] = useState("users"); const [form, setForm] = useState<any>(null); const [err, setErr] = useState(""); const [link, setLink] = useState("");
+  const [editing, setEditing] = useState(""); const [tab, setTab] = useState("users"); const [form, setForm] = useState<any>(null); const [err, setErr] = useState(""); const [link, setLink] = useState("");
   const admin = can(me, "users", "admin");
   async function invite() {
     setErr("");
@@ -34,13 +37,13 @@ export default function Users() {
       {users.loading || roles.loading ? <Skeleton /> : users.error ? <ErrorBox msg={users.error} retry={users.reload} /> : tab === "users" ? (
         <div className="card overflow-x-auto"><table className="w-full"><thead><tr><th className="th">Name</th><th className="th">Email</th><th className="th">Role</th><th className="th">Departments</th><th className="th">Status</th><th className="th"></th></tr></thead>
           <tbody>{users.data!.map((u) => <tr key={u.id}><td className="td">{u.name}</td><td className="td">{u.email}</td>
-            <td className="td">{admin ? <select className="input !w-48" value={u.role} onChange={(e) => patch(u.id, { role: e.target.value }, "Role updated")}>{roles.data?.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}</select> : u.role_name}</td>
+            <td className="td">{admin && editing === u.id ? <select className="input !w-48" autoFocus value={u.role} onBlur={() => setEditing("")} onChange={(e) => { patch(u.id, { role: e.target.value }, "Role updated"); setEditing(""); }}>{roles.data?.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}</select> : <span>{u.role_name}{admin && u.id !== me.id && <button className="ms-2 text-xs underline" onClick={() => setEditing(u.id)}>Change role</button>}</span>}</td>
             <td className="td text-xs">{dname(u.department_ids)}</td><td className="td"><Badge k={u.active ? "green" : "neutral"}>{u.invited && u.active ? "Invited" : u.active ? "Active" : "Inactive"}</Badge></td>
             <td className="td">{admin && u.id !== me.id && <button className="text-xs underline" onClick={async () => { if (!u.active || await confirm({ title: `Deactivate ${u.name}?`, body: "They will no longer be able to sign in.", label: "Deactivate", danger: true })) patch(u.id, { active: !u.active }, u.active ? "User deactivated" : "User reactivated"); }}>{u.active ? "Deactivate" : "Reactivate"}</button>}</td></tr>)}</tbody></table></div>
       ) : (
-        <div className="card overflow-x-auto"><table className="w-full"><thead><tr><th className="th">Role</th><th className="th">Scope</th>{["feedback", "cases", "dashboard", "audit", "integrations", "settings", "users"].map((m) => <th key={m} className="th">{m}</th>)}</tr></thead>
+        <div className="card overflow-x-auto"><table className="w-full"><thead><tr><th className="th">Role</th><th className="th">Scope</th>{MODULES.map((m) => <th key={m} className="th capitalize">{MOD_LABEL[m] || m}</th>)}</tr></thead>
           <tbody>{roles.data!.map((r) => <tr key={r.id}><td className="td font-medium">{r.name}</td><td className="td text-xs">{r.sees_all ? "All records" : "Own departments"}</td>
-            {["feedback", "cases", "dashboard", "audit", "integrations", "settings", "users"].map((m) => <td key={m} className="td text-xs">{(r.permissions[m] || []).join(", ") || "—"}</td>)}</tr>)}</tbody></table></div>
+            {MODULES.map((m) => <td key={m} className="td text-xs">{(r.permissions[m] || []).join(", ") || "—"}</td>)}</tr>)}</tbody></table></div>
       )}
     </>
   );

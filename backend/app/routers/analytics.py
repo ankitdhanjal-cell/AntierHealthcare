@@ -1,5 +1,5 @@
 from collections import defaultdict
-from datetime import date
+from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import func, select
@@ -13,11 +13,9 @@ from ..services import day_bounds, hospital_tz
 router = APIRouter(prefix="/api/analytics", tags=["analytics"])
 
 
-def since_date(months: int) -> str:
-    y, m = date.today().year, date.today().month - (months - 1)
-    while m < 1:
-        y, m = y - 1, m + 12
-    return f"{y}-{m:02d}-01"
+def since_date(months: int, db: Session) -> str:
+    """Same window as the dashboard (30 days per month, from the start of that local day) so the figures agree."""
+    return (datetime.now(hospital_tz(db)) - timedelta(days=30 * months)).date().isoformat()
 
 
 def nps_of(scores: list[int]) -> dict:
@@ -31,7 +29,7 @@ def nps_of(scores: list[int]) -> dict:
 @router.get("/nps")
 def nps(months: int = Query(6, ge=1, le=24), min_responses: int = Query(5, ge=1, le=100), db: Session = Depends(get_db), user: User = Depends(require("feedback"))):
     """Net Promoter Score: percent promoters (9-10) minus percent detractors (0-6), by department and by attending doctor."""
-    since = since_date(months)
+    since = since_date(months, db)
     start, _ = day_bounds(db, since, None)
     stmt = select(FeedbackResponse).where(FeedbackResponse.nps.isnot(None), FeedbackResponse.created_at >= start)
     scope = dept_scope(user)
@@ -55,13 +53,15 @@ def nps(months: int = Query(6, ge=1, le=24), min_responses: int = Query(5, ge=1,
 @router.get("/funnel")
 def funnel(months: int = Query(6, ge=1, le=24), db: Session = Depends(get_db), user: User = Depends(require("feedback"))):
     """Review funnel: requests sent, responses, satisfied patients, invited to Google, clicked through."""
-    since = since_date(months)
+    since = since_date(months, db)
     start, _ = day_bounds(db, since, None)
-    sent = db.scalar(select(func.count()).select_from(FeedbackRequest).where(FeedbackRequest.sent_at.isnot(None), FeedbackRequest.sent_at >= start))
-    resp = select(FeedbackResponse).where(FeedbackResponse.created_at >= start)
+    scope = dept_scope(user)
+    in_dept = (lambda col: col.in_(scope)) if scope is not None else (lambda col: col.isnot(None) | col.is_(None))
+    sent = db.scalar(select(func.count()).select_from(FeedbackRequest).where(FeedbackRequest.sent_at.isnot(None), FeedbackRequest.sent_at >= start, in_dept(FeedbackRequest.department_id)))
+    resp = select(FeedbackResponse).where(FeedbackResponse.created_at >= start, in_dept(FeedbackResponse.department_id))
     n_resp = db.scalar(select(func.count()).select_from(resp.subquery()))
     satisfied = db.scalar(select(func.count()).select_from(resp.where(FeedbackResponse.rating >= 4, FeedbackResponse.sentiment == "positive").subquery()))
-    ids = select(FeedbackResponse.request_id).where(FeedbackResponse.created_at >= start)
+    ids = select(FeedbackResponse.request_id).where(FeedbackResponse.created_at >= start, in_dept(FeedbackResponse.department_id))
     invited = db.scalar(select(func.count()).select_from(FeedbackRequest).where(FeedbackRequest.google_invited.is_(True), FeedbackRequest.id.in_(ids)))
     clicked = db.scalar(select(func.count()).select_from(FeedbackRequest).where(FeedbackRequest.google_clicked.is_(True), FeedbackRequest.id.in_(ids)))
     steps = [("Requests sent", sent, "/feedback/reviews"), ("Responses", n_resp, f"/feedback?date_from={since}"), ("Satisfied (4-5 stars, positive)", satisfied, f"/feedback?sentiment=positive&date_from={since}"),

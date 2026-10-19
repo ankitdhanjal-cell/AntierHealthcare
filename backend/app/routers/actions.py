@@ -2,13 +2,13 @@ from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
 
 from .. import audit
 from ..db import get_db
 from ..models import QualityAction, User, now
-from ..security import can, current_user
+from ..security import can, current_user, dept_scope
 
 router = APIRouter(prefix="/api/actions", tags=["actions"])
 
@@ -28,6 +28,9 @@ def list_actions(mine: bool | None = None, status: str | None = None, overdue: b
                  db: Session = Depends(get_db), user: User = Depends(current_user)):
     allowed(user)
     stmt = select(QualityAction)
+    scope = dept_scope(user)
+    if scope is not None and not can(user, "accreditation", "approve"):  # others see their own actions and their departments'
+        stmt = stmt.where(or_(QualityAction.owner_id == user.id, QualityAction.department_id.in_(scope)))
     if mine:
         stmt = stmt.where(QualityAction.owner_id == user.id)
     if status:

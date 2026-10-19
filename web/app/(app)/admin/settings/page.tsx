@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { PageHead, Skeleton, useFetch } from "@/components/ui";
@@ -24,7 +25,9 @@ export default function Settings() {
       {tab === "Themes" && <Themes edit={edit} save={save} />}
       {tab === "SLA and routing" && <Sla edit={edit} save={save} />}
       {tab === "Feedback channels" && <ChannelsPanel edit={edit} />}
-      {tab === "KPI definitions" && <Kpis edit={edit} save={save} />}
+      {tab === "KPI definitions" && <>
+        <div className="card p-4 mb-4 max-w-4xl text-sm">These three targets drive the patient-experience cards on the home page. The full set of quality indicators, with definitions, numerators, denominators and targets, is in the <Link className="underline" href="/quality/indicators">indicator dictionary</Link>{can(me, "indicators", "admin") ? ", where you can edit them and add new ones." : "."}</div>
+        <Kpis edit={edit} save={save} /></>}
       {tab === "Notifications" && <Notif edit={edit} save={save} />}
       {tab === "Privacy" && <Privacy edit={edit} save={save} />}
       {tab === "Maintenance" && (
@@ -138,7 +141,7 @@ function Notif({ edit, save }: any) {
     <div className="space-y-4 max-w-3xl">
       <div className="card p-4 space-y-3"><h2 className="font-medium text-sm">Escalation rules</h2>
         {[["sla_breach", "SLA breach escalates to"], ["overdue_action", "Overdue corrective action escalates to"]].map(([k, l]) => <div key={k}><label className="label">{l}</label>
-          <select className="input" disabled={!edit} value={e[k]} onChange={(ev) => setE({ ...e, [k]: ev.target.value })}>{roles.data?.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}</select></div>)}
+          <select className="input" disabled={!edit} value={e[k]} onChange={(ev) => setE({ ...e, [k]: ev.target.value })}>{roles.data?.filter((r) => (r.permissions.cases || []).includes("approve") || (r.permissions.incidents || []).includes("approve")).map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}</select></div>)}
         {edit && <button className="btn" onClick={() => save("escalation", e)}>Save rules</button>}</div>
       <div className="card p-4"><h2 className="font-medium text-sm mb-2">Recent outgoing email</h2>
         {!emails.data?.length ? <p className="text-sm" style={{ color: "var(--muted)" }}>No emails sent yet.</p> : emails.data.slice(0, 10).map((m) => <div key={m.id} className="td text-xs flex justify-between"><span>{m.subject} → {m.to}</span><span>{m.status}</span></div>)}</div>
