@@ -41,7 +41,7 @@ ROLES = [
     ("staff_reporter", "Staff reporter", False, perms(cases=[V], incidents=[V, C])),
     ("front_desk", "Front desk", False, perms(feedback=[V], cases=[V], dashboard=[V], incidents=[C])),
     ("management_viewer", "Management viewer", True, perms(feedback=[V], cases=[V], dashboard=[V], audit=[V], incidents=[V], accreditation=[V], audits=[V], indicators=[V], reports=[V])),
-    ("admin", "Admin", True, perms(feedback=[V], cases=[V], dashboard=[V], audit=[V, X], integrations=[V, C, X], settings=[V, C, A, X], users=[V, C, A, X], incidents=[V, C, A, X], accreditation=[V, C, A, X], audits=[V, C, A, X], indicators=[V, C, A, X], reports=[V, C, X])),
+    ("admin", "Admin", True, perms(feedback=[V, C, A], cases=[V, C, A], dashboard=[V], audit=[V, X], integrations=[V, C, X], settings=[V, C, A, X], users=[V, C, A, X], incidents=[V, C, A, X], accreditation=[V, C, A, X], audits=[V, C, A, X], indicators=[V, C, A, X], reports=[V, C, X])),
 ]
 
 DEPARTMENTS = [("OPD", "العيادات الخارجية"), ("Emergency", "الطوارئ"), ("Inpatient wards", "الأجنحة الداخلية"),

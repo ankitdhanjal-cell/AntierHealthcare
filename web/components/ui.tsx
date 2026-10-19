@@ -143,7 +143,7 @@ export function PageHead({ title, sub, children }: { title: string; sub?: string
   return (
     <div className="flex items-start justify-between mb-5 gap-3 flex-wrap">
       <div><h1 className="text-xl font-semibold">{title}</h1>{sub && <p className="text-sm mt-0.5" style={{ color: "var(--muted)" }}>{sub}</p>}</div>
-      <div className="flex gap-2">{children}</div>
+      <div className="flex gap-2 items-center flex-wrap">{children}</div>
     </div>
   );
 }
