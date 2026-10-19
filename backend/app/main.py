@@ -2,11 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
-from .routers import admin, auth, cases, feedback, misc, public
+from .routers import (accreditation, actions, admin, analytics, audits, auth, cases, channels, feedback, home, incidents, indicators, misc, public,
+                      reports)
 
 app = FastAPI(title="Antier Healthcare Suite API", version=settings.app_version)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-for r in (auth, admin, feedback, cases, misc, public):
+for r in (auth, admin, feedback, cases, incidents, accreditation, actions, audits, indicators, reports, home, analytics, channels, misc, public):
     app.include_router(r.router)
 
 

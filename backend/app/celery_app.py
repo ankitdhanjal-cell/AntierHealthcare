@@ -19,11 +19,11 @@ def sla_task():
 
 
 def _send(db, rid):
-    from .connectors.sandbox import whatsapp
+    from .connectors.sandbox import sms, whatsapp
     from .models import FeedbackRequest, Patient
     r = db.get(FeedbackRequest, rid)
     if r and r.status == "queued":
-        whatsapp.send_feedback_request(db, r, db.get(Patient, r.patient_id))
+        (sms if r.channel == "sms" else whatsapp).send_feedback_request(db, r, db.get(Patient, r.patient_id))
         db.commit()
 
 

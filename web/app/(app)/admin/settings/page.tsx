@@ -4,8 +4,9 @@ import { api } from "@/lib/api";
 import { PageHead, Skeleton, useFetch } from "@/components/ui";
 import { useConfirm, useToast } from "@/components/Providers";
 import { can, useMe } from "@/components/Shell";
+import { ChannelsPanel } from "@/components/ChannelsPanel";
 
-const TABS = ["Branding", "Departments", "Feedback questions", "Themes", "SLA and routing", "KPI definitions", "Notifications", "Privacy", "Maintenance"];
+const TABS = ["Branding", "Departments", "Feedback questions", "Themes", "SLA and routing", "Feedback channels", "KPI definitions", "Notifications", "Privacy", "Maintenance"];
 
 export default function Settings() {
   const me = useMe(); const toast = useToast(); const confirm = useConfirm();
@@ -22,6 +23,7 @@ export default function Settings() {
       {tab === "Feedback questions" && <Questions edit={edit} save={save} />}
       {tab === "Themes" && <Themes edit={edit} save={save} />}
       {tab === "SLA and routing" && <Sla edit={edit} save={save} />}
+      {tab === "Feedback channels" && <ChannelsPanel edit={edit} />}
       {tab === "KPI definitions" && <Kpis edit={edit} save={save} />}
       {tab === "Notifications" && <Notif edit={edit} save={save} />}
       {tab === "Privacy" && <Privacy edit={edit} save={save} />}
@@ -100,7 +102,7 @@ function Sla({ edit, save }: any) {
   useEffect(() => { if (sla.data) setA(sla.data.value); }, [sla.data]); useEffect(() => { if (rt.data) setR(rt.data.value); }, [rt.data]);
   if (!a || !r) return <Skeleton />;
   return (
-    <div className="grid md:grid-cols-2 gap-4 max-w-4xl">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
       <div className="card p-4 space-y-3"><h2 className="font-medium text-sm">Case SLA (hours)</h2>
         {["high", "medium", "low"].map((k) => <div key={k}><label className="label">{k} urgency</label><input type="number" min={1} className="input" disabled={!edit} value={a[k]} onChange={(e) => setA({ ...a, [k]: Number(e.target.value) })} /></div>)}
         {edit && <button className="btn" onClick={() => Object.values(a).some((v: any) => !(v > 0)) ? alert("SLA hours must be positive.") : save("sla", a)}>Save SLA</button>}</div>

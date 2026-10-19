@@ -1,4 +1,5 @@
 "use client";
+import { setHospitalTz } from "./ui";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 type Toast = { id: number; msg: string; kind: "ok" | "err" };
@@ -21,6 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     fetch("/api/auth/branding").then((r) => r.json()).then((b) => {
       if (b.primary_color) document.documentElement.style.setProperty("--brand", b.primary_color);
+      setHospitalTz(b.timezone);
     }).catch(() => {});
   }, []);
   return (

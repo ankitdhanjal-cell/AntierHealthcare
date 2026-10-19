@@ -24,7 +24,7 @@ export default function Users() {
       </PageHead>
       <div className="flex gap-2 mb-3">{["users", "matrix"].map((t) => <button key={t} className={`btn ${tab === t ? "" : "btn-ghost"}`} onClick={() => setTab(t)}>{t === "users" ? "Users" : "Permission matrix"}</button>)}</div>
       {link && <div className="card p-3 mb-3 text-xs break-all">Invitation link (also emailed): {link}</div>}
-      {form && <div className="card p-4 mb-4 grid md:grid-cols-4 gap-3 items-end">
+      {form && <div className="card p-4 mb-4 grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
         <div><label className="label">Name</label><input className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
         <div><label className="label">Email</label><input className="input" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></div>
         <div><label className="label">Role</label><select className="input" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}><option value="">Choose…</option>{roles.data?.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}</select></div>

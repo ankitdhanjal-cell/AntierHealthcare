@@ -1,6 +1,6 @@
 # Antier Healthcare Suite (Sandbox)
 
-Patient-experience and quality-management platform for hospitals. A discharge event sends the patient a WhatsApp link to a short bilingual (English/Arabic) form. AI tags the comment, happy patients are invited to leave a Google review, and everyone else becomes an SLA-tracked case assigned to the right department. Every action is audited.
+Patient-experience and quality-management platform for hospitals. Patients give feedback through a short bilingual (English/Arabic) form reached by WhatsApp, SMS or a ward QR code. AI tags the comment, happy patients are invited to leave a Google review, and everyone else becomes an SLA-tracked case with a call-back. The quality module covers incidents with corrective actions, infection-control audits, accreditation readiness with mock surveys, quality indicators with run charts, and a monthly committee pack as PDF. Every action is audited.
 
 **Stack:** Next.js 14 · FastAPI · PostgreSQL · Celery + Redis · OpenAI · Docker Compose.
 
@@ -76,9 +76,16 @@ backend/
     defaults.py        default settings, roles, departments
     seed.py            rebuild DB with demo data (--if-empty to skip)
     celery_app.py      beat schedule and tasks
-    routers/           auth · admin · feedback · cases · misc · public
+    routers/           auth · admin · feedback · cases · incidents · accreditation · actions · audits ·
+                       indicators · reports · home (tasks, role homes) · analytics (NPS, funnel) · channels (QR) · misc · public
+    committee_pack.py  monthly committee PDF (ReportLab)
+    indicators_calc.py indicator values, run chart median and shift rule
+    seed_*.py          sample data: feedback and cases, incidents, standards, audits, indicators
+    seed_data/         texts and standards as JSON (committed, no API key needed to seed)
     ai/                adapter.py (provider) · feedback.py (prompt, schema, offline fallback)
-    connectors/        sandbox.py (simulated HIS + WhatsApp)
+    connectors/        sandbox.py (simulated HIS, WhatsApp and SMS)
+  data/evidence/       evidence files and audit photos (created at runtime, not in git)
+  tests/               pytest suite (needs a throwaway database, see Tests)
   local_db.py          starts embedded Postgres for run-local.sh
 web/
   app/                 Next.js routes: login, forgot, reset, f/[token] (patient form), (app)/… (signed-in pages)
@@ -107,6 +114,9 @@ All routes are under `/api`. Interactive docs: `http://localhost:8010/docs`.
 | Auth | `POST /auth/login`, `GET /auth/me`, `GET /auth/branding`, `POST /auth/forgot`, `/auth/reset`, `/auth/change-password`, `PUT /auth/profile` |
 | Public form | `GET/POST /public/feedback/{token}`, `POST /public/feedback/{token}/google-click` |
 | Feedback | `GET /feedback`, `GET /feedback/{id}`, `PUT /feedback/{id}/tags`, `POST /feedback/{id}/open-case`, `POST /feedback/bulk-review`, `GET /feedback/review-requests` |
+| Incidents | `GET/POST /incidents`, `GET /incidents/{id}`, `PUT /incidents/{id}/triage`, `/investigation`, `POST /incidents/{id}/facts`, `/capas`, `/escalate`, `/status`, `PUT /incidents/capas/{id}`, `GET /incidents/capas`, `POST /incidents/ai-suggest`, `POST /cases/{id}/raise-incident` |
+| Quality | `/accreditation/*` (summary, chapters, elements, evidence, tracers), `/audits/*` (templates, schedule, runs, compliance), `/indicators/*` (dictionary, values, entry, pareto), `/actions`, `/reports/committee/{month}` and `/pdf`, `/tasks`, `/home` |
+| Patient experience | `/analytics/nps`, `/analytics/funnel`, `/feedback/compliments`, `/channels` and `/channels/{id}/qr.svg`, `/public/channel/{token}`, `/public/preview/{lang}`, `POST /cases/{id}/closing-message` |
 | Cases | `GET /cases`, `GET /cases/{id}`, `POST /cases/{id}/assign`, `/status`, `/notes`, `POST /cases/bulk` |
 | Admin | `/settings/{key}`, `/organisation`, `/departments`, `/users`, `/roles` |
 | Other | `/notifications`, `/emails`, `/audit`, `/audit/export`, `/integrations`, `/integrations/his/*`, `/whatsapp/messages`, `/search`, `/dashboard`, `POST /admin/reset-sandbox`, `GET /health` |
@@ -115,12 +125,24 @@ All routes are under `/api`. Interactive docs: `http://localhost:8010/docs`.
 `backend/app/ai/adapter.py` is the single provider adapter. Without `OPENAI_API_KEY`, a bilingual keyword analyser keeps the app usable, but Arabic translation is unavailable. Invalid model output is rejected and falls back to "Needs review". AI results are suggestions only: staff accept or edit them, and the audit trail keeps both.
 
 ## Built
-Auth and password reset, roles with department scoping, settings (branding, departments, questions, themes, SLA, routing, KPIs, escalation, privacy), notification centre, email log, audit trail with CSV export, HIS event console with WhatsApp phone preview, bilingual patient form (RTL), AI feedback analysis, routing rule, inbox, cases with SLA and escalation, dashboard, global search, reset sandbox data.
+**Quality module** (sidebar group Quality): incidents with triage, investigation, CAPA and effectiveness checks; accreditation readiness with evidence upload, one-click evidence from closed actions and audits, countdown and mock survey mode; audit templates, scheduling, mobile audit screen with photos, compliance by ward against target; indicator dictionary with definitions, numerators and denominators, monthly entry, run charts with median and shift rule, Pareto charts; monthly Quality and Patient Safety Committee pack as a branded PDF; actions register; role-based home pages and a My tasks list.
+
+**Patient experience**: NPS by department and doctor, compliments list that can be shared with department heads, review funnel, call-back log with loop-closed status and optional closing message, printable QR codes per ward and clinic, SMS fallback, a side-by-side preview of what the patient sees in English and Arabic, CSV export and print on lists, Arabic menu toggle, help centre.
+
+Incident management (Quality → Incidents): 60-second report form with anonymous option and AI category/harm suggestion, triage queue, investigation workspace (timeline, contributing factors, 5 Whys, root cause), corrective and preventive actions with effectiveness checks, serious-event escalation, similar-incident lookup, and one-click raise from a complaint case. Auth and password reset, roles with department scoping, settings (branding, departments, questions, themes, SLA, routing, KPIs, escalation, privacy), notification centre, email log, audit trail with CSV export, HIS event console with WhatsApp phone preview, bilingual patient form (RTL), AI feedback analysis, routing rule, inbox, cases with SLA and escalation, dashboard, global search, reset sandbox data.
 
 ## Not built yet
-Incidents, audits, accreditation, documents, risks, reports and exports, Assistant, enquiries, CSV import, help centre, evidence uploads.
+Documents, risks, Assistant, enquiries, CSV import. Staff screens are English only (the header toggle translates the menu); patient-facing screens are fully bilingual. The accreditation standards are a generic sample set: load your programme's own standards before a real survey.
+
+## Tests
+```bash
+cd backend && pip install -r requirements-dev.txt
+TEST_DATABASE_URL=postgresql+psycopg2://…/ahs_test pytest   # use a throwaway database, tests rebuild it
+```
 
 ## Notes
+- After pulling schema changes, `./run-local.sh` rebuilds the sandbox data automatically when the database is out of date; with Docker run `docker compose exec api python -m app.seed`.
 - This is a sandbox. Before real use: set a strong `JWT_SECRET`, restrict CORS in `main.py`, replace the shared demo password, and add login rate limiting.
 - `POST /admin/reset-sandbox` drops and reseeds every table. There are no migrations; schema changes are applied by reseeding.
+- Evidence files and audit photos are stored under `backend/data/evidence` (a Docker volume in Compose). Tests use a temporary folder instead.
 - Product requirements are in `Antier_Healthcare_Suite_Product_Build_Spec.pdf`.

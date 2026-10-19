@@ -20,6 +20,7 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg2://ahs:ahs_local_pw@db:5432/ahs
       REDIS_URL: redis://redis:6379/0
+    volumes: [evidence:/srv/data/evidence]
     depends_on:
       db: {condition: service_healthy}
       redis: {condition: service_started}
@@ -42,3 +43,4 @@ services:
     ports: ["3010:3000"]
 volumes:
   pgdata:
+  evidence:

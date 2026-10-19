@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,6 +17,7 @@ class Settings(BaseSettings):
     smtp_from: str = "Antier Healthcare Suite <no-reply@healthcare-suite.antiers.work>"
     public_web_url: str = "http://localhost:3010"
     app_version: str = "1.0.0"
+    evidence_dir: str = str(Path(__file__).resolve().parent.parent / "data" / "evidence")  # uploaded and sample evidence files
 
 
 settings = Settings()

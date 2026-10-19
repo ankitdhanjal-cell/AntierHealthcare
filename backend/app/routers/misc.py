@@ -8,11 +8,11 @@ from pydantic import BaseModel
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from ..connectors.sandbox import CARDS, his, whatsapp
+from ..connectors.sandbox import CARDS, his, sms, whatsapp
 from ..db import get_db
 from ..models import (AuditLog, Case, EmailLog, FeedbackResponse, Message, Notification, Patient, User, now)
 from ..security import dept_scope, require
-from ..services import get_setting
+from ..services import day_bounds, get_setting, hospital_tz
 
 router = APIRouter(prefix="/api", tags=["misc"])
 
@@ -92,6 +92,7 @@ def his_patients(db: Session = Depends(get_db), u: User = Depends(require("integ
 class Discharge(BaseModel):
     patient_id: str
     send_now: bool = True
+    channel: str = "whatsapp"
 
 
 @router.post("/integrations/his/discharge")
@@ -99,9 +100,12 @@ def his_discharge(b: Discharge, db: Session = Depends(get_db), u: User = Depends
     p = db.get(Patient, b.patient_id)
     if not p:
         raise HTTPException(404, "Patient not found")
+    if b.channel not in ("whatsapp", "sms"):
+        raise HTTPException(422, "Channel must be whatsapp or sms.")
     req, hl7 = his.discharge_event(db, p, b.send_now, u)
+    req.channel = b.channel
     if b.send_now:
-        whatsapp.send_feedback_request(db, req, p)
+        (sms if b.channel == "sms" else whatsapp).send_feedback_request(db, req, p)
     else:
         from ..celery_app import send_request_task
         try:
@@ -120,7 +124,7 @@ def wa_messages(patient_id: str | None = None, db: Session = Depends(get_db), u:
     ms = list(db.scalars(stmt))[::-1]
     pats = {p.id: p.name for p in db.scalars(select(Patient).where(Patient.id.in_({m.patient_id for m in ms})))} if ms else {}
     return [{"id": m.id, "patient_id": m.patient_id, "patient": pats.get(m.patient_id, ""), "direction": m.direction,
-             "body": m.body, "language": m.language, "link": m.link, "created_at": m.created_at} for m in ms]
+             "body": m.body, "language": m.language, "channel": m.channel, "link": m.link, "created_at": m.created_at} for m in ms]
 
 
 @router.post("/admin/reset-sandbox")
@@ -156,7 +160,11 @@ def search(q: str, db: Session = Depends(get_db), u: User = Depends(require("das
 @router.get("/dashboard")
 def dashboard(months: int = 6, db: Session = Depends(get_db), u: User = Depends(require("dashboard"))):
     scope = dept_scope(u)
+    tz = hospital_tz(db)
+    ym = lambda d: d.astimezone(tz).strftime("%Y-%m")
     since = now() - timedelta(days=30 * months)
+    since_date = since.astimezone(tz).date().isoformat()
+    since = day_bounds(db, since_date, None)[0]  # start of that local day, so drill-down counts match
     fb = select(FeedbackResponse).where(FeedbackResponse.created_at >= since)
     cs = select(Case)
     if scope is not None:
@@ -167,7 +175,7 @@ def dashboard(months: int = 6, db: Session = Depends(get_db), u: User = Depends(
     avg = lambda xs: round(sum(xs) / len(xs), 2) if xs else 0
     by_month: dict[str, list] = {}
     for f in fbs:
-        by_month.setdefault(f.created_at.strftime("%Y-%m"), []).append(f.rating)
+        by_month.setdefault(ym(f.created_at), []).append(f.rating)
     trend = [{"month": m, "rating": avg(v), "count": len(v)} for m, v in sorted(by_month.items())]
     closed = [(c.closed_at - c.created_at).total_seconds() / 3600 for c in cases if c.closed_at]
     open_cases = [c for c in cases if c.status not in ("Resolved", "Closed")]
@@ -175,9 +183,9 @@ def dashboard(months: int = 6, db: Session = Depends(get_db), u: User = Depends(
     opened_m: dict[str, int] = {}
     closed_m: dict[str, int] = {}
     for c in cases:
-        opened_m[c.created_at.strftime("%Y-%m")] = opened_m.get(c.created_at.strftime("%Y-%m"), 0) + 1
+        opened_m[ym(c.created_at)] = opened_m.get(ym(c.created_at), 0) + 1
         if c.closed_at:
-            closed_m[c.closed_at.strftime("%Y-%m")] = closed_m.get(c.closed_at.strftime("%Y-%m"), 0) + 1
+            closed_m[ym(c.closed_at)] = closed_m.get(ym(c.closed_at), 0) + 1
     themes: dict[str, int] = {}
     for f in fbs:
         if f.sentiment != "positive":
@@ -197,15 +205,15 @@ def dashboard(months: int = 6, db: Session = Depends(get_db), u: User = Depends(
     sentiments = {s: sum(f.sentiment == s for f in fbs) for s in ("positive", "neutral", "negative")}
     return {
         "kpis": [
-            {"key": "satisfaction", "label": "Patient satisfaction", "value": sat, "unit": "/ 5", "target": kpi_defs.get("satisfaction", {}).get("target"), "rag": rag("satisfaction", sat)},
-            {"key": "closure_time", "label": "Avg complaint closure time", "value": clo, "unit": "h", "target": kpi_defs.get("closure_time", {}).get("target"), "rag": rag("closure_time", clo)},
-            {"key": "cases_past_sla", "label": "Cases past SLA", "value": len(past), "unit": "", "target": kpi_defs.get("cases_past_sla", {}).get("target"), "rag": rag("cases_past_sla", len(past))},
-            {"key": "open_cases", "label": "Open cases", "value": len(open_cases), "unit": "", "target": None, "rag": "neutral"},
+            {"key": "satisfaction", "label": "Patient satisfaction", "definition": "Average overall star rating (1 to 5) given by patients after discharge: sum of ratings divided by number of responses.", "value": sat, "unit": "/ 5", "href": f"/feedback?date_from={since_date}", "target": kpi_defs.get("satisfaction", {}).get("target"), "rag": rag("satisfaction", sat)},
+            {"key": "closure_time", "label": "Avg complaint closure time", "definition": "Average time from a complaint case being opened to being closed: total hours divided by cases closed.", "value": clo, "unit": "h", "href": "/cases?closed=true", "target": kpi_defs.get("closure_time", {}).get("target"), "rag": rag("closure_time", clo)},
+            {"key": "cases_past_sla", "label": "Cases past SLA", "definition": "Open complaint cases whose due time has passed. The due time comes from the SLA for the case urgency.", "value": len(past), "unit": "", "href": "/cases?overdue=true", "target": kpi_defs.get("cases_past_sla", {}).get("target"), "rag": rag("cases_past_sla", len(past))},
+            {"key": "open_cases", "label": "Open cases", "definition": "Complaint cases that are not yet resolved or closed.", "value": len(open_cases), "unit": "", "href": "/cases?open=true", "target": None, "rag": "neutral"},
         ],
         "satisfaction_trend": trend,
-        "cases_trend": [{"month": m, "opened": opened_m.get(m, 0), "closed": closed_m.get(m, 0)} for m in sorted(set(opened_m) | set(closed_m)) if m >= since.strftime("%Y-%m")],
+        "cases_trend": [{"month": m, "opened": opened_m.get(m, 0), "closed": closed_m.get(m, 0)} for m in sorted(set(opened_m) | set(closed_m)) if m >= ym(since)],
         "sentiment": sentiments,
         "top_themes": sorted([{"theme": k, "count": v} for k, v in themes.items()], key=lambda x: -x["count"])[:6],
         "overdue_cases": [{"id": c.id, "number": c.number, "title": c.title, "due_at": c.due_at} for c in sorted(past, key=lambda c: c.due_at)[:8]],
-        "responses": len(fbs),
+        "responses": len(fbs), "since": since_date,
     }

@@ -1,0 +1,24 @@
+{
+  "templates": [
+    {"name": "Hand hygiene (WHO 5 moments)", "target": 90,
+     "description": "Direct observation of 20 hand hygiene opportunities across the five moments. Record Yes when hand hygiene was performed correctly, No when it was missed.",
+     "moments": ["Before touching a patient", "Before a clean or aseptic procedure", "After body fluid exposure risk", "After touching a patient", "After touching patient surroundings"], "observations": 4,
+     "findings": ["Moved to the next patient without cleaning hands", "Gloves worn instead of cleaning hands", "Rub applied for less than 20 seconds", "Hands not cleaned after touching the bed rail", "Hand rub dispenser empty at the point of care"]},
+    {"name": "Environmental cleaning", "target": 90, "description": "Walk-round of patient rooms and shared areas against the cleaning schedule.",
+     "items": ["Floors are clean and dry with no visible spills", "High-touch surfaces (rails, switches, handles) are visibly clean", "Bathroom is clean with soap and paper available", "Waste bins are not overflowing and are correctly lined",
+               "Cleaning schedule on the door is up to date and signed", "Curtains are clean and within their change date", "Mattress covers are intact and clean", "Sluice room is clean and tidy"],
+     "findings": ["Dust on the monitor and window sill", "Cleaning schedule not signed for two days", "Bin overflowing in the corridor", "Stained mattress cover"]},
+    {"name": "Sharps and waste", "target": 95, "description": "Safe handling, segregation and disposal of sharps and clinical waste.",
+     "items": ["Sharps containers are below the fill line", "Sharps containers are mounted or placed out of reach of children", "Containers are labelled with the date and unit", "Clinical and general waste are segregated correctly",
+               "No sharps are found in general waste or linen", "Staff can describe the needle-stick injury procedure", "Waste is stored in a locked area before collection"],
+     "findings": ["Sharps container filled above the line", "Container not dated", "Sharps found in a general waste bag"]},
+    {"name": "Isolation precautions", "target": 95, "description": "Signage, equipment and practice for patients on isolation.",
+     "items": ["Isolation sign is on the door and matches the order in the notes", "Gowns, gloves and masks are available outside the room", "Staff put on and remove protective equipment in the correct order",
+               "A dedicated stethoscope and equipment are kept in the room", "The door is kept closed (airborne precautions)", "Visitors are instructed on precautions before entering", "Room cleaning follows the isolation schedule"],
+     "findings": ["Sign did not match the isolation order", "Visitor entered without a gown", "Door left open on airborne precautions"]},
+    {"name": "Medication storage", "target": 95, "description": "Storage, labelling and security of medicines on the ward.",
+     "items": ["Medicine room and cupboards are locked", "Fridge temperature has been recorded twice daily for the last week", "Fridge contains only medicines", "High-alert and look-alike medicines are separated and labelled",
+               "No medicines are past their expiry date", "Opened multi-dose vials are dated", "Controlled drugs are in a double-locked cupboard and the count matches the register", "Emergency drugs are sealed and checked"],
+     "findings": ["Fridge temperature not recorded on Saturday", "Opened vial without a date", "Two look-alike products stored together"]}
+  ]
+}

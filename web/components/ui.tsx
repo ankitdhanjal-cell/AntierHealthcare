@@ -45,6 +45,12 @@ const COLORS: Record<string, string> = {
   New: "bg-sky-100 text-sky-800", Assigned: "bg-indigo-100 text-indigo-800", "In investigation": "bg-amber-100 text-amber-800",
   Resolved: "bg-emerald-100 text-emerald-800", Closed: "bg-slate-200 text-slate-700", Overdue: "bg-red-600 text-white",
   Sandbox: "bg-amber-100 text-amber-800", Available: "bg-slate-200 text-slate-800", ai: "bg-violet-100 text-violet-800",
+  near_miss: "bg-sky-100 text-sky-800", no_harm: "bg-slate-200 text-slate-800", mild: "bg-amber-100 text-amber-800", moderate: "bg-orange-200 text-orange-900",
+  severe: "bg-red-600 text-white", death: "bg-red-800 text-white", Reported: "bg-sky-100 text-sky-800", Triaged: "bg-indigo-100 text-indigo-800",
+  "Under investigation": "bg-amber-100 text-amber-800", "Actions open": "bg-violet-100 text-violet-800", Sentinel: "bg-red-600 text-white",
+  Met: "bg-emerald-100 text-emerald-800", "Partially met": "bg-amber-100 text-amber-800", "Not met": "bg-red-100 text-red-800", "Not applicable": "bg-slate-200 text-slate-700",
+  Scheduled: "bg-sky-100 text-sky-800",
+  Completed: "bg-emerald-100 text-emerald-800", Open: "bg-slate-200 text-slate-800", "In progress": "bg-amber-100 text-amber-800",
   green: "bg-emerald-100 text-emerald-800", amber: "bg-amber-100 text-amber-800", red: "bg-red-100 text-red-800", new: "bg-sky-100 text-sky-800",
 };
 export const Badge = ({ k, children }: { k: string; children?: React.ReactNode }) => (
@@ -66,8 +72,72 @@ export function Pager({ page, size, total, onPage }: { page: number; size: numbe
   );
 }
 
-export const fmt = (d?: string | null) => (d ? new Date(d).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "—");
-export const fmtDate = (d?: string | null) => (d ? new Date(d).toLocaleDateString([], { dateStyle: "medium" }) : "—");
+let hospitalTz = "Asia/Muscat";
+export const setHospitalTz = (tz?: string) => { if (tz) hospitalTz = tz; };
+
+/** 17 Oct 2026 14:05 (24 h, hospital timezone) */
+export const fmt = (d?: string | null) => {
+  if (!d) return "—";
+  return new Date(d).toLocaleString("en-GB", { timeZone: hospitalTz, day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false }).replace(",", "").replace("Sept", "Sep");
+};
+/** 17 Oct 2026 */
+export const fmtDate = (d?: string | null) =>
+  d ? new Date(d).toLocaleDateString("en-GB", { timeZone: hospitalTz, day: "2-digit", month: "short", year: "numeric" }).replace("Sept", "Sep") : "—";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "2026-04" -> "Apr 2026" (short: "Apr") */
+export const fmtMonth = (ym: string, short = false) => {
+  const [y, m] = String(ym).split("-");
+  const name = MONTHS[Number(m) - 1];
+  return name ? (short ? name : `${name} ${y}`) : String(ym);
+};
+/** "2026-07" -> { date_from: "2026-07-01", date_to: "2026-07-31" } */
+export const monthRange = (ym: string) => {
+  const [y, m] = ym.split("-").map(Number);
+  const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  return { date_from: `${ym}-01`, date_to: `${ym}-${String(last).padStart(2, "0")}` };
+};
+/** Hours -> "35 min", "36 h", "2.5 days" (one decimal at most) */
+export const fmtDuration = (hours?: number | null) => {
+  if (hours == null) return "—";
+  if (hours < 1) return `${Math.round(hours * 60)} min`;
+  if (hours < 48) return `${Number(hours.toFixed(1))} h`;
+  return `${Number((hours / 24).toFixed(1))} days`;
+};
+
+/** Tiny trend line for tables. */
+export function Spark({ values, color = "var(--brand)" }: { values: number[]; color?: string }) {
+  if (values.length < 2) return <span style={{ color: "var(--muted)" }}>—</span>;
+  const w = 90, h = 24, min = Math.min(...values), max = Math.max(...values), span = max - min || 1;
+  const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - 3 - ((v - min) / span) * (h - 6)}`).join(" ");
+  const last = pts.split(" ").pop()!.split(",");
+  return <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} role="img" aria-label="Trend"><polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" /><circle cx={last[0]} cy={last[1]} r="2.5" fill={color} /></svg>;
+}
+
+export const dayEndIso = (v: string) => new Date(v + "T23:59").toISOString();
+export const dateInputValue = (iso?: string | null) => (iso ? new Date(iso).toLocaleDateString("en-CA") : "");
+export const inDays = (n: number) => new Date(Date.now() + n * 86400000).toLocaleDateString("en-CA");
+
+/** Horizontal bar for a percentage, with an optional target tick. */
+export function PctBar({ pct, target, color = "var(--brand)" }: { pct: number; target?: number; color?: string }) {
+  return (
+    <div className="relative h-2.5 rounded-full overflow-hidden" style={{ background: "var(--line)" }} role="img" aria-label={`${pct}%`}>
+      <div className="h-full rounded-full" style={{ width: `${Math.min(100, pct)}%`, background: color }} />
+      {target != null && <div className="absolute top-0 h-full w-0.5" style={{ left: `${target}%`, background: "var(--ink)" }} title={`Target ${target}%`} />}
+    </div>
+  );
+}
+
+export function FilterChips({ items, onClear }: { items: [string, string][]; onClear: () => void }) {
+  if (!items.length) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-2 mb-3 text-xs">
+      <span style={{ color: "var(--muted)" }}>Filtered by</span>
+      {items.map(([k, v]) => <span key={k} className="px-2 py-0.5 rounded-full" style={{ background: "var(--line)" }}>{k}: {v}</span>)}
+      <button className="underline" onClick={onClear}>Clear filters</button>
+    </div>
+  );
+}
 
 export function PageHead({ title, sub, children }: { title: string; sub?: string; children?: React.ReactNode }) {
   return (

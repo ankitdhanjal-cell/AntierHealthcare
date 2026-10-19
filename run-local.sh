@@ -22,6 +22,7 @@ echo $! > "$DATA/worker.pid"
 
 cd ../web
 [ -d node_modules ] || npm install --no-audit --no-fund
-[ -d .next ] || npm run build
+# rebuild when missing or when any source is newer than the last build
+if [ ! -f .next/BUILD_ID ] || [ -n "$(find app components lib next.config.js tailwind.config.js -newer .next/BUILD_ID -type f 2>/dev/null | head -1)" ]; then npm run build; fi
 echo "Open http://localhost:3010   (logs: $DATA/logs)"
 API_INTERNAL_URL=http://localhost:8010 npx next start -p 3010

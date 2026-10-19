@@ -1,0 +1,108 @@
+{
+  "chapters": [
+    {"code": "RGT", "name": "Patient Rights and Education", "owner": "patient_relations", "standards": [
+      {"code": "RGT.1", "title": "Patients and families are told about their rights", "elements": [
+        "A written patient rights statement is displayed at registration and in each ward in English and Arabic.",
+        "Patients receive a copy of their rights on admission and staff record that it was explained.",
+        "Staff can describe three patient rights and where the statement is posted."]},
+      {"code": "RGT.2", "title": "Consent is obtained before treatment", "elements": [
+        "A consent policy defines which procedures need written consent and who may obtain it.",
+        "Consent forms in the sampled records are signed, dated and name the procedure in plain language.",
+        "Interpreters are used and recorded when the patient does not speak the language of the clinician."]},
+      {"code": "RGT.3", "title": "Complaints are received, answered and learned from", "elements": [
+        "A complaints procedure sets response times and is available to patients in both languages.",
+        "Every complaint in the last quarter was acknowledged within one working day.",
+        "Complaint themes are reviewed by the quality committee at least quarterly."]}]},
+    {"code": "CAR", "name": "Care of Patients", "owner": "department_head", "standards": [
+      {"code": "CAR.1", "title": "Every patient has an assessment on admission", "elements": [
+        "A nursing and medical assessment is completed within the timeframe set by policy.",
+        "A falls and pressure injury risk assessment is recorded in all sampled admission records.",
+        "Pain is assessed and reassessed with a validated scale."]},
+      {"code": "CAR.2", "title": "Care is planned and reviewed", "elements": [
+        "A written care plan is present within 24 hours of admission and updated after each review.",
+        "Multidisciplinary review of inpatients longer than five days is documented.",
+        "Patients and families take part in care planning and this is recorded."]},
+      {"code": "CAR.3", "title": "Discharge and transfer are planned", "elements": [
+        "Discharge instructions are written in a language the patient understands.",
+        "Follow-up appointments and medicines at discharge are reconciled and recorded.",
+        "Transfers to other facilities include a handover summary signed by both teams."]}]},
+    {"code": "MED", "name": "Medication Management", "owner": "infection_control", "standards": [
+      {"code": "MED.1", "title": "Medicines are stored safely", "elements": [
+        "High-alert and look-alike medicines are separated and labelled in all storage areas.",
+        "Medicine fridges are checked daily with temperature logs for the last 90 days.",
+        "Controlled drugs are stored under double lock and counted at each handover."]},
+      {"code": "MED.2", "title": "Prescribing and administration follow safe processes", "elements": [
+        "Allergies are recorded on the chart and on a wristband before any medicine is given.",
+        "Two nurses independently check high-alert infusions before administration.",
+        "Administration is recorded at the time of giving in all sampled charts."]},
+      {"code": "MED.3", "title": "Medication errors are reported and reviewed", "elements": [
+        "Staff know how to report a medication error or near miss and do so without blame.",
+        "Medication incidents are reviewed monthly with actions tracked to completion.",
+        "Pharmacists review high-risk prescriptions within one working day."]}]},
+    {"code": "INF", "name": "Infection Prevention and Control", "owner": "infection_control", "standards": [
+      {"code": "INF.1", "title": "Hand hygiene is practised and measured", "elements": [
+        "Alcohol hand rub is available at every bed and is checked as full on daily rounds.",
+        "Monthly hand hygiene audits cover every ward and results are fed back to staff.",
+        "Compliance at or above the target is reached in at least four of the last six months."]},
+      {"code": "INF.2", "title": "Equipment is cleaned and sterilised correctly", "elements": [
+        "Sterilisation indicators and load records are kept for every cycle.",
+        "Reusable equipment is cleaned between patients according to a written schedule.",
+        "Environmental cleaning audits are completed monthly with results reviewed."]},
+      {"code": "INF.3", "title": "Infections are monitored and outbreaks are managed", "elements": [
+        "Healthcare-associated infections are counted and reported monthly with a defined denominator.",
+        "An isolation policy covers airborne, droplet and contact precautions with clear signage.",
+        "An outbreak plan has been tested with a drill in the last 12 months."]}]},
+    {"code": "QUA", "name": "Quality and Patient Safety", "owner": "quality_manager", "standards": [
+      {"code": "QUA.1", "title": "Quality is planned and measured", "elements": [
+        "A written quality plan sets priorities and is approved by leadership each year.",
+        "Indicators have definitions, numerators, denominators and targets in a dictionary.",
+        "Indicator results are reviewed by the quality committee every month."]},
+      {"code": "QUA.2", "title": "Incidents are reported and investigated", "elements": [
+        "Staff can report incidents in under two minutes, including anonymously.",
+        "Serious events are investigated with a root cause analysis completed within the deadline.",
+        "Corrective actions have an owner, a due date and an effectiveness check."]},
+      {"code": "QUA.3", "title": "Patient feedback is used to improve care", "elements": [
+        "Patient feedback is collected after discharge and analysed for themes.",
+        "Patients who are unhappy receive a call-back and the outcome is recorded.",
+        "Improvements made after feedback are shared with staff and patients."]}]},
+    {"code": "ENV", "name": "Facility and Equipment Safety", "owner": "admin", "standards": [
+      {"code": "ENV.1", "title": "The building is safe for patients and staff", "elements": [
+        "A fire safety plan is in place and evacuation drills are held at least twice a year.",
+        "Emergency exits are marked, unobstructed and checked weekly.",
+        "A risk assessment of the premises is reviewed annually."]},
+      {"code": "ENV.2", "title": "Medical equipment is maintained", "elements": [
+        "An inventory of medical equipment records service dates and next due dates.",
+        "Defibrillators and resuscitation trolleys are checked daily with expiry dates.",
+        "Faulty equipment is tagged, removed from use and logged the same day."]},
+      {"code": "ENV.3", "title": "Utilities and hazardous materials are managed", "elements": [
+        "Backup power is tested monthly and the results are recorded.",
+        "Clinical waste is segregated, labelled and collected on a documented schedule.",
+        "Hazardous chemicals have safety data sheets available at the point of use."]}]},
+    {"code": "GOV", "name": "Governance and Leadership", "owner": "quality_manager", "standards": [
+      {"code": "GOV.1", "title": "Leaders set direction and are accountable", "elements": [
+        "The organisation has a mission, vision and values that are known by staff.",
+        "The governing body approves the budget and the annual quality and safety plan.",
+        "Roles and reporting lines are documented in an organisation chart reviewed each year."]},
+      {"code": "GOV.2", "title": "Policies are controlled", "elements": [
+        "A document control procedure sets version, owner and review date on every policy.",
+        "No policy in the sampled set is past its review date.",
+        "Staff can find current policies on the intranet or in the ward folder."]},
+      {"code": "GOV.3", "title": "Ethical issues are handled openly", "elements": [
+        "A code of conduct and a conflict of interest process are in place.",
+        "An ethics committee or advisor is available and meets when needed.",
+        "Staff can raise concerns confidentially and are protected from retaliation."]}]},
+    {"code": "STF", "name": "Workforce Competence", "owner": "admin", "standards": [
+      {"code": "STF.1", "title": "Staff are qualified and credentialed", "elements": [
+        "Licences and qualifications are verified at recruitment and tracked to renewal.",
+        "Clinical privileges for doctors are approved and reviewed on a fixed cycle.",
+        "Personnel files in the sample contain verified credentials and a job description."]},
+      {"code": "STF.2", "title": "Staff are oriented and trained", "elements": [
+        "All new staff complete orientation including safety, infection control and fire within 30 days.",
+        "Basic life support training is current for all clinical staff.",
+        "Annual mandatory training completion is monitored and reported by department."]},
+      {"code": "STF.3", "title": "Staff performance and wellbeing are supported", "elements": [
+        "Annual appraisals are completed for at least 90 percent of staff.",
+        "Staff can report needle-stick and workplace injuries and receive follow-up.",
+        "Staffing levels are reviewed against patient need on each ward every month."]}]}
+  ]
+}

@@ -1,9 +1,11 @@
+import re
+
 from ..defaults import THEME_OWNER
 from .adapter import OfflineProvider, get_provider, is_arabic, validate
 
 SCHEMA = {
     "type": "object", "additionalProperties": False,
-    "required": ["sentiment", "score", "themes", "new_themes", "urgency", "translation_en", "summary", "suggested_owner"],
+    "required": ["sentiment", "score", "themes", "new_themes", "urgency", "translation_en", "summary", "suggested_owner", "staff_mentions"],
     "properties": {
         "sentiment": {"type": "string", "enum": ["positive", "neutral", "negative"]},
         "score": {"type": "number"},
@@ -13,6 +15,7 @@ SCHEMA = {
         "translation_en": {"type": "string"},
         "summary": {"type": "string"},
         "suggested_owner": {"type": "string"},
+        "staff_mentions": {"type": "array", "items": {"type": "string"}},
     },
 }
 
@@ -22,6 +25,7 @@ SYSTEM = (
     "suggested_owner must be one of the provided departments. translation_en: English translation of the free text "
     "(or the original if already English; empty string if no text). summary: one short line. urgency: high if safety, "
     "discrimination, or severe distress; medium for clear dissatisfaction; low otherwise. score is -1..1. "
+    "staff_mentions: staff members named in the comment, written in English with their title, such as 'Nurse Reem' or 'Dr. Said'; empty if none. "
     "Never give clinical advice."
 )
 
@@ -41,6 +45,13 @@ NEG = ["bad", "poor", "terrible", "rude", "worst", "angry", "unhappy", "slow", "
 POS = ["good", "great", "excellent", "thank", "kind", "friendly", "clean", "happy", "ممتاز", "شكرا", "شكراً", "جيد", "رائع", "لطيف"]
 
 
+STAFF = re.compile(r"\b(?:Dr\.?|Nurse|Sister|Mr\.?|Ms\.?)\s+[A-Z][a-z]+")
+
+
+def staff_in(text: str) -> list[str]:
+    return list(dict.fromkeys(m.group(0) for m in STAFF.finditer(text or "")))[:5]
+
+
 def _offline(rating, text, themes):
     low = (text or "").lower()
     found = [t for t in themes if any(k in low for k in KW.get(t, []))]
@@ -57,6 +68,7 @@ def _offline(rating, text, themes):
         "sentiment": sentiment, "score": round(score, 2), "themes": found[:3], "new_themes": [], "urgency": urgency,
         "translation_en": "" if not text else (text if not is_arabic(text) else "[Translation needs the AI provider key] " + summary),
         "summary": summary, "suggested_owner": THEME_OWNER.get(found[0], "Front office") if found else "Front office",
+        "staff_mentions": staff_in(text),
     }
 
 
@@ -72,6 +84,7 @@ def analyse(rating: int, answers: dict, text: str, themes: list[str], department
         if not validate(out, SCHEMA):
             raise ValueError("schema")
         out["themes"] = [t for t in out["themes"] if t in themes]
+        out["staff_mentions"] = [s.strip()[:60] for s in out["staff_mentions"] if s.strip()][:5]
         if out["suggested_owner"] not in departments:
             out["suggested_owner"] = "Front office"
         out["provider"] = provider.name
@@ -79,4 +92,4 @@ def analyse(rating: int, answers: dict, text: str, themes: list[str], department
     except Exception:
         return {"sentiment": "neutral", "score": 0, "themes": [], "new_themes": [], "urgency": "medium",
                 "translation_en": "", "summary": "Needs review", "suggested_owner": "Front office",
-                "provider": provider.name}, "needs_review"
+                "staff_mentions": [], "provider": provider.name}, "needs_review"

@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import JSON, Boolean, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .db import Base
@@ -73,6 +73,7 @@ class User(Scoped, Base):
     invited: Mapped[bool] = mapped_column(Boolean, default=False)
     language: Mapped[str] = mapped_column(String(5), default="en")
     timezone: Mapped[str] = mapped_column(String(60), default="Asia/Muscat")
+    theme: Mapped[str] = mapped_column(String(10), default="light")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     role: Mapped[Role] = relationship(lazy="joined")
 
@@ -87,6 +88,8 @@ class Patient(Scoped, Base):
     department_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
     attending: Mapped[str] = mapped_column(String(200), default="")
     discharged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    admitted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    ward: Mapped[str] = mapped_column(String(60), default="")
 
 
 class FeedbackRequest(Scoped, Base):
@@ -100,6 +103,8 @@ class FeedbackRequest(Scoped, Base):
     sent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     language: Mapped[str] = mapped_column(String(5), default="en")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    channel: Mapped[str] = mapped_column(String(12), default="whatsapp")  # whatsapp | sms | qr
+    channel_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
     google_invited: Mapped[bool] = mapped_column(Boolean, default=False)
     google_clicked: Mapped[bool] = mapped_column(Boolean, default=False)
 
@@ -112,6 +117,7 @@ class Message(Scoped, Base):
     direction: Mapped[str] = mapped_column(String(5), default="out")
     body: Mapped[str] = mapped_column(Text)
     language: Mapped[str] = mapped_column(String(5), default="en")
+    channel: Mapped[str] = mapped_column(String(12), default="whatsapp")  # whatsapp | sms
     link: Mapped[str] = mapped_column(String(300), default="")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
@@ -136,6 +142,11 @@ class FeedbackResponse(Scoped, Base):
     themes: Mapped[list] = mapped_column(JSON, default=list)
     urgency: Mapped[str] = mapped_column(String(10), default="low")
     case_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    nps: Mapped[int | None] = mapped_column(Integer, nullable=True)  # 0-10 likelihood to recommend
+    attending: Mapped[str] = mapped_column(String(200), default="")
+    staff_mentions: Mapped[list] = mapped_column(JSON, default=list)  # staff named in the comment
+    compliment_shared_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    channel_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
     patient: Mapped[Patient] = relationship(lazy="joined")
 
 
@@ -156,6 +167,7 @@ class Case(Scoped, Base):
     resolution: Mapped[str] = mapped_column(Text, default="")
     breach_notified: Mapped[bool] = mapped_column(Boolean, default=False)
     incident_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    closing_message_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
 
 class CaseEvent(Scoped, Base):
@@ -166,6 +178,75 @@ class CaseEvent(Scoped, Base):
     text: Mapped[str] = mapped_column(Text, default="")
     actor: Mapped[str] = mapped_column(String(200), default="System")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class CaseCall(Scoped, Base):
+    """Patient call-back made for a case (service recovery)."""
+    __tablename__ = "case_calls"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    case_id: Mapped[str] = mapped_column(String(32), index=True)
+    outcome: Mapped[str] = mapped_column(String(30))  # reached, apologised, resolved, follow_up, no_answer
+    note: Mapped[str] = mapped_column(Text, default="")
+    actor: Mapped[str] = mapped_column(String(200), default="System")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class Incident(Scoped, Base):
+    __tablename__ = "incidents"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    number: Mapped[str] = mapped_column(String(20), unique=True)
+    title: Mapped[str] = mapped_column(String(300))
+    description: Mapped[str] = mapped_column(Text)
+    category: Mapped[str] = mapped_column(String(30), index=True)
+    harm: Mapped[str] = mapped_column(String(20), index=True)
+    status: Mapped[str] = mapped_column(String(30), default="Reported", index=True)
+    department_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    location: Mapped[str] = mapped_column(String(120), default="")
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, index=True)
+    immediate_action: Mapped[str] = mapped_column(Text, default="")
+    anonymous: Mapped[bool] = mapped_column(Boolean, default=False)
+    reported_by: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    investigator_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    sentinel: Mapped[bool] = mapped_column(Boolean, default=False)
+    escalated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    patient_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    case_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    contributing_factors: Mapped[dict] = mapped_column(JSON, default=dict)  # {people: [..], process: [..], ...}
+    why_chain: Mapped[list] = mapped_column(JSON, default=list)  # 5 Whys, in order
+    root_cause: Mapped[str] = mapped_column(Text, default="")
+    ai: Mapped[dict] = mapped_column(JSON, default=dict)
+    closed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    breach_notified: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
+class IncidentEvent(Scoped, Base):
+    __tablename__ = "incident_events"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    incident_id: Mapped[str] = mapped_column(String(32), index=True)
+    kind: Mapped[str] = mapped_column(String(20))  # reported, triaged, assigned, status, note, fact, escalated, capa, closed, linked
+    text: Mapped[str] = mapped_column(Text, default="")
+    actor: Mapped[str] = mapped_column(String(200), default="System")
+    at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)  # when it happened (facts) or was recorded
+
+
+class Capa(Scoped, Base):
+    """Corrective or preventive action, with an effectiveness check."""
+    __tablename__ = "capas"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    incident_id: Mapped[str] = mapped_column(String(32), index=True)
+    kind: Mapped[str] = mapped_column(String(12), default="corrective")  # corrective | preventive
+    action: Mapped[str] = mapped_column(Text)
+    owner_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    due_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    status: Mapped[str] = mapped_column(String(20), default="Open", index=True)  # Open, In progress, Completed
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    check_due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    check_result: Mapped[str] = mapped_column(String(20), default="")  # "", effective, not_effective
+    check_note: Mapped[str] = mapped_column(Text, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    overdue_notified: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class Notification(Scoped, Base):
@@ -203,3 +284,174 @@ class AuditLog(Scoped, Base):
     summary: Mapped[str] = mapped_column(String(400), default="")
     before: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     after: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+
+
+# ---------------- accreditation
+class StandardChapter(Scoped, Base):
+    __tablename__ = "standard_chapters"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    code: Mapped[str] = mapped_column(String(10))
+    name: Mapped[str] = mapped_column(String(200))
+    position: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class StandardElement(Scoped, Base):
+    """A measurable element of a standard."""
+    __tablename__ = "standard_elements"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    chapter_id: Mapped[str] = mapped_column(String(32), index=True)
+    standard_code: Mapped[str] = mapped_column(String(20))
+    standard_title: Mapped[str] = mapped_column(String(300))
+    code: Mapped[str] = mapped_column(String(20))
+    text: Mapped[str] = mapped_column(Text)
+    owner_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    status: Mapped[str] = mapped_column(String(20), default="Not met", index=True)  # Met, Partially met, Not met, Not applicable
+    last_reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    note: Mapped[str] = mapped_column(Text, default="")
+    position: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class Evidence(Scoped, Base):
+    __tablename__ = "evidence"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    element_id: Mapped[str] = mapped_column(String(32), index=True)
+    kind: Mapped[str] = mapped_column(String(12))  # file | capa | audit_run
+    title: Mapped[str] = mapped_column(String(300))
+    filename: Mapped[str] = mapped_column(String(300), default="")
+    path: Mapped[str] = mapped_column(String(500), default="")
+    source_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    added_by: Mapped[str] = mapped_column(String(200), default="System")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class TracerRun(Scoped, Base):
+    """Mock survey (tracer) of one chapter."""
+    __tablename__ = "tracer_runs"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    chapter_id: Mapped[str] = mapped_column(String(32), index=True)
+    started_by: Mapped[str] = mapped_column(String(200), default="")
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class TracerResult(Scoped, Base):
+    __tablename__ = "tracer_results"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    run_id: Mapped[str] = mapped_column(String(32), index=True)
+    element_id: Mapped[str] = mapped_column(String(32))
+    result: Mapped[str] = mapped_column(String(20))  # Met, Partially met, Not met, Not applicable
+    note: Mapped[str] = mapped_column(Text, default="")
+    action_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+
+class QualityAction(Scoped, Base):
+    """Follow-up action from an accreditation gap, a tracer finding or an audit result."""
+    __tablename__ = "quality_actions"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    text: Mapped[str] = mapped_column(Text)
+    source_type: Mapped[str] = mapped_column(String(12))  # gap | tracer | audit
+    source_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    element_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    department_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    owner_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    due_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    status: Mapped[str] = mapped_column(String(20), default="Open", index=True)  # Open, In progress, Completed
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_by: Mapped[str] = mapped_column(String(200), default="System")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    overdue_notified: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
+# ---------------- audits
+class AuditTemplate(Scoped, Base):
+    __tablename__ = "audit_templates"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    name: Mapped[str] = mapped_column(String(200))
+    description: Mapped[str] = mapped_column(Text, default="")
+    items: Mapped[list] = mapped_column(JSON, default=list)  # [{key, text}]
+    target: Mapped[float] = mapped_column(Float, default=90)  # compliance %
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+
+
+class AuditRun(Scoped, Base):
+    """One audit of one department or ward for one month."""
+    __tablename__ = "audit_runs"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    template_id: Mapped[str] = mapped_column(String(32), index=True)
+    department_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    unit: Mapped[str] = mapped_column(String(80), default="")  # ward or area audited
+    period: Mapped[str] = mapped_column(String(7), index=True)  # YYYY-MM
+    due_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    auditor_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    status: Mapped[str] = mapped_column(String(12), default="Scheduled", index=True)  # Scheduled | Completed
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    yes_count: Mapped[int] = mapped_column(Integer, default=0)
+    no_count: Mapped[int] = mapped_column(Integer, default=0)
+    score: Mapped[float | None] = mapped_column(Float, nullable=True)  # compliance %
+    comment: Mapped[str] = mapped_column(Text, default="")
+
+
+class AuditAnswer(Scoped, Base):
+    __tablename__ = "audit_answers"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    run_id: Mapped[str] = mapped_column(String(32), index=True)
+    item_key: Mapped[str] = mapped_column(String(40))
+    result: Mapped[str] = mapped_column(String(4))  # yes | no | na
+    comment: Mapped[str] = mapped_column(Text, default="")
+    photo_path: Mapped[str] = mapped_column(String(500), default="")
+    action_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+
+# ---------------- indicators
+class Indicator(Scoped, Base):
+    __tablename__ = "indicators"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    key: Mapped[str] = mapped_column(String(40), unique=True)
+    name: Mapped[str] = mapped_column(String(200))
+    definition: Mapped[str] = mapped_column(Text)
+    numerator: Mapped[str] = mapped_column(Text)
+    denominator: Mapped[str] = mapped_column(Text)
+    multiplier: Mapped[float] = mapped_column(Float, default=1)  # 100 for %, 1000 for rates per 1,000
+    unit: Mapped[str] = mapped_column(String(40), default="")
+    target: Mapped[float] = mapped_column(Float)
+    amber: Mapped[float | None] = mapped_column(Float, nullable=True)  # watch threshold
+    direction: Mapped[str] = mapped_column(String(8), default="higher")  # higher | lower is better
+    frequency: Mapped[str] = mapped_column(String(12), default="Monthly")
+    source: Mapped[str] = mapped_column(String(200), default="")
+    auto: Mapped[str] = mapped_column(String(30), default="")  # '' = manual entry; else calculated from records
+    owner_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    position: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class IndicatorValue(Scoped, Base):
+    __tablename__ = "indicator_values"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    indicator_id: Mapped[str] = mapped_column(String(32), index=True)
+    period: Mapped[str] = mapped_column(String(7))  # YYYY-MM
+    numerator: Mapped[float] = mapped_column(Float)
+    denominator: Mapped[float] = mapped_column(Float)
+    note: Mapped[str] = mapped_column(Text, default="")
+    entered_by: Mapped[str] = mapped_column(String(200), default="")
+    entered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+# ---------------- feedback channels and committee reports
+class FeedbackChannel(Scoped, Base):
+    """A printable QR code for a ward or clinic that opens the same feedback form."""
+    __tablename__ = "feedback_channels"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    token: Mapped[str] = mapped_column(String(24), unique=True, index=True, default=lambda: uuid.uuid4().hex[:12])
+    name: Mapped[str] = mapped_column(String(120))
+    kind: Mapped[str] = mapped_column(String(10), default="ward")  # ward | clinic
+    department_id: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class CommitteeReport(Scoped, Base):
+    __tablename__ = "committee_reports"
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=uid)
+    period: Mapped[str] = mapped_column(String(7), unique=True)
+    cover_note: Mapped[str] = mapped_column(Text, default="")
+    generated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    generated_by: Mapped[str] = mapped_column(String(200), default="")

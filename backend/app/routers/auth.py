@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 def user_out(u: User):
     return {"id": u.id, "name": u.name, "email": u.email, "role": u.role_id, "role_name": u.role.name,
             "permissions": u.role.permissions, "sees_all": u.role.sees_all, "department_ids": u.department_ids,
-            "language": u.language, "timezone": u.timezone}
+            "language": u.language, "timezone": u.timezone, "theme": u.theme}
 
 
 class Login(BaseModel):
@@ -97,11 +97,14 @@ class Profile(BaseModel):
     name: str | None = None
     language: str | None = None
     timezone: str | None = None
+    theme: str | None = None
 
 
 @router.put("/profile")
 def profile(body: Profile, u: User = Depends(current_user), db: Session = Depends(get_db)):
-    before = {"name": u.name, "language": u.language, "timezone": u.timezone}
+    if body.theme not in (None, "light", "dark"):
+        raise HTTPException(422, "Unknown theme")
+    before = {"name": u.name, "language": u.language, "timezone": u.timezone, "theme": u.theme}
     for k, v in body.model_dump(exclude_none=True).items():
         setattr(u, k, v)
     audit.log(db, u, "auth", "update", "user", u.id, "Profile updated", before, body.model_dump(exclude_none=True))

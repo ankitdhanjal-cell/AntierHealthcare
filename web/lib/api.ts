@@ -33,3 +33,14 @@ export const qs = (o: Record<string, any>) => {
   const s = p.toString();
   return s ? `?${s}` : "";
 };
+
+/** Fetch every page of a paged list (up to `max` rows) so an export covers the whole filtered list, not just the page on screen. */
+export async function fetchAllPages(path: string, params: Record<string, any> = {}, max = 2000): Promise<any[]> {
+  const out: any[] = [];
+  for (let page = 1; out.length < max; page++) {
+    const r = await api<{ total: number; items: any[] }>(path + qs({ ...params, page, size: 100 }));
+    out.push(...r.items);
+    if (out.length >= r.total || r.items.length === 0) break;
+  }
+  return out;
+}

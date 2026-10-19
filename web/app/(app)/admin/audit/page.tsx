@@ -13,6 +13,7 @@ export default function Audit() {
   return (
     <>
       <PageHead title="Audit trail" sub="Every create, edit, AI suggestion and status change">
+        <button className="btn btn-ghost" onClick={() => window.print()}>Print</button>
         <button className="btn btn-ghost" onClick={async () => { const r = await fetch(exportUrl, { headers: { authorization: `Bearer ${localStorage.getItem("ahs_token")}` } }); const b = await r.blob(); const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "audit-trail.csv"; a.click(); }}>Export CSV</button>
       </PageHead>
       <div className="card p-3 mb-4 grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -27,7 +28,7 @@ export default function Audit() {
             <tbody>{data.items.map((a: any) => <Fragment key={a.id}>
               <tr><td className="td whitespace-nowrap">{fmt(a.at)}</td><td className="td">{a.user}</td><td className="td">{a.module}</td><td className="td">{a.action}</td><td className="td">{a.summary}</td>
                 <td className="td">{(a.before || a.after) && <button className="text-xs underline" onClick={() => setOpen(open === a.id ? null : a.id)}>{open === a.id ? "Hide" : "Before / after"}</button>}</td></tr>
-              {open === a.id && <tr><td colSpan={6} className="td"><div className="grid md:grid-cols-2 gap-2 text-xs"><pre className="p-2 rounded overflow-auto" style={{ background: "var(--line)" }}>Before{"\n"}{JSON.stringify(a.before, null, 2)}</pre><pre className="p-2 rounded overflow-auto" style={{ background: "var(--line)" }}>After{"\n"}{JSON.stringify(a.after, null, 2)}</pre></div></td></tr>}</Fragment>)}</tbody></table>}
+              {open === a.id && <tr><td colSpan={6} className="td"><div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs"><pre className="p-2 rounded overflow-auto" style={{ background: "var(--line)" }}>Before{"\n"}{JSON.stringify(a.before, null, 2)}</pre><pre className="p-2 rounded overflow-auto" style={{ background: "var(--line)" }}>After{"\n"}{JSON.stringify(a.after, null, 2)}</pre></div></td></tr>}</Fragment>)}</tbody></table>}
         {data && <Pager page={f.page} size={f.size} total={data.total} onPage={(p) => setF({ ...f, page: p })} />}
       </div>
     </>
